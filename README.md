@@ -27,7 +27,7 @@ This is a personal project, not a commercial product.
 - **Zero operating cost** — no paid services without explicit approval.
 - **Under 200 MB** initial installation (excluding optional downloads).
 - **Mobile-first** — works without a desktop/laptop running.
-- **Offline capable** — phrases, expenses, documents, and tasks work without internet.
+- **Offline capable** — phrases, expenses, documents, tasks, and emergency information work without internet.
 - **No fabrication** — never invents prices, schedules, or official procedures.
 - **Privacy first** — personal data stored securely, minimal external sharing.
 

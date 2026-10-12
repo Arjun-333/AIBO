@@ -35,17 +35,27 @@ Requirements are classified as:
 | US-AI-02 | As the user, I want AIBO to help me with Japan-specific questions (e.g. how to pay utility bills, what a municipal letter says). | Response references Japan-relevant context. No fabricated official procedures or prices. |
 | US-AI-03 | As the user, I want to see my recent chat history when I reopen the app. | At least the last 50 messages are persisted locally and displayed on app open. |
 | US-AI-04 | As the user, I want a clear indication when AIBO cannot answer (rather than a fabricated answer). | The system displays an explicit "I'm not sure" or equivalent rather than guessing factual data. |
+| US-AI-05 | As the user, I want to delete individual conversations from my chat history. | Selected conversation is permanently removed from local storage. Remaining history is unaffected. |
+| US-AI-06 | As the user, I want to clear all chat history at once. | All conversations are permanently removed from local storage. Confirmation prompt is shown before deletion. |
+| US-AI-07 | As the user, I want to opt in to long-term memory so AIBO remembers my preferences and context across sessions. | Long-term memory is off by default. When enabled, saved items are listed in a dedicated screen. Only user-approved items are retained. |
+| US-AI-08 | As the user, I want to inspect, edit, and delete individual saved memories. | All saved memory items are viewable in a dedicated screen. Each item can be edited or deleted. Deletion is permanent. |
+| US-AI-09 | As the user, I want to know when local chat storage is approaching its limit. | A clear warning is shown when storage usage reaches a defined threshold. The user can delete old conversations to free space. |
 
 **Online / Offline Behaviour:**
 
 | State | Behaviour |
 |---|---|
-| Online | Full LLM-powered responses |
-| Offline | Chat history viewable. New queries display a clear "offline — cannot reach AI" message. No cached/stale AI responses are presented as live answers. |
+| Online | Full LLM-powered responses. Long-term memory sync if cloud backup exists (later phase). |
+| Offline | Chat history and saved memories viewable. Memory inspection, editing, and deletion work offline. New AI queries display a clear "offline — cannot reach AI" message. No cached/stale AI responses are presented as live answers. |
 
 **Open Questions:**
 - LLM provider and free-tier quota (Unresolved Decision U-2)
 - Maximum context window / conversation length to stay within free tier
+- Long-term memory implementation approach (storage mechanism TBD in Phase 02/03)
+- Storage limits for chat history and saved memories (specific values TBD in Phase 02)
+- Types of data eligible for long-term memory (preferences, context, learned facts — boundaries TBD)
+- Deletion guarantees for conversations and memories: policy for caches or derived data (TBD in Phase 02)
+- Data minimisation: the full document vault, financial history, and emergency medical info must never be sent to the LLM by default
 
 ---
 
@@ -133,7 +143,7 @@ Requirements are classified as:
 
 **Description:** Core data that must be available without internet — saved phrases, logged expenses, and stored documents.
 
-This is not a separate feature but a cross-cutting requirement that applies to §2.2, §2.3, and §2.4. It is listed here to make the offline contract explicit.
+This is not a separate feature but a cross-cutting requirement that applies to §2.2, §2.3, §2.4, §2.6, and §2.7. It is listed here to make the offline contract explicit.
 
 **Acceptance Criteria:**
 
@@ -144,6 +154,7 @@ This is not a separate feature but a cross-cutting requirement that applies to �
 | OE-03 | All stored documents are viewable offline. |
 | OE-04 | The app clearly indicates when a feature requires connectivity. |
 | OE-05 | No data is lost when transitioning between online and offline states. |
+| OE-06 | Emergency numbers, phrases, and personal emergency info card are accessible offline. |
 
 ---
 
@@ -160,17 +171,46 @@ This is not a separate feature but a cross-cutting requirement that applies to �
 | US-PL-03 | As the user, I want to view today's tasks and upcoming tasks. | Tasks are grouped/sorted by date. |
 | US-PL-04 | As the user, I want to edit or delete tasks. | Changes are reflected immediately. |
 | US-PL-05 | As the user, I want my tasks to be available offline. | Full CRUD operations on tasks work without internet. |
+| US-PL-06 | As the user, I want to see a "Today" summary when I open AIBO, showing today's tasks and any overdue items. | On app open, a summary screen or section displays today's tasks, overdue tasks, and upcoming tasks. Works offline from local storage. |
 
 **Online / Offline Behaviour:**
 
 | State | Behaviour |
 |---|---|
 | Online | Full functionality. Sync if cloud storage is available. |
-| Offline | Full functionality from local storage. |
+| Offline | Full functionality from local storage, including "Today" summary. |
 
 **Open Questions:**
-- Push notification / alarm reminders — deferred due to notification reliability concerns (U-7)
+- Background push notifications and alarms — deferred to post-MVP, dependent on platform evaluation and reliability testing (U-7). MVP reminders are limited to the in-app "Today" summary shown on app open.
 - Time zone handling (JST primary, IST for reference?)
+
+---
+
+### 2.7 Basic Offline Emergency Support
+
+**Description:** A dedicated offline-accessible screen providing essential emergency information for living in Japan.
+
+**User Stories:**
+
+| ID | Story | Acceptance Criteria |
+|---|---|---|
+| US-EM-01 | As the user, I want to view Japan emergency contact numbers (police 110, fire/ambulance 119, coast guard 118) without internet. | Numbers are correctly labelled, verified before release, and accessible offline. One-tap dial where the platform supports it. |
+| US-EM-02 | As the user, I want to see essential Japanese emergency phrases with English meanings. | At least 10 core phrases covering medical, police, fire, and general help situations. Accessible offline. |
+| US-EM-03 | As the user, I want to create and edit a personal emergency information card (emergency contacts, blood type, allergies, medical conditions, insurance info). | Card is editable, stored locally, and accessible offline. |
+| US-EM-04 | As the user, I want my emergency medical information protected with the same privacy controls as the document vault. | Emergency info card requires app-level authentication. Encrypted at rest. |
+| US-EM-05 | As the user, I want AIBO to never falsely claim it has called emergency services, shared my location, or verified a route to safety. | No UI element or message implies autonomous emergency action that has not actually occurred. |
+
+**Online / Offline Behaviour:**
+
+| State | Behaviour |
+|---|---|
+| Online | Full functionality. |
+| Offline | Full functionality. All emergency numbers, phrases, and personal info card are served from local storage. |
+
+**Open Questions:**
+- One-tap dial capability (platform-dependent; ties to U-1 PWA vs. native decision)
+- Phrase list curation and verification process before release
+- Whether the emergency info card should be accessible without full app authentication in genuine emergencies (quick-access vs. privacy trade-off — requires owner decision)
 
 ---
 
@@ -182,8 +222,8 @@ These features are planned but **not approved for implementation** until their r
 |---|---|---|
 | Offline maps with routing | Phase 07 | Blocked by U-6 (map-data licensing) |
 | Japanese OCR (text extraction from images) | Phase 05 | Blocked by U-4 |
-| Voice input / speech-to-text | Phase 06 | Blocked by U-5 |
-| Transit / train information | Phase 08 | Requires verified, free API; no fabrication |
+| Voice input / speech-to-text | Phase 08 | Blocked by U-5 |
+| Transit / train information | Phase 09 | Requires verified, free API; no fabrication |
 | Cloud sync and backup | Phase 03 | Blocked by U-3, U-8 |
 | On-device AI | Phase 10+ | Optional future upgrade |
 
@@ -198,6 +238,9 @@ These features have been discussed but are **not committed** to any phase. They 
 - Social features
 - Automated financial categorisation via AI
 - Shared expense splitting
+- Live emergency location sharing
+- Live shelter and evacuation information
+- Emergency route guidance
 
 ---
 
@@ -211,6 +254,9 @@ These features have been discussed but are **not committed** to any phase. They 
 | NFR-P-02 | No personal data is sent to third-party services except the cloud LLM for chat queries (and only the current query context, not the full vault). |
 | NFR-P-03 | No analytics, telemetry, or tracking beyond what the user explicitly enables. |
 | NFR-P-04 | API keys and secrets must never be committed to version control or embedded in client-side code. |
+| NFR-P-05 | Chat history and long-term memory data must follow the same secure storage standards as other personal data. Deletion of a conversation or memory item must be permanent and complete, including any local caches or derived data. |
+| NFR-P-06 | The full document vault, financial history, and emergency medical information must never be sent to the LLM by default. Only the current query context and explicitly user-approved memory items may be included in LLM requests. |
+| NFR-P-07 | Emergency medical information (blood type, allergies, conditions, emergency contacts) must be encrypted at rest and protected by app-level authentication, equivalent to document vault privacy. |
 
 ### 5.2 Accessibility
 

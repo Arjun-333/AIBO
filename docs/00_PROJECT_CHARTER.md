@@ -75,12 +75,13 @@ The MVP delivers the minimum set of features that makes AIBO genuinely useful fo
 
 | # | MVP Feature | Summary |
 |---|---|---|
-| 1 | **Conversational AI assistant** | Cloud-LLM-powered chat for general questions, Japan-life advice, and contextual help |
+| 1 | **Conversational AI assistant** | Cloud-LLM-powered chat for general questions, Japan-life advice, and contextual help; chat history management and optional persistent memory |
 | 2 | **Japanese language support** | Phrase lookup, basic translation, furigana display; offline phrase book |
 | 3 | **Expense tracker** | Log expenses in ¥ and ₹, categorise, view history; works offline with sync |
 | 4 | **Document vault** | Store and retrieve photos/scans of important documents (residence card, insurance, etc.) locally on device |
-| 5 | **Offline essentials** | Saved phrases, logged expenses, and stored documents accessible without internet |
-| 6 | **Basic daily planner** | Simple task/reminder list for daily planning |
+| 5 | **Offline essentials** | Saved phrases, logged expenses, stored documents, and emergency information accessible without internet |
+| 6 | **Basic daily planner** | Task/reminder list with "Today" summary on app open; in-app reminders only in MVP |
+| 7 | **Basic offline emergency support** | Japan emergency numbers, essential Japanese emergency phrases, editable personal emergency info card; all offline-accessible |
 
 > **Note:** Features like full offline maps, OCR, voice input, and notification-based reminders are out of scope for MVP. See §5.
 
@@ -93,8 +94,8 @@ The following are **not** part of the first release. Some may appear in later ph
 | Feature | Reason / Status |
 |---|---|
 | Offline map display and routing | Requires map-data licensing decision (unresolved) |
-| Japanese OCR (text from images) | Implementation approach TBD (Phase 05+) |
-| Voice input / speech-to-text | Implementation approach TBD (Phase 06+) |
+| Japanese OCR (text from images) | Implementation approach TBD (Phase 05) |
+| Voice input / speech-to-text | Implementation approach TBD (Phase 08) |
 | On-device AI models | Optional future upgrade; not MVP |
 | Multi-user support | AIBO is a single-user personal tool |
 | Commercial deployment / app store publication | Not planned |
@@ -102,24 +103,29 @@ The following are **not** part of the first release. Some may appear in later ph
 | Social media integration | Not planned |
 | Real-time transit tracking | Requires verified API; not MVP |
 | Automated bill payments | Not planned |
-| Push notifications / alarms | Notification reliability unresolved; deferred |
+| Background push notifications / alarms | Notification reliability unresolved; deferred. MVP uses in-app "Today" summary only. |
+| Live emergency location sharing | Not MVP; requires separate approval |
+| Live shelter and evacuation information | Not MVP; requires separate approval |
+| Emergency route guidance | Not MVP; requires separate approval |
 
 ---
 
 ## 6. Unresolved Decisions
 
-These decisions are recorded here and must be resolved before their dependent phases begin. They are **not** pre-decided.
+These decisions are recorded here and must be resolved before their dependent phases begin. They are **not** pre-decided. The **Project Owner** is the decision owner for all items.
 
-| # | Decision | Depends on | Target Phase |
-|---|---|---|---|
-| U-1 | PWA vs. native Android app | Architecture, offline capability, installation size | Phase 02 |
-| U-2 | Cloud LLM provider and verified free-tier quota | Cost constraint, AI feature | Phase 02 |
-| U-3 | Hosting platform and database service | Cost constraint, data security | Phase 02 |
-| U-4 | Japanese OCR approach | Accuracy, cost, offline viability | Phase 05 |
-| U-5 | Voice input / STT implementation | Cost, accuracy, language support | Phase 06 |
-| U-6 | Map-data licensing and offline download strategy | Licensing, storage, routing | Phase 07 |
-| U-7 | Notification reliability (PWA vs. native) | Platform decision (U-1) | Phase 02 |
-| U-8 | Backup and recovery strategy | Platform, data security | Phase 03 |
+The canonical register with candidate options, evaluation criteria, and full details is maintained in [`docs/10_ROADMAP_AND_STATUS.md` §3](docs/10_ROADMAP_AND_STATUS.md).
+
+| ID | Decision | Depends on | Target Phase | Status |
+|---|---|---|---|---|
+| U-1 | PWA vs. native Android app | Architecture, offline capability, installation size | Phase 02 | ⬜ Open |
+| U-2 | Cloud LLM provider and verified free-tier quota | Cost constraint, AI feature | Phase 02 | ⬜ Open |
+| U-3 | Hosting platform and database service | Cost constraint, data security | Phase 02 | ⬜ Open |
+| U-4 | Japanese OCR approach | Accuracy, cost, offline viability | Phase 05 | ⬜ Open |
+| U-5 | Voice input / STT implementation | Cost, accuracy, language support | Phase 08 | ⬜ Open |
+| U-6 | Map-data licensing and offline download strategy | Licensing, storage, routing | Phase 07 | ⬜ Open |
+| U-7 | Notification reliability (PWA vs. native) | Platform decision (U-1) | Phase 02 | ⬜ Open |
+| U-8 | Backup and recovery strategy | Platform, data security | Phase 03 | ⬜ Open |
 
 ---
 
@@ -129,14 +135,17 @@ The MVP is considered successful when:
 
 1. The user can open AIBO on their Android phone without a desktop/laptop running.
 2. Conversational AI responds accurately to Japan-life questions (no fabricated information).
-3. Japanese phrases can be looked up and displayed correctly, including offline.
-4. Expenses can be logged, categorised, and reviewed — including while offline.
-5. Important documents can be stored and retrieved on-device.
-6. Basic daily tasks/reminders can be created and viewed.
-7. Total monthly operating cost is ₹0.
-8. Initial installation is under 200 MB (excluding optional downloads).
-9. Personal data is stored securely and not exposed to third parties.
-10. No unapproved features were implemented.
+3. Chat history can be viewed, deleted (individual or all), and managed by the user.
+4. Optional long-term memory can be enabled, inspected, edited, and deleted by the user.
+5. Japanese phrases can be looked up and displayed correctly, including offline.
+6. Expenses can be logged, categorised, and reviewed — including while offline.
+7. Important documents can be stored and retrieved on-device.
+8. A "Today" summary of tasks and overdue items is shown on app open.
+9. Japan emergency numbers, phrases, and a personal emergency info card are accessible offline.
+10. Total monthly operating cost is ₹0.
+11. Initial installation is under 200 MB (excluding optional downloads).
+12. Personal data (including emergency medical info and AI memories) is stored securely and not exposed to third parties.
+13. No unapproved features were implemented.
 
 ---
 

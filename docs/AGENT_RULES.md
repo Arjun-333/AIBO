@@ -76,8 +76,8 @@ This document defines mandatory rules that govern all agent (AI-assisted) work o
 |---|---|
 | **R-6.1** | Never commit API keys, secrets, tokens, or credentials to version control. |
 | **R-6.2** | Never embed secrets in client-side code. |
-| **R-6.3** | Personal data (documents, financial records, chat history) must be stored securely. Encryption at rest is required for the document vault. |
-| **R-6.4** | Minimise data sent to external services. Only send what is necessary for the specific function (e.g. current chat query to LLM, not the full document vault). |
+| **R-6.3** | Personal data (documents, financial records, chat history, emergency medical information) must be stored securely. Encryption at rest is required for the document vault and emergency medical information. |
+| **R-6.4** | Minimise data sent to external services. Only send what is necessary for the specific function (e.g. current chat query and user-approved memory to LLM, never the full document vault, financial history, or emergency medical info by default). |
 | **R-6.5** | No analytics, telemetry, or tracking unless the owner explicitly enables it. |
 | **R-6.6** | Handle all user data under the assumption that it contains sensitive personal information. |
 

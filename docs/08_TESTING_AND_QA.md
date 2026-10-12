@@ -81,6 +81,8 @@ This document defines AIBO's testing strategy, phase gate checklists, and qualit
 | PV-03 | No API keys, secrets, or tokens are present in client-side code or version control. |
 | PV-04 | No analytics or telemetry is active unless explicitly enabled by the user. |
 | PV-05 | App-level authentication prevents casual access to sensitive data. |
+| PV-06 | Deleting a conversation or memory item permanently removes it from local storage, including any caches or derived data. |
+| PV-07 | Emergency medical information (blood type, allergies, conditions, emergency contacts) is encrypted at rest and protected by app-level authentication. |
 
 ### 4.4 Accessibility Validation
 
@@ -101,6 +103,8 @@ This document defines AIBO's testing strategy, phase gate checklists, and qualit
 | OV-04 | Daily planner tasks work fully offline. |
 | OV-05 | Features requiring connectivity show a clear offline message (not a silent failure or fabricated response). |
 | OV-06 | Data created offline is preserved and consistent when connectivity returns. |
+| OV-07 | Emergency numbers, phrases, and personal emergency info card are accessible offline. |
+| OV-08 | "Today" task summary (including overdue items) displays correctly when offline. |
 
 ### 4.6 Reliability Validation
 

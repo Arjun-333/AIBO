@@ -125,7 +125,7 @@ class _LockScreenState extends State<LockScreen> {
                     decoration: BoxDecoration(
                       color: AppTheme.primary.withOpacity(0.15),
                       shape: BoxShape.circle,
-                      border: BorderSide(color: AppTheme.primary.withOpacity(0.5), width: 1.5),
+                      border: Border.all(color: AppTheme.primary.withOpacity(0.5), width: 1.5),
                     ),
                     child: const Icon(Icons.shield_outlined, color: AppTheme.primary, size: 40),
                   ),

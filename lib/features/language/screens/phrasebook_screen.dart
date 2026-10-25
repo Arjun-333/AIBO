@@ -255,7 +255,7 @@ Format your response exactly as:
           decoration: BoxDecoration(
             color: AppTheme.primary.withOpacity(0.12),
             borderRadius: BorderRadius.circular(12),
-            border: BorderSide(color: AppTheme.primary.withOpacity(0.4)),
+            border: Border.all(color: AppTheme.primary.withOpacity(0.4)),
           ),
           child: const Row(
             children: [
@@ -302,7 +302,7 @@ Format your response exactly as:
             decoration: BoxDecoration(
               color: AppTheme.surfaceDark,
               borderRadius: BorderRadius.circular(12),
-              border: BorderSide(color: AppTheme.accentTeal.withOpacity(0.4)),
+              border: Border.all(color: AppTheme.accentTeal.withOpacity(0.4)),
             ),
             child: SelectableText(
               _translationResult,

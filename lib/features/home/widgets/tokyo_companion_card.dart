@@ -615,10 +615,10 @@ class _PaletteDot extends StatelessWidget {
 class _TokyoSkylinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final bgPaint = Paint().color = const Color(0xFFC8C2B7);
-    final midPaint = Paint().color = const Color(0xFFAFA99E);
-    final darkPaint = Paint().color = const Color(0xFF7A756D);
-    final inkPaint = Paint().color = AppTheme.inkBlack;
+    final bgPaint = Paint()..color = const Color(0xFFC8C2B7);
+    final midPaint = Paint()..color = const Color(0xFFAFA99E);
+    final darkPaint = Paint()..color = const Color(0xFF7A756D);
+    final inkPaint = Paint()..color = AppTheme.inkBlack;
 
     // Distant background buildings
     canvas.drawRect(Rect.fromLTWH(20, 30, 45, size.height - 30), bgPaint);
@@ -637,18 +637,18 @@ class _TokyoSkylinePainter extends CustomPainter {
     canvas.drawRect(Rect.fromLTWH(size.width - 90, size.height - 95, 90, 55), inkPaint);
 
     // Water tower on right rooftop
-    final towerPaint = Paint().color = darkPaint;
+    final towerPaint = Paint()..color = const Color(0xFF7A756D);
     canvas.drawOval(Rect.fromLTWH(size.width - 65, size.height - 115, 20, 16), towerPaint);
     canvas.drawRect(Rect.fromLTWH(size.width - 63, size.height - 100, 16, 8), inkPaint);
 
     // Minimalist Japanese signboard "むちねこ"
-    final signPaint = Paint().color = AppTheme.washiCream;
+    final signPaint = Paint()..color = AppTheme.washiCream;
     canvas.drawRRect(
       RRect.fromRectAndRadius(Rect.fromLTWH(size.width - 125, size.height - 110, 20, 55), const Radius.circular(4)),
       signPaint,
     );
     final borderPaint = Paint()
-      ..color = inkPaint
+      ..color = AppTheme.inkBlack
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.2;
     canvas.drawRRect(

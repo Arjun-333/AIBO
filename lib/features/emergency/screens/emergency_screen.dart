@@ -189,7 +189,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> with SingleTickerProv
       decoration: BoxDecoration(
         color: AppTheme.accentRose.withOpacity(0.15),
         borderRadius: BorderRadius.circular(12),
-        border: BorderSide(color: AppTheme.accentRose.withOpacity(0.4)),
+        border: Border.all(color: AppTheme.accentRose.withOpacity(0.4)),
       ),
       child: const Row(
         children: [
@@ -341,7 +341,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> with SingleTickerProv
           decoration: BoxDecoration(
             color: AppTheme.surfaceDark,
             borderRadius: BorderRadius.circular(16),
-            border: BorderSide(color: AppTheme.accentRose.withOpacity(0.5), width: 1.5),
+            border: Border.all(color: AppTheme.accentRose.withOpacity(0.5), width: 1.5),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,7 +1,7 @@
 # Project AIBO — Project Charter
 
-**Document status:** DRAFT — awaiting owner approval  
-**Last updated:** 2026-10-13  
+**Document status:** APPROVED — Phase 01 sign-off complete  
+**Last updated:** 2026-10-25  
 **Phase:** 01 — Foundation and Documentation
 
 ---
@@ -71,13 +71,13 @@ AIBO is **not** a general-purpose app or a commercial product. It is a personal 
 
 ## 4. First-Release (MVP) Goals
 
-The MVP delivers the minimum set of features that makes AIBO genuinely useful for daily life in Japan. Each feature is scoped in detail in `docs/01_PRD.md`.
+The MVP delivers the minimum set of features that makes AIBO genuinely useful for daily life in Japan. Each feature is scoped in detail in `docs/02_PRD.md`.
 
 | # | MVP Feature | Summary |
 |---|---|---|
 | 1 | **Conversational AI assistant** | Cloud-LLM-powered chat for general questions, Japan-life advice, and contextual help; chat history management and optional persistent memory |
 | 2 | **Japanese language support** | Phrase lookup, basic translation, furigana display; offline phrase book |
-| 3 | **Expense tracker** | Log expenses in ¥ and ₹, categorise, view history; works offline with sync |
+| 3 | **Expense tracker** | Log expenses in ¥ and ₹, categorise, view history; works offline; cloud sync deferred to Phase 03 |
 | 4 | **Document vault** | Store and retrieve photos/scans of important documents (residence card, insurance, etc.) locally on device |
 | 5 | **Offline essentials** | Saved phrases, logged expenses, stored documents, and emergency information accessible without internet |
 | 6 | **Basic daily planner** | Task/reminder list with "Today" summary on app open; in-app reminders only in MVP |
@@ -114,18 +114,20 @@ The following are **not** part of the first release. Some may appear in later ph
 
 These decisions are recorded here and must be resolved before their dependent phases begin. They are **not** pre-decided. The **Project Owner** is the decision owner for all items.
 
-The canonical register with candidate options, evaluation criteria, and full details is maintained in [`docs/10_ROADMAP_AND_STATUS.md` §3](docs/10_ROADMAP_AND_STATUS.md).
+The canonical register with candidate options, evaluation criteria, and full details is maintained in [`docs/05_ROADMAP_AND_STATUS.md` §3](docs/05_ROADMAP_AND_STATUS.md).
 
 | ID | Decision | Depends on | Target Phase | Status |
 |---|---|---|---|---|
-| U-1 | PWA vs. native Android app | Architecture, offline capability, installation size | Phase 02 | ⬜ Open |
-| U-2 | Cloud LLM provider and verified free-tier quota | Cost constraint, AI feature | Phase 02 | ⬜ Open |
-| U-3 | Hosting platform and database service | Cost constraint, data security | Phase 02 | ⬜ Open |
-| U-4 | Japanese OCR approach | Accuracy, cost, offline viability | Phase 05 | ⬜ Open |
+| U-1 | Mobile application platform (Flutter) | Architecture, offline capability, installation size | Phase 02 | ✅ Resolved (Flutter, ADR-001) |
+| U-2 | Cloud LLM provider (Gemini + BYOK Nemotron/OpenAI) | Cost constraint, AI feature | Phase 02 | ✅ Resolved (ADR-002) |
+| U-3 | Hosting platform & database (Local Encrypted SQLite + GitHub Releases) | Cost constraint, data security | Phase 02 | ✅ Resolved (ADR-003) |
+| U-4 | Japanese OCR approach (Google ML Kit On-Device) | Accuracy, cost, offline viability | Phase 05 | ✅ Resolved (Option B) |
 | U-5 | Voice input / STT implementation | Cost, accuracy, language support | Phase 08 | ⬜ Open |
 | U-6 | Map-data licensing and offline download strategy | Licensing, storage, routing | Phase 07 | ⬜ Open |
-| U-7 | Notification reliability (PWA vs. native) | Platform decision (U-1) | Phase 02 | ⬜ Open |
-| U-8 | Backup and recovery strategy | Platform, data security | Phase 03 | ⬜ Open |
+| U-7 | Notification reliability (In-App Today Summary + Local Exact Alarms) | Platform decision (U-1) | Phase 02 | ✅ Resolved (ADR-004) |
+| U-8 | Backup and recovery strategy (Manual Encrypted Export/Import) | Platform, data security | Phase 02 | ✅ Resolved (ADR-005) |
+| U-9 | Emergency info card access (Quick-Access Mode) | Privacy vs. safety trade-off | Phase 03 | ✅ Resolved (Option B) |
+| U-10 | Japanese phrase-book data source (Hybrid Bundled + Cloud LLM) | Offline capability, cost, furigana rendering | Phase 04 | ✅ Resolved (Hybrid Strategy) |
 
 ---
 
@@ -151,6 +153,6 @@ The MVP is considered successful when:
 
 ## Approval
 
-- [ ] Project owner has reviewed and approved this charter.
-- [ ] Unresolved decisions acknowledged.
-- [ ] Ready to proceed to Phase 02 planning (pending approval).
+- [x] Project owner has reviewed and approved this charter.
+- [x] Unresolved decisions acknowledged.
+- [x] Ready to proceed to Phase 02 planning (pending approval).

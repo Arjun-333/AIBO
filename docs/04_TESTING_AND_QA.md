@@ -1,7 +1,7 @@
 # Project AIBO — Testing and Quality Assurance Strategy
 
-**Document status:** DRAFT — awaiting owner approval  
-**Last updated:** 2026-10-13  
+**Document status:** APPROVED — Phase 01 sign-off complete  
+**Last updated:** 2026-10-25  
 **Phase:** 01 — Foundation and Documentation
 
 ---
@@ -41,7 +41,7 @@ This document defines AIBO's testing strategy, phase gate checklists, and qualit
 ### 3.3 End-to-End (E2E) Tests
 
 - Simulate real user workflows on the target device (or emulator).
-- Focus areas: complete user stories from `docs/01_PRD.md`.
+- Focus areas: complete user stories from `docs/02_PRD.md`.
 - Must cover critical paths: logging an expense, saving a phrase, viewing a document, sending a chat message.
 
 ### 3.4 Manual Testing
@@ -139,7 +139,7 @@ Before requesting owner approval to close any phase, the following checklist mus
 - [ ] Cost validation criteria (§4.2) pass (no paid services without approval).
 - [ ] Accessibility validation criteria (§4.4) pass at the level appropriate for the phase.
 - [ ] Documentation is up to date (PRD, roadmap, ADRs).
-- [ ] Roadmap status (`docs/10_ROADMAP_AND_STATUS.md`) updated.
+- [ ] Roadmap status (`docs/05_ROADMAP_AND_STATUS.md`) updated.
 - [ ] Completion report submitted to project owner.
 - [ ] No unapproved features or out-of-scope changes.
 
@@ -198,4 +198,4 @@ Testing framework, tooling, and device-specific testing procedures will be defin
 
 ## Approval
 
-- [ ] Project owner has reviewed and approved this testing strategy.
+- [x] Project owner has reviewed and approved this testing strategy.

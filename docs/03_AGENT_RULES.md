@@ -1,7 +1,7 @@
 # Project AIBO — Agent Rules
 
-**Document status:** DRAFT — awaiting owner approval  
-**Last updated:** 2026-10-13  
+**Document status:** APPROVED — Phase 01 sign-off complete  
+**Last updated:** 2026-10-25  
 **Phase:** 01 — Foundation and Documentation  
 **Audience:** Any AI agent or human contributor working on Project AIBO
 
@@ -18,7 +18,7 @@ This document defines mandatory rules that govern all agent (AI-assisted) work o
 | Rule | Detail |
 |---|---|
 | **R-1.1** | Before modifying any file, read its current contents and the contents of related documentation. |
-| **R-1.2** | Before starting work on any phase, read: `docs/00_PROJECT_CHARTER.md`, `docs/01_PRD.md`, `docs/AGENT_RULES.md`, `docs/10_ROADMAP_AND_STATUS.md`, and `docs/08_TESTING_AND_QA.md`. |
+| **R-1.2** | Before starting work on any phase, read: `docs/01_PROJECT_CHARTER.md`, `docs/02_PRD.md`, `docs/03_AGENT_RULES.md`, `docs/05_ROADMAP_AND_STATUS.md`, and `docs/04_TESTING_AND_QA.md`. |
 | **R-1.3** | Check `git status` and `git diff` before making changes to understand the current state of the repository. |
 | **R-1.4** | If a build guide or supplementary instructions exist (e.g. `project-aibo-build-guide.md`), read them before beginning implementation work. |
 
@@ -43,7 +43,7 @@ This document defines mandatory rules that govern all agent (AI-assisted) work o
 | **R-3.1** | Work must remain within the boundaries of the currently approved phase. |
 | **R-3.2** | Do not begin the next phase until the current phase has been explicitly approved as complete by the project owner. |
 | **R-3.3** | Each phase completion requires a report listing: files changed, requirements met, tests passed, unresolved issues, and a confirmation that no out-of-scope work was performed. |
-| **R-3.4** | Phase exit criteria are defined in `docs/10_ROADMAP_AND_STATUS.md`. All exit criteria must be met before requesting approval. |
+| **R-3.4** | Phase exit criteria are defined in `docs/05_ROADMAP_AND_STATUS.md`. All exit criteria must be met before requesting approval. |
 
 ---
 
@@ -51,9 +51,9 @@ This document defines mandatory rules that govern all agent (AI-assisted) work o
 
 | Rule | Detail |
 |---|---|
-| **R-4.1** | Every implemented feature must have corresponding tests as defined in `docs/08_TESTING_AND_QA.md`. |
+| **R-4.1** | Every implemented feature must have corresponding tests as defined in `docs/04_TESTING_AND_QA.md`. |
 | **R-4.2** | Documentation must be updated before or alongside code changes, never deferred. |
-| **R-4.3** | The roadmap (`docs/10_ROADMAP_AND_STATUS.md`) must be updated to reflect current status after each significant change. |
+| **R-4.3** | The roadmap (`docs/05_ROADMAP_AND_STATUS.md`) must be updated to reflect current status after each significant change. |
 | **R-4.4** | Architecture Decision Records (ADRs) must be written for any non-trivial technology choice (format TBD in Phase 02). |
 
 ---
@@ -131,4 +131,4 @@ If these rules conflict with each other, flag the conflict and ask the owner for
 
 ## Approval
 
-- [ ] Project owner has reviewed and approved these agent rules.
+- [x] Project owner has reviewed and approved these agent rules.

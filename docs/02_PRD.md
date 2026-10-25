@@ -1,9 +1,9 @@
 # Project AIBO — Product Requirements Document (PRD)
 
-**Document status:** DRAFT — awaiting owner approval  
-**Last updated:** 2026-10-13  
+**Document status:** APPROVED — Phase 01 sign-off complete  
+**Last updated:** 2026-10-25  
 **Phase:** 01 — Foundation and Documentation  
-**Companion documents:** `00_PROJECT_CHARTER.md`, `AGENT_RULES.md`, `10_ROADMAP_AND_STATUS.md`
+**Companion documents:** `01_PROJECT_CHARTER.md`, `03_AGENT_RULES.md`, `05_ROADMAP_AND_STATUS.md`
 
 ---
 
@@ -80,7 +80,7 @@ Requirements are classified as:
 | Offline | Phrase book fully accessible. New translations unavailable; clear message shown. |
 
 **Open Questions:**
-- Dictionary data source (free API vs. bundled dictionary vs. LLM translation)
+- Dictionary data source (free API vs. bundled dictionary vs. LLM translation) — see **Unresolved Decision U-10** (target Phase 04)
 - Furigana rendering approach (ruby HTML, custom component, or library)
 
 ---
@@ -135,7 +135,7 @@ Requirements are classified as:
 **Open Questions:**
 - Storage format (encrypted local files, IndexedDB, device filesystem)
 - Maximum storage recommendation to stay within installation-size constraint
-- Authentication mechanism (platform-dependent; ties to U-1 PWA vs. native decision)
+- Authentication mechanism: resolved via Flutter `local_auth` (biometrics + device PIN, see [ADR-001](06_ADR_platform.md))
 
 ---
 
@@ -208,9 +208,9 @@ This is not a separate feature but a cross-cutting requirement that applies to �
 | Offline | Full functionality. All emergency numbers, phrases, and personal info card are served from local storage. |
 
 **Open Questions:**
-- One-tap dial capability (platform-dependent; ties to U-1 PWA vs. native decision)
+- One-tap dial capability: resolved via Flutter `url_launcher` / Android `Intent.ACTION_DIAL` (see [ADR-001](06_ADR_platform.md))
 - Phrase list curation and verification process before release
-- Whether the emergency info card should be accessible without full app authentication in genuine emergencies (quick-access vs. privacy trade-off — requires owner decision)
+- Emergency info card access: resolved via Option B (Quick-Access Mode on app lock screen, see U-9 resolution)
 
 ---
 
@@ -226,6 +226,7 @@ These features are planned but **not approved for implementation** until their r
 | Transit / train information | Phase 09 | Requires verified, free API; no fabrication |
 | Cloud sync and backup | Phase 03 | Blocked by U-3, U-8 |
 | On-device AI | Phase 10+ | Optional future upgrade |
+| Phrase-book data source selection | Phase 04 | Blocked by U-10 (dictionary source decision) |
 
 ---
 
@@ -256,7 +257,7 @@ These features have been discussed but are **not committed** to any phase. They 
 | NFR-P-04 | API keys and secrets must never be committed to version control or embedded in client-side code. |
 | NFR-P-05 | Chat history and long-term memory data must follow the same secure storage standards as other personal data. Deletion of a conversation or memory item must be permanent and complete, including any local caches or derived data. |
 | NFR-P-06 | The full document vault, financial history, and emergency medical information must never be sent to the LLM by default. Only the current query context and explicitly user-approved memory items may be included in LLM requests. |
-| NFR-P-07 | Emergency medical information (blood type, allergies, conditions, emergency contacts) must be encrypted at rest and protected by app-level authentication, equivalent to document vault privacy. |
+| NFR-P-07 | Emergency medical information must be encrypted at rest. Per owner-approved Decision U-9 (Option B: Quick-Access Mode), essential emergency info (blood type, allergies, emergency contacts) is viewable via an emergency screen before authentication to protect the user during incapacitation, while full document vault and notes remain locked behind authentication. |
 
 ### 5.2 Accessibility
 
@@ -305,6 +306,6 @@ These features have been discussed but are **not committed** to any phase. They 
 
 ## Approval
 
-- [ ] Project owner has reviewed and approved MVP scope.
-- [ ] Open questions acknowledged.
-- [ ] Ready for Phase 02 architecture planning (pending approval).
+- [x] Project owner has reviewed and approved MVP scope.
+- [x] Open questions acknowledged.
+- [x] Ready for Phase 02 architecture planning (pending approval).

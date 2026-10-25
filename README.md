@@ -16,11 +16,11 @@ This is a personal project, not a commercial product.
 
 | Document | Description |
 |---|---|
-| [`docs/00_PROJECT_CHARTER.md`](docs/00_PROJECT_CHARTER.md) | Vision, constraints, MVP goals, success criteria |
-| [`docs/01_PRD.md`](docs/01_PRD.md) | Requirements, user stories, acceptance criteria |
-| [`docs/AGENT_RULES.md`](docs/AGENT_RULES.md) | Rules for AI agents and contributors |
-| [`docs/10_ROADMAP_AND_STATUS.md`](docs/10_ROADMAP_AND_STATUS.md) | 12-phase roadmap, dependencies, current status |
-| [`docs/08_TESTING_AND_QA.md`](docs/08_TESTING_AND_QA.md) | Testing strategy, validation criteria, phase gates |
+| [`docs/01_PROJECT_CHARTER.md`](docs/01_PROJECT_CHARTER.md) | Vision, constraints, MVP goals, success criteria |
+| [`docs/02_PRD.md`](docs/02_PRD.md) | Requirements, user stories, acceptance criteria |
+| [`docs/03_AGENT_RULES.md`](docs/03_AGENT_RULES.md) | Rules for AI agents and contributors |
+| [`docs/05_ROADMAP_AND_STATUS.md`](docs/05_ROADMAP_AND_STATUS.md) | 12-phase roadmap, dependencies, current status |
+| [`docs/04_TESTING_AND_QA.md`](docs/04_TESTING_AND_QA.md) | Testing strategy, validation criteria, phase gates |
 
 ## Key Constraints
 
@@ -33,8 +33,8 @@ This is a personal project, not a commercial product.
 
 ## Phases
 
-See [`docs/10_ROADMAP_AND_STATUS.md`](docs/10_ROADMAP_AND_STATUS.md) for the full 12-phase plan.
+See [`docs/05_ROADMAP_AND_STATUS.md`](docs/05_ROADMAP_AND_STATUS.md) for the full 12-phase plan.
 
 ## Contributing
 
-This is a single-user personal project. All AI agents working on this project must read and follow [`docs/AGENT_RULES.md`](docs/AGENT_RULES.md) before making any changes.
+This is a single-user personal project. All AI agents working on this project must read and follow [`docs/03_AGENT_RULES.md`](docs/03_AGENT_RULES.md) before making any changes.

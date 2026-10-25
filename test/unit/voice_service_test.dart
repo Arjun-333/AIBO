@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:aibo/core/voice/voice_service.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   group('VoiceService & Bilingual STT Tests', () {
     final voiceService = VoiceService.instance;
 

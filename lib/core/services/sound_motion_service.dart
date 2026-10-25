@@ -8,20 +8,32 @@ class SoundMotionService {
 
   /// Plays a tactile click sound and light haptic feedback
   void playTapSound() {
-    SystemSound.play(SystemSoundType.click);
-    HapticFeedback.lightImpact();
+    try {
+      SystemSound.play(SystemSoundType.click);
+    } catch (_) {}
+    try {
+      HapticFeedback.lightImpact();
+    } catch (_) {}
   }
 
   /// Plays a celebratory success vibration and chime
   void playSuccessHaptic() {
-    HapticFeedback.heavyImpact();
-    SystemSound.play(SystemSoundType.click);
+    try {
+      HapticFeedback.heavyImpact();
+    } catch (_) {}
+    try {
+      SystemSound.play(SystemSoundType.click);
+    } catch (_) {}
   }
 
   /// Plays an alert vibration for emergencies and overdue reminders
   void playAlertVibration() {
-    HapticFeedback.vibrate();
-    SystemSound.play(SystemSoundType.alert);
+    try {
+      HapticFeedback.vibrate();
+    } catch (_) {}
+    try {
+      SystemSound.play(SystemSoundType.alert);
+    } catch (_) {}
   }
 
   /// Displays an animated slide-down Japanese Toast Notification

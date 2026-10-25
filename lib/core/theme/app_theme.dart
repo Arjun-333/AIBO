@@ -41,7 +41,7 @@ class AppTheme {
         onSurface: inkBlack,
         outline: warmBorder,
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: Colors.white,
         elevation: 0,
         shape: RoundedRectangleBorder(

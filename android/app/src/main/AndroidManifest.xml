@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.aibo.app">
+    package="com.aibo.aibo">
 
     <!-- Permissions required for AIBO -->
     <uses-permission android:name="android.permission.INTERNET" />

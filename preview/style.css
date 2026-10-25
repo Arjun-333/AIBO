@@ -1,0 +1,1785 @@
+/* ==========================================================================
+   AIBO (相棒) - Japanese Stationery & Tactile Craft Design System
+   ========================================================================== */
+
+:root {
+  /* Traditional Japanese Pigments (日本の伝統色) */
+  --shu-vermilion: #D9381E;      /* 朱色 (Sacred Torii & Hanko Stamp Ink) */
+  --shu-vermilion-soft: rgba(217, 56, 30, 0.12);
+  --sumi-ink: #1C1917;           /* 墨色 (Calligraphy Ink Black) */
+  --sumi-muted: #57534E;         /* 鈍色 (Muted Ink Grey) */
+  --torinoko-washi: #F5F1E8;     /* 鳥の子紙 (Handmade Washi Paper Cream) */
+  --washi-surface: #FAF7F0;      /* 和紙白 (Crisp Washi Card Surface) */
+  --washi-border: rgba(41, 37, 36, 0.12);
+  
+  --aizome-indigo: #1E2D3D;      /* 藍染 (Deep Indigo) */
+  --matcha-green: #3D5A35;       /* 抹茶 (Ceremonial Tea Green) */
+  --yamabuki-gold: #C69214;      /* 山吹色 (Golden Kerria) */
+  --koken-cardboard: #EDE4D1;    /* 硬券 (Vintage Railway Cardboard) */
+
+  /* Typography */
+  --font-mincho: 'Shippori Mincho', 'Noto Sans JP', serif;
+  --font-main: 'Outfit', sans-serif;
+  --font-jp: 'Noto Sans JP', sans-serif;
+
+  --shadow-washi: 0 4px 12px rgba(28, 25, 23, 0.05);
+  --shadow-card: 0 10px 25px -5px rgba(28, 25, 23, 0.08), 0 0 0 1px rgba(28, 25, 23, 0.06);
+  --shadow-hanko: 0 2px 8px rgba(217, 56, 30, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+body.stationery-theme {
+  font-family: var(--font-main);
+  background-color: #171614;
+  color: var(--sumi-ink);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Washi Paper Texture Overlay */
+.washi-texture-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(rgba(217, 56, 30, 0.04) 1px, transparent 0);
+  background-size: 24px 24px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   Header Bar
+   ========================================================================== */
+.preview-header {
+  width: 100%;
+  max-width: 1200px;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+}
+
+.header-branding {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.header-title {
+  font-family: var(--font-mincho);
+  font-size: 22px;
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: 1.5px;
+}
+
+.tate-tag {
+  font-size: 13px;
+  font-family: var(--font-jp);
+  color: var(--shu-vermilion);
+  background: rgba(217, 56, 30, 0.18);
+  border: 1px solid var(--shu-vermilion);
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-left: 8px;
+  font-weight: 700;
+}
+
+.tagline {
+  font-size: 12px;
+  color: #A8A29E;
+  margin-top: 2px;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.paper-badge {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px dashed rgba(255, 255, 255, 0.25);
+  color: #E7E5E4;
+  font-size: 11.5px;
+  font-family: var(--font-jp);
+  padding: 6px 14px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+}
+
+.paper-btn {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-family: var(--font-jp);
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.paper-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   Simulator Phone Frame
+   ========================================================================== */
+.simulator-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  padding: 10px 16px 40px;
+  z-index: 5;
+}
+
+.phone-frame {
+  width: 100%;
+  max-width: 416px;
+  height: 850px;
+  background: #11100F;
+  border: 12px solid #2B2724;
+  border-radius: 50px;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+.phone-frame.fullview {
+  max-width: 640px;
+  height: 92vh;
+  border-width: 0;
+  border-radius: 20px;
+}
+
+.phone-notch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 130px;
+  height: 24px;
+  background: #11100F;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.speaker-grill {
+  width: 44px;
+  height: 4px;
+  background: #383431;
+  border-radius: 2px;
+}
+
+.camera-lens {
+  width: 10px;
+  height: 10px;
+  background: #1C1917;
+  border: 1px solid #383431;
+  border-radius: 50%;
+}
+
+/* App Viewport Inside Phone */
+.app-viewport {
+  width: 100%;
+  height: 100%;
+  background-color: var(--torinoko-washi);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  background-image: 
+    linear-gradient(rgba(28, 25, 23, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(28, 25, 23, 0.02) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Animated Washi Notification Toast */
+.toast-container {
+  position: absolute;
+  top: 50px;
+  left: 14px;
+  right: 14px;
+  z-index: 200;
+  pointer-events: none;
+}
+
+.app-toast {
+  background: #FFFFFF;
+  border: 2px solid var(--shu-vermilion);
+  border-radius: 10px;
+  padding: 12px 14px;
+  box-shadow: 0 10px 30px rgba(217, 56, 30, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transform: translateY(-40px);
+  opacity: 0;
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: auto;
+  position: relative;
+}
+
+.app-toast::after {
+  content: '印';
+  position: absolute;
+  right: 10px;
+  bottom: 8px;
+  font-family: var(--font-mincho);
+  font-size: 16px;
+  color: var(--shu-vermilion);
+  opacity: 0.25;
+  border: 1px solid var(--shu-vermilion);
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.toast-icon {
+  font-size: 24px;
+}
+
+.toast-body strong {
+  font-family: var(--font-mincho);
+  font-size: 13.5px;
+  color: var(--sumi-ink);
+  display: block;
+}
+
+.toast-body span {
+  font-size: 11px;
+  color: var(--shu-vermilion);
+  font-weight: 700;
+  font-family: var(--font-jp);
+}
+
+/* Status Bar */
+.status-bar {
+  height: 44px;
+  padding: 12px 22px 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--sumi-ink);
+  z-index: 50;
+  font-family: var(--font-jp);
+}
+
+.status-icons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+}
+
+.screens-container {
+  flex: 1;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 14px 14px 75px;
+}
+
+.screen {
+  display: none;
+  animation: fadeInPaper 0.25s ease-out;
+}
+
+.screen.active {
+  display: block;
+}
+
+@keyframes fadeInPaper {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   Hanko (判子 / 印鑑) Seal Stamps Engine
+   ========================================================================== */
+.hanko-seal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--shu-vermilion);
+  color: var(--shu-vermilion);
+  font-family: var(--font-mincho);
+  font-weight: 800;
+  border-radius: 50%;
+  transform: rotate(-6deg);
+  box-shadow: var(--shadow-hanko);
+  position: relative;
+  user-select: none;
+}
+
+.hanko-seal::after {
+  content: '';
+  position: absolute;
+  top: -2px; left: -2px; right: -2px; bottom: -2px;
+  border: 1px dashed rgba(217, 56, 30, 0.4);
+  border-radius: 50%;
+}
+
+.hanko-seal.mini {
+  width: 32px;
+  height: 32px;
+  font-size: 12px;
+  border-width: 1.8px;
+}
+
+.hanko-seal.small {
+  width: 40px;
+  height: 40px;
+  font-size: 14px;
+  border-width: 2px;
+}
+
+.hanko-stamp-circle {
+  width: 38px;
+  height: 38px;
+  border: 2px solid var(--shu-vermilion);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mincho);
+  font-weight: 800;
+  font-size: 13.5px;
+  color: var(--shu-vermilion);
+  transform: rotate(-5deg);
+  box-shadow: 0 0 10px rgba(217, 56, 30, 0.25);
+  background: rgba(217, 56, 30, 0.05);
+}
+
+.hanko-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.hanko-btn:active {
+  transform: scale(0.9);
+}
+
+.stamp-sub {
+  font-size: 9.5px;
+  font-family: var(--font-jp);
+  color: var(--sumi-muted);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   Stationery Topbar
+   ========================================================================== */
+.stationery-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 0 4px;
+}
+
+.seal-script-label {
+  font-size: 11.5px;
+  font-family: var(--font-jp);
+  color: var(--sumi-muted);
+  display: block;
+  letter-spacing: 0.5px;
+}
+
+.greeting-main {
+  font-family: var(--font-mincho);
+  font-size: 21px;
+  font-weight: 800;
+  color: var(--sumi-ink);
+  letter-spacing: 0.5px;
+}
+
+.honorific {
+  font-size: 14px;
+  color: var(--shu-vermilion);
+  font-weight: 700;
+}
+
+/* Stationery Card Base */
+.stationery-card {
+  background: var(--washi-surface);
+  border-radius: 12px;
+  border: 1px solid var(--washi-border);
+  box-shadow: var(--shadow-card);
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Tate-gaki (Vertical Japanese) Ribbon */
+.tate-ribbon {
+  position: absolute;
+  top: 14px;
+  right: 12px;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-family: var(--font-mincho);
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--sumi-muted);
+  letter-spacing: 2px;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 6px 3px;
+  border: 1px solid var(--washi-border);
+  border-radius: 3px;
+}
+
+/* Muchi Neko Artisan Scene */
+.cat-scene-artisan {
+  height: 165px;
+  background: linear-gradient(180deg, #EFE8DC 0%, #DFD5C4 100%);
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--washi-border);
+  cursor: pointer;
+}
+
+.paper-moon {
+  position: absolute;
+  top: 16px;
+  left: 20px;
+  width: 32px;
+  height: 32px;
+  background: #FCE7A6;
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(252, 231, 166, 0.8);
+  border: 1px dashed rgba(217, 56, 30, 0.3);
+}
+
+.hanging-lantern {
+  position: absolute;
+  top: 10px;
+  right: 48px;
+  font-size: 24px;
+}
+
+/* Traditional Rooftop Kawara Tiles */
+.kawara-roof {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 28px;
+  background-color: #2D2824;
+  border-top: 3px solid #1C1917;
+  background-image: repeating-linear-gradient(90deg, #1C1917 0px, #1C1917 14px, #3A3530 14px, #3A3530 18px);
+}
+
+/* Sumi Calligraphy Bubble */
+.sumi-bubble {
+  position: absolute;
+  top: 22px;
+  left: 64px;
+  background: #FFFFFF;
+  border: 1.5px solid var(--sumi-ink);
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 11px;
+  font-family: var(--font-jp);
+  font-weight: 600;
+  color: var(--sumi-ink);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+  max-width: 220px;
+}
+
+.sumi-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 20px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid var(--sumi-ink);
+}
+
+/* Illustrated Muchi Neko Cat */
+.cat-character {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 72px;
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 5;
+}
+
+.cat-character.jump {
+  transform: translateX(-50%) translateY(-24px) scale(1.08);
+}
+
+.cat-body {
+  width: 72px;
+  height: 62px;
+  background: #FAF7F0;
+  border: 2px solid var(--sumi-ink);
+  border-radius: 50% 50% 46% 46%;
+  position: absolute;
+  bottom: 0;
+  left: 4px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.cat-ears {
+  position: absolute;
+  top: 3px;
+  width: 100%;
+}
+
+.ear {
+  width: 0;
+  height: 0;
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
+  border-bottom: 17px solid var(--sumi-ink);
+  position: absolute;
+}
+
+.ear.left { left: 8px; transform: rotate(-16deg); }
+.ear.right { right: 8px; transform: rotate(16deg); }
+
+.cat-eyes {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 16px 0;
+}
+
+.eye {
+  width: 5px;
+  height: 5px;
+  background: var(--sumi-ink);
+  border-radius: 50%;
+}
+
+.cat-cheeks {
+  display: flex;
+  justify-content: space-between;
+  padding: 2px 14px 0;
+}
+
+.cheek {
+  width: 8px;
+  height: 5px;
+  background: #FFB3BA;
+  border-radius: 50%;
+}
+
+.cat-mouth {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--sumi-ink);
+  margin-top: -5px;
+}
+
+.cat-collar {
+  width: 40px;
+  height: 7px;
+  background: var(--shu-vermilion);
+  border-radius: 3px;
+  margin: 4px auto 0;
+  position: relative;
+}
+
+.collar-bell {
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+}
+
+.cat-tail {
+  position: absolute;
+  bottom: 10px;
+  right: -3px;
+  width: 14px;
+  height: 22px;
+  border: 2.5px solid var(--sumi-ink);
+  border-left: none;
+  border-radius: 0 14px 14px 0;
+  transform: rotate(20deg);
+}
+
+.companion-body {
+  padding: 14px 16px;
+}
+
+.companion-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.cat-title {
+  font-family: var(--font-mincho);
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--sumi-ink);
+  display: block;
+}
+
+.cat-sub {
+  font-size: 11px;
+  color: var(--sumi-muted);
+}
+
+.washi-gauge {
+  background: #F4EFE6;
+  border: 1px dashed var(--washi-border);
+  padding: 8px 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.gauge-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  font-family: var(--font-jp);
+  color: var(--sumi-muted);
+  margin-bottom: 4px;
+}
+
+.meter-val {
+  color: var(--shu-vermilion);
+  font-weight: 700;
+}
+
+.meter-track {
+  width: 100%;
+  height: 6px;
+  background: #E5DFD4;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.meter-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--shu-vermilion) 0%, #F59E0B 100%);
+  border-radius: 3px;
+}
+
+.tactile-card-footer {
+  text-align: center;
+}
+
+.hint-text {
+  font-size: 10.5px;
+  font-family: var(--font-jp);
+  color: var(--sumi-muted);
+}
+
+/* Journal Slate Card */
+.journal-card {
+  padding: 14px 16px;
+}
+
+.journal-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.journal-title {
+  font-family: var(--font-mincho);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--sumi-ink);
+  flex: 1;
+}
+
+.date-chip {
+  font-size: 10px;
+  font-family: var(--font-mincho);
+  color: var(--shu-vermilion);
+  background: var(--shu-vermilion-soft);
+  border: 1px solid rgba(217, 56, 30, 0.2);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.journal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.journal-item {
+  background: #F4EFE5;
+  border: 1px solid var(--washi-border);
+  border-radius: 8px;
+  padding: 8px;
+  text-align: center;
+}
+
+.j-label {
+  font-size: 10px;
+  font-family: var(--font-jp);
+  color: var(--sumi-muted);
+  display: block;
+}
+
+.j-val {
+  font-size: 13px;
+  font-family: var(--font-mincho);
+  font-weight: 800;
+  color: var(--sumi-ink);
+  margin-top: 2px;
+  display: block;
+}
+
+.j-val.highlight {
+  color: var(--shu-vermilion);
+}
+
+.j-sub {
+  font-size: 9.5px;
+  color: var(--sumi-muted);
+  display: block;
+  margin-top: 2px;
+}
+
+/* Section Title */
+.stationery-section-title {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 18px 0 10px;
+  padding-left: 2px;
+}
+
+.stationery-section-title span:first-child {
+  font-family: var(--font-mincho);
+  font-size: 14.5px;
+  font-weight: 800;
+  color: var(--sumi-ink);
+}
+
+.jp-sub {
+  font-size: 11px;
+  color: var(--sumi-muted);
+  font-weight: 500;
+}
+
+/* Stationery Grid */
+.stationery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.stationery-tile {
+  background: #FFFFFF;
+  border: 1px solid var(--washi-border);
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: var(--shadow-washi);
+  transition: all 0.2s ease;
+}
+
+.stationery-tile:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+  border-color: var(--shu-vermilion);
+}
+
+.tile-seal {
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  border: 1.5px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mincho);
+  font-weight: 800;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.tile-seal.red {
+  color: var(--shu-vermilion);
+  border-color: var(--shu-vermilion);
+  background: var(--shu-vermilion-soft);
+}
+
+.tile-seal.green {
+  color: var(--matcha-green);
+  border-color: var(--matcha-green);
+  background: rgba(61, 90, 53, 0.1);
+}
+
+.tile-seal.blue {
+  color: var(--aizome-indigo);
+  border-color: var(--aizome-indigo);
+  background: rgba(30, 45, 61, 0.1);
+}
+
+.tile-seal.gold {
+  color: var(--yamabuki-gold);
+  border-color: var(--yamabuki-gold);
+  background: rgba(198, 146, 20, 0.12);
+}
+
+.tile-info strong {
+  font-family: var(--font-mincho);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--sumi-ink);
+  display: block;
+}
+
+.tile-info span {
+  font-size: 10px;
+  color: var(--sumi-muted);
+}
+
+/* ==========================================================================
+   AUTHENTIC JAPANESE PHARMACY PACKET (薬袋 - Yakutai)
+   ========================================================================== */
+.yakutai-envelope {
+  background: #FFFDF9;
+  border: 2px solid #8C827A;
+  border-radius: 4px;
+  padding: 16px;
+  box-shadow: 0 4px 14px rgba(28, 25, 23, 0.08);
+  position: relative;
+  margin-bottom: 20px;
+  background-image: 
+    repeating-linear-gradient(0deg, transparent, transparent 19px, rgba(140, 130, 122, 0.08) 20px);
+}
+
+.yakutai-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid var(--sumi-ink);
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+.yakutai-cross {
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--shu-vermilion);
+  line-height: 1;
+}
+
+.yakutai-title-block {
+  text-align: center;
+}
+
+.yakutai-main-title {
+  font-family: var(--font-mincho);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--sumi-ink);
+  letter-spacing: 12px;
+  margin-right: -12px; /* compensate for letter spacing */
+}
+
+.yakutai-sub-title {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--sumi-muted);
+  letter-spacing: 1px;
+}
+
+.yakutai-rx-seal {
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid var(--shu-vermilion);
+  color: var(--shu-vermilion);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mincho);
+  font-size: 12px;
+  font-weight: 800;
+  transform: rotate(-4deg);
+}
+
+.yakutai-patient-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: 1px dashed var(--washi-border);
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+.patient-tag {
+  font-size: 11px;
+  font-family: var(--font-jp);
+  color: var(--sumi-muted);
+}
+
+.patient-name {
+  font-family: var(--font-mincho);
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--sumi-ink);
+  letter-spacing: 1px;
+}
+
+.patient-date {
+  font-size: 10px;
+  color: var(--sumi-muted);
+}
+
+/* Schedule Table (朝・昼・夕・寝る前) */
+.yakutai-schedule-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.schedule-col {
+  border: 1px solid #B0A89F;
+  border-radius: 4px;
+  padding: 8px 4px;
+  text-align: center;
+  background: #FFFFFF;
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+.schedule-col.done {
+  background: #FAF8F5;
+  border-color: #8C827A;
+}
+
+.schedule-col.active-slot {
+  border: 2px solid var(--shu-vermilion);
+  background: rgba(217, 56, 30, 0.03);
+}
+
+.col-kanji {
+  font-family: var(--font-mincho);
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--sumi-ink);
+}
+
+.col-time {
+  font-size: 9.5px;
+  color: var(--sumi-muted);
+  margin-bottom: 4px;
+}
+
+.col-stamp {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2px 0;
+}
+
+.hanko-stamp-text {
+  width: 28px;
+  height: 28px;
+  border: 1.8px solid var(--shu-vermilion);
+  color: var(--shu-vermilion);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mincho);
+  font-size: 14px;
+  font-weight: 800;
+  transform: rotate(-8deg);
+  box-shadow: 0 0 6px rgba(217, 56, 30, 0.3);
+  animation: stampImpact 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes stampImpact {
+  0% { transform: scale(2) rotate(15deg); opacity: 0; }
+  100% { transform: scale(1) rotate(-8deg); opacity: 1; }
+}
+
+.unmarked-ring {
+  font-size: 16px;
+  color: var(--shu-vermilion);
+}
+
+.col-pill-name {
+  font-size: 9px;
+  font-family: var(--font-jp);
+  color: var(--sumi-muted);
+  display: block;
+}
+
+.yakutai-instructions {
+  font-size: 10.5px;
+  font-family: var(--font-jp);
+  color: var(--sumi-muted);
+  line-height: 1.4;
+  margin-bottom: 14px;
+}
+
+.note-bullet {
+  color: var(--shu-vermilion);
+  font-weight: 800;
+  margin-right: 4px;
+}
+
+.yakutai-action-row {
+  display: flex;
+  justify-content: center;
+}
+
+.stamp-action-btn {
+  background: var(--shu-vermilion);
+  color: #FFFFFF;
+  border: 1.5px solid #8A1E0E;
+  padding: 10px 22px;
+  border-radius: 6px;
+  font-family: var(--font-mincho);
+  font-size: 13.5px;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 10px rgba(217, 56, 30, 0.3);
+  transition: all 0.2s ease;
+}
+
+.stamp-action-btn:hover {
+  background: #C42F17;
+  transform: translateY(-1px);
+}
+
+.stamp-action-btn:active {
+  transform: scale(0.95);
+}
+
+/* OTC Paper Items */
+.otc-stationery-card {
+  padding: 14px 16px;
+}
+
+.otc-card-intro {
+  font-size: 11px;
+  font-family: var(--font-jp);
+  color: var(--sumi-muted);
+  margin-bottom: 12px;
+}
+
+.otc-paper-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.otc-paper-item {
+  background: #F8F5EE;
+  border: 1px dashed var(--washi-border);
+  border-radius: 6px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.otc-badge-pill, .otc-badge-jp {
+  font-size: 8.5px;
+  font-family: var(--font-jp);
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-weight: 700;
+  display: inline-block;
+  margin-bottom: 2px;
+}
+
+.otc-badge-pill {
+  background: #E5DFD4;
+  color: var(--sumi-muted);
+}
+
+.otc-badge-jp {
+  background: var(--shu-vermilion-soft);
+  color: var(--shu-vermilion);
+}
+
+.otc-western strong, .otc-japanese strong {
+  font-size: 12px;
+  font-family: var(--font-mincho);
+  color: var(--sumi-ink);
+  display: block;
+}
+
+.otc-japanese strong {
+  color: var(--shu-vermilion);
+}
+
+.use-case, .drug-class {
+  font-size: 10px;
+  color: var(--sumi-muted);
+}
+
+.otc-exchange-symbol {
+  font-size: 16px;
+  color: var(--yamabuki-gold);
+  font-weight: 800;
+}
+
+.pharmacy-ticket-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pharmacy-ticket {
+  background: #FFFFFF;
+  border: 1px solid var(--washi-border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pharmacy-ticket:hover {
+  border-color: var(--shu-vermilion);
+  transform: translateX(3px);
+}
+
+.pharmacy-monogram {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mincho);
+  font-size: 10px;
+  font-weight: 800;
+  border: 1px solid;
+}
+
+.pharmacy-monogram.mk { color: #B45309; border-color: #FBBF24; background: #FEF3C7; }
+.pharmacy-monogram.sd { color: #DC2626; border-color: #F87171; background: #FEE2E2; }
+.pharmacy-monogram.wc { color: #047857; border-color: #34D399; background: #D1FAE5; }
+
+.pharmacy-info strong {
+  font-family: var(--font-mincho);
+  font-size: 12.5px;
+  color: var(--sumi-ink);
+  display: block;
+}
+
+.pharmacy-info span {
+  font-size: 10.5px;
+  color: var(--sumi-muted);
+}
+
+.ticket-arrow {
+  font-size: 11px;
+  font-family: var(--font-mincho);
+  color: var(--shu-vermilion);
+  font-weight: 700;
+  margin-left: auto;
+}
+
+/* ==========================================================================
+   VINTAGE JAPANESE RAILWAY TICKET (硬券 - Kōken)
+   ========================================================================== */
+.koken-ticket {
+  background: var(--koken-cardboard);
+  border: 1px solid #BDB39E;
+  border-radius: 4px;
+  padding: 14px 18px;
+  box-shadow: 0 4px 12px rgba(28, 25, 23, 0.1);
+  position: relative;
+  margin-bottom: 20px;
+  background-image: repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(140, 130, 120, 0.05) 4px);
+}
+
+/* Punched Notch on left and right edge */
+.koken-notch {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 24px;
+  background: var(--torinoko-washi);
+  border: 1px solid #BDB39E;
+}
+
+.koken-notch.left {
+  left: -8px;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+  border-left: none;
+}
+
+.koken-notch.right {
+  right: -8px;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+  border-right: none;
+}
+
+.koken-top-row {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1.5px solid #4A4642;
+  padding-bottom: 6px;
+  margin-bottom: 12px;
+}
+
+.koken-line {
+  font-family: var(--font-mincho);
+  font-size: 10px;
+  font-weight: 800;
+  color: #2D2A26;
+  letter-spacing: 0.5px;
+}
+
+.koken-fare {
+  font-family: var(--font-mincho);
+  font-size: 10.5px;
+  font-weight: 800;
+  color: #2D2A26;
+}
+
+.koken-route-display {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 6px 0;
+  margin-bottom: 12px;
+}
+
+.koken-station {
+  text-align: center;
+}
+
+.station-sub {
+  font-size: 8px;
+  color: #6B655D;
+  display: block;
+  letter-spacing: 1.5px;
+}
+
+.station-name {
+  font-family: var(--font-mincho);
+  font-size: 20px;
+  font-weight: 800;
+  color: #1A1816;
+  letter-spacing: 3px;
+}
+
+.koken-direction-arrow {
+  font-family: monospace;
+  font-size: 16px;
+  color: #8C8275;
+  font-weight: 900;
+}
+
+.koken-footer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-top: 1px dashed #A69D8B;
+  padding-top: 8px;
+}
+
+.koken-serial {
+  font-family: var(--font-mincho);
+  font-size: 9px;
+  color: #59534B;
+}
+
+.koken-date {
+  font-family: monospace;
+  font-size: 13px;
+  font-weight: 800;
+  color: #1A1816;
+  letter-spacing: 2px;
+}
+
+.conductor-stamp {
+  width: 44px;
+  height: 44px;
+  border: 1.8px solid var(--shu-vermilion);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mincho);
+  font-size: 9.5px;
+  font-weight: 800;
+  color: var(--shu-vermilion);
+  transform: rotate(-14deg);
+  line-height: 1.1;
+  text-align: center;
+  box-shadow: 0 0 8px rgba(217, 56, 30, 0.25);
+  margin-bottom: -4px;
+}
+
+/* Yamanote Strip */
+.yamanote-strip-card {
+  padding: 14px;
+}
+
+.yamanote-scroll-track {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow-x: auto;
+  padding: 6px 2px;
+}
+
+.y-station {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.y-code {
+  font-size: 8.5px;
+  font-weight: 800;
+  color: #80C342;
+  background: rgba(128, 195, 66, 0.15);
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+.y-kanji {
+  font-family: var(--font-mincho);
+  font-size: 13px;
+  color: var(--sumi-ink);
+}
+
+.y-romaji {
+  font-size: 8.5px;
+  color: var(--sumi-muted);
+}
+
+.y-station.active-now .y-kanji {
+  color: #80C342;
+  font-weight: 900;
+}
+
+.y-connector {
+  flex: 1;
+  height: 2px;
+  background: #80C342;
+  margin: 0 4px 16px;
+}
+
+.exit-wood-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.exit-wood-card {
+  background: #FDFBF7;
+  border: 1px solid var(--washi-border);
+  border-radius: 6px;
+  padding: 10px 12px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.wood-tag {
+  background: #E8E1D3;
+  border: 1px solid #C4BCAC;
+  padding: 4px 6px;
+  border-radius: 4px;
+  font-family: var(--font-mincho);
+  font-size: 10.5px;
+  font-weight: 800;
+  color: var(--sumi-ink);
+  white-space: nowrap;
+}
+
+.wood-content strong {
+  font-family: var(--font-mincho);
+  font-size: 12.5px;
+  color: var(--sumi-ink);
+  display: block;
+}
+
+.wood-content p {
+  font-size: 10.5px;
+  color: var(--sumi-muted);
+  margin-top: 2px;
+  line-height: 1.35;
+}
+
+/* ==========================================================================
+   Compass & Map Screen
+   ========================================================================== */
+.compass-artisan-card {
+  padding: 18px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.compass-casing {
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  border: 4px double #8C8275;
+  background: radial-gradient(circle, #FAF7F0 0%, #E8E0D2 100%);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.15), 0 4px 14px rgba(0,0,0,0.06);
+}
+
+.compass-dial {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.compass-cross {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: 
+    linear-gradient(to right, transparent 49.5%, rgba(140, 130, 120, 0.3) 50%, transparent 50.5%),
+    linear-gradient(to bottom, transparent 49.5%, rgba(140, 130, 120, 0.3) 50%, transparent 50.5%);
+  border-radius: 50%;
+}
+
+.cardinal {
+  position: absolute;
+  font-family: var(--font-mincho);
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--sumi-ink);
+}
+
+.cardinal.north { top: 6px; left: 50%; transform: translateX(-50%); color: var(--shu-vermilion); }
+.cardinal.south { bottom: 6px; left: 50%; transform: translateX(-50%); }
+.cardinal.east { right: 8px; top: 50%; transform: translateY(-50%); }
+.cardinal.west { left: 8px; top: 50%; transform: translateY(-50%); }
+
+.needle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 70px;
+  background: linear-gradient(180deg, var(--shu-vermilion) 50%, var(--sumi-ink) 50%);
+  border-radius: 2px;
+  transform: translate(-50%, -50%) rotate(45deg);
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.blip {
+  position: absolute;
+  font-size: 14px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.blip:hover { transform: scale(1.3); }
+.blip.fuji { top: 30px; left: 30px; }
+.blip.tower { bottom: 35px; right: 40px; }
+.blip.pharmacy { top: 65px; left: 70px; }
+
+.compass-metrics {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px dashed var(--washi-border);
+  padding-top: 14px;
+  margin-top: 14px;
+}
+
+.metric-col {
+  text-align: center;
+}
+
+.m-label {
+  font-size: 9.5px;
+  font-family: var(--font-jp);
+  color: var(--sumi-muted);
+  display: block;
+}
+
+.m-val {
+  font-family: var(--font-mincho);
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--sumi-ink);
+}
+
+.m-val.highlight {
+  color: var(--shu-vermilion);
+}
+
+.landmark-stationery-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.lm-stationery-item {
+  background: #FFFFFF;
+  border: 1px solid var(--washi-border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.lm-stamp {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  border: 1.5px solid var(--sumi-ink);
+  color: var(--sumi-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mincho);
+  font-weight: 800;
+  font-size: 13px;
+}
+
+.lm-stamp.red { border-color: var(--shu-vermilion); color: var(--shu-vermilion); }
+.lm-stamp.gold { border-color: var(--yamabuki-gold); color: var(--yamabuki-gold); }
+
+.lm-details strong {
+  font-family: var(--font-mincho);
+  font-size: 12.5px;
+  color: var(--sumi-ink);
+  display: block;
+}
+
+.lm-details span {
+  font-size: 10.5px;
+  color: var(--sumi-muted);
+}
+
+.lm-badge {
+  font-size: 10.5px;
+  font-family: monospace;
+  font-weight: 700;
+  color: var(--shu-vermilion);
+  margin-left: auto;
+}
+
+/* ==========================================================================
+   Chat Screen (Scroll Format)
+   ========================================================================== */
+.chat-scroll-area {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.chat-row {
+  display: flex;
+  gap: 10px;
+  max-width: 90%;
+}
+
+.chat-row.aibo { align-self: flex-start; }
+.chat-row.user { align-self: flex-end; flex-direction: row-reverse; }
+
+.scroll-bubble {
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.45;
+  background: #FFFFFF;
+  border: 1px solid var(--washi-border);
+  box-shadow: var(--shadow-washi);
+  position: relative;
+}
+
+.scroll-bubble.user {
+  background: var(--shu-vermilion);
+  color: #FFFFFF;
+  border-color: #8A1E0E;
+}
+
+.scroll-time {
+  font-size: 9px;
+  color: var(--sumi-muted);
+  text-align: right;
+  margin-top: 4px;
+}
+
+.scroll-bubble.user .scroll-time {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.ink-input-bar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  background: #FFFFFF;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1.5px solid var(--washi-border);
+}
+
+.ink-input-bar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-family: var(--font-jp);
+  font-size: 12px;
+  color: var(--sumi-ink);
+}
+
+.brush-mic-btn, .seal-send-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.brush-mic-btn {
+  background: #F0EBE1;
+  color: var(--sumi-ink);
+}
+
+.seal-send-btn {
+  background: var(--shu-vermilion);
+  color: #FFFFFF;
+  font-family: var(--font-mincho);
+  font-weight: 800;
+  font-size: 14px;
+}
+
+/* ==========================================================================
+   Stationery Bottom Navigation Bar
+   ========================================================================== */
+.stationery-bottom-nav {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 62px;
+  background: rgba(250, 247, 240, 0.96);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--washi-border);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 50;
+  padding-bottom: 4px;
+}
+
+.nav-tab {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  color: #A8A29E;
+  transition: all 0.2s ease;
+}
+
+.nav-tab-kanji {
+  font-family: var(--font-mincho);
+  font-size: 15px;
+  font-weight: 800;
+  transition: transform 0.2s ease;
+}
+
+.nav-tab-label {
+  font-size: 9.5px;
+  font-family: var(--font-main);
+  font-weight: 600;
+}
+
+.nav-tab.active {
+  color: var(--shu-vermilion);
+}
+
+.nav-tab.active .nav-tab-kanji {
+  transform: translateY(-2px);
+}

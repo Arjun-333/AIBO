@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AIBO (相棒) — Japanese Stationery & Tactile Craft Edition</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&family=Outfit:wght@500;600;700;800&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="stationery-theme">
@@ -59,6 +59,25 @@
     <symbol id="icon-stamp" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
       <path d="M5 22h14" /><path d="M19.27 13.73A2.5 2.5 0 0 0 17.5 13h-11a2.5 2.5 0 0 0-1.77.73l-1.46 1.47A1.5 1.5 0 0 0 4.33 17H19.67a1.5 1.5 0 0 0 1.06-1.8l-1.46-1.47Z" /><path d="M12 13V2" />
     </symbol>
+    <symbol id="icon-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    </symbol>
+    <symbol id="icon-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" />
+      <rect x="14" y="14" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" />
+    </symbol>
+    <symbol id="icon-yen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 3l6 9 6-9" /><path d="M12 12v9" /><path d="M8 15h8" /><path d="M8 18h8" />
+    </symbol>
+    <symbol id="icon-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
+    </symbol>
+    <symbol id="icon-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+    </symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12" />
+    </symbol>
     <symbol id="icon-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
       <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" />
     </symbol>
@@ -107,52 +126,41 @@
         <!-- Floating Notification Toast -->
         <div id="toast-container" class="toast-container"></div>
 
-        <!-- Phone Status Bar -->
+        <!-- Phone Simulator Header Bar (Clean, non-competing) -->
         <div class="status-bar">
-          <span class="status-time" id="status-clock">01:02</span>
-          <div class="status-icons">
-            <span class="network-badge">5G</span>
-            <span class="battery-text">98%</span>
-          </div>
+          <span class="status-time" id="status-clock">13:20</span>
+          <span class="status-os-note">Tokyo Local Time (JST)</span>
         </div>
 
         <!-- Scrollable Screens Container -->
         <div class="screens-container">
 
           <!-- ==========================================
-               SCREEN 1: HOME (Dashboard)
+               SCREEN 1: HOME (Action & Priority Dashboard)
                ========================================== -->
           <section id="screen-home" class="screen active">
-            <!-- User Greeting Topbar -->
+            <!-- User Greeting & Environmental Status (Configurable) -->
             <div class="user-greeting-row">
-              <div>
-                <span class="greeting-subtitle">おかえりなさい (Welcome back)</span>
-                <h2 class="greeting-heading">Arjun-san <span class="wave-hand">👋</span></h2>
+              <div class="greeting-clickable-group" onclick="openProfileModal()" title="Click to customize name, greeting style, or location">
+                <span class="greeting-subtitle" id="greeting-city-weather">Shibuya, Tokyo • 18°C ☀️ • Oct 26</span>
+                <h2 class="greeting-heading">
+                  <span id="greeting-name-display">Arjun-san</span>
+                  <span class="edit-pill-badge">✎ Edit Profile</span>
+                </h2>
               </div>
-              <div class="offline-status-badge">
+              <button class="offline-status-badge" onclick="openOfflineModal()" title="View what is available offline vs online">
                 <div class="torii-badge-icon">
-                  <svg width="15" height="15" stroke="var(--shu-vermilion)"><use href="#icon-torii" /></svg>
+                  <svg width="14" height="14" stroke="var(--shu-vermilion)"><use href="#icon-torii" /></svg>
                 </div>
-                <span class="offline-pill-text"><span class="green-dot"></span> 100% Offline</span>
-              </div>
+                <span class="offline-pill-text"><span class="green-dot"></span> Offline-Ready ⓘ</span>
+              </button>
             </div>
 
-            <!-- Muchi Neko Artisan Companion Card -->
-            <div class="muchi-companion-card" id="cat-card">
-              <!-- Scene: Night sky, red lantern, yellow moon, speech bubble, muchi neko sitting on roof -->
-              <div class="cat-scene-wrapper" onclick="triggerMuchiJump()">
-                <div class="scene-lantern">
-                  <svg width="22" height="22" stroke="var(--shu-vermilion)"><use href="#icon-lantern" /></svg>
-                </div>
-                <div class="scene-moon"></div>
-
-                <!-- Speech Bubble -->
-                <div class="cat-quote-bubble" id="cat-bubble">
-                  <span id="cat-quote">Purrr... 6.8 kg of pure Tokyo fluff! ✨</span>
-                </div>
-
-                <!-- Muchi Neko Mascot -->
-                <div class="muchi-cat-figure" id="muchi-cat" title="Tap Muchi Neko to interact!">
+            <!-- REFINED MUCHI NEKO COMPANION (Balanced, Non-blocking, 1-Line Dynamic States) -->
+            <div class="companion-banner" id="companion-banner">
+              <div class="companion-visual-col" onclick="triggerMuchiJump()" title="Tap Muchi Neko to interact!">
+                <!-- Compact Mascot Figure -->
+                <div class="companion-cat-figure" id="muchi-cat">
                   <div class="cat-ears-wrap">
                     <div class="m-ear left"></div>
                     <div class="m-ear right"></div>
@@ -172,97 +180,211 @@
                     </div>
                   </div>
                 </div>
-
-                <!-- Rooftop Tiles -->
-                <div class="scene-kawara-roof"></div>
+                <!-- Kawara Rooftop Base -->
+                <div class="companion-roof-base"></div>
               </div>
 
-              <!-- Card Body -->
-              <div class="muchi-card-body">
-                <div class="muchi-title-row">
-                  <strong class="muchi-name">むちねこ (Muchi Neko)</strong>
-                  <span class="muchi-role">Tokyo Rooftop Guardian</span>
+              <div class="companion-content-col">
+                <div class="companion-header-meta">
+                  <strong class="companion-cat-name">むちねこ (Muchi Neko)</strong>
+                  <!-- Functional Routine Metric instead of fictional weight -->
+                  <span class="companion-squish-tag" id="routine-status-tag">Routine: 2/3 Done (67%)</span>
+                  <span class="mascot-lore-tag">Mascot</span>
+                  <button class="companion-toggle-btn" id="companion-toggle-btn" onclick="toggleMuchiCompact()" title="Toggle compact view">
+                    <span id="compact-toggle-text">— Compact</span>
+                  </button>
                 </div>
 
-                <div class="gauge-info-row">
-                  <span class="gauge-title">Mochi Roundness Gauge</span>
-                  <strong class="gauge-metric" id="weight-display">6.8 kg • むちむち (Super Squishy)</strong>
+                <!-- Speech Bubble (Short, 1-Line, Non-dominating) -->
+                <div class="companion-speech-bubble" id="cat-bubble">
+                  <span id="cat-quote">"Evening Magnesium dose scheduled at 8:30 PM."</span>
                 </div>
 
-                <div class="gauge-progress-track">
-                  <div class="gauge-progress-fill" style="width: 86%;"></div>
-                </div>
-
-                <button class="muchi-purr-btn" id="muchi-pet-btn" onclick="triggerMuchiJump()">
-                  <span>✨ Tap Muchi Neko to hear him purr and jump!</span>
-                </button>
-              </div>
-            </div>
-
-            <!-- Today in Tokyo Card -->
-            <div class="today-overview-card">
-              <div class="today-header-row">
-                <div class="today-title">
-                  <span class="clipboard-icon">📋</span>
-                  <span>Today in Tokyo • 本日の予定</span>
-                </div>
-                <span class="today-tag-chip">Today</span>
-              </div>
-              <div class="today-metrics-grid">
-                <div class="metric-pill-item" onclick="switchTab('screen-medication')">
-                  <strong class="metric-big-val" id="pill-summary-count">1 Pending</strong>
-                  <span class="metric-sub-label">💊 Tablet Dose</span>
-                </div>
-                <div class="metric-pill-item" onclick="switchTab('screen-transit')">
-                  <strong class="metric-big-val">Yamanote</strong>
-                  <span class="metric-sub-label">🚇 Transit Loop</span>
-                </div>
-                <div class="metric-pill-item">
-                  <strong class="metric-big-val">¥3,250</strong>
-                  <span class="metric-sub-label">💴 Daily Spent</span>
+                <!-- State Controller Pills -->
+                <div class="companion-state-chips" role="group" aria-label="Mascot dynamic states">
+                  <button class="state-chip active" id="chip-greeting" onclick="setMuchiState('greeting')">Greeting</button>
+                  <button class="state-chip" id="chip-idle" onclick="setMuchiState('idle')">Tokyo Life</button>
+                  <button class="state-chip" id="chip-celebrate" onclick="setMuchiState('celebrate')">Goal Done</button>
+                  <button class="state-chip" id="chip-rest" onclick="setMuchiState('rest')">Resting</button>
                 </div>
               </div>
             </div>
 
-            <!-- Essential Japan Toolbelt (2x2 Grid) -->
-            <div class="toolbelt-section">
-              <h3 class="toolbelt-heading">Essential Japan Toolbelt • 便利ツール</h3>
-              <div class="toolbelt-grid">
-                <!-- Tablet Reminder -->
-                <div class="toolbelt-card" onclick="switchTab('screen-medication')">
-                  <div class="tool-icon-box pill-box">💊</div>
-                  <div class="tool-text-content">
-                    <strong class="tool-title">Tablet Reminder</strong>
-                    <span class="tool-desc">Dose alerts & OTC Guide</span>
-                  </div>
-                </div>
+            <!-- PRIORITY ACTION CENTER (Upcoming Tasks, Overdue, Spending, Next Route) -->
+            <div class="section-lead-row">
+              <h3 class="clean-section-title">Priority Actions & Today's Schedule</h3>
+              <span class="live-context-chip" id="local-date-chip">Today • Oct 26</span>
+            </div>
 
-                <!-- Tokyo Transit -->
-                <div class="toolbelt-card" onclick="switchTab('screen-transit')">
-                  <div class="tool-icon-box transit-box">🚇</div>
-                  <div class="tool-text-content">
-                    <strong class="tool-title">Tokyo Transit</strong>
-                    <span class="tool-desc">Yamanote & Exit Guide</span>
+            <div class="priority-action-stack">
+              <!-- Action Card 1: Next Medication Due (Immediate Action with Disclaimers) -->
+              <div class="priority-card med-card" id="home-med-card">
+                <div class="priority-card-indicator matcha"></div>
+                <div class="priority-card-main">
+                  <div class="priority-meta-row">
+                    <span class="priority-tag green">💊 Scheduled Dose Reminder</span>
+                    <span class="priority-time" id="home-med-time">Scheduled 08:30 PM</span>
+                  </div>
+                  <strong class="priority-card-title" id="home-med-title">Magnesium & Zinc (250mg)</strong>
+                  <p class="priority-card-desc" id="home-med-desc">1 tablet after dinner with water. Logged in your on-device Yakutai packet.</p>
+                  <div class="card-action-bar">
+                    <span class="medical-disclaimer-note">※ Personal reminder log only. Consult a doctor for medical guidance.</span>
+                    <button class="text-link-action" onclick="switchTab('screen-medication')">View Yakutai ➔</button>
                   </div>
                 </div>
+                <div class="priority-card-action">
+                  <button class="quick-stamp-btn" id="home-quick-stamp-btn" onclick="quickStampMedication()" title="Log dose as taken">
+                    <svg width="15" height="15" stroke="currentColor"><use href="#icon-stamp" /></svg>
+                    <span id="home-stamp-label">Log Taken (済)</span>
+                  </button>
+                </div>
+              </div>
 
-                <!-- Radar Compass -->
-                <div class="toolbelt-card" onclick="switchTab('screen-map')">
-                  <div class="tool-icon-box radar-box">🧭</div>
-                  <div class="tool-text-content">
-                    <strong class="tool-title">Radar Compass</strong>
-                    <span class="tool-desc">Drugstore & Clinic Locator</span>
+              <!-- Action Card 2: Today's Daily Yen & Spending -->
+              <div class="priority-card finance-card">
+                <div class="priority-card-indicator amber"></div>
+                <div class="priority-card-main">
+                  <div class="priority-meta-row">
+                    <span class="priority-tag gold">💴 Spending Today</span>
+                    <span class="priority-time">Remaining: ¥4,750</span>
+                  </div>
+                  <div class="finance-amount-row">
+                    <strong class="finance-spent-num" id="home-spent-display">¥3,250</strong>
+                    <span class="finance-total-cap">spent today of ¥8,000 daily budget</span>
+                  </div>
+                  <!-- Clean Visual Budget Bar -->
+                  <div class="finance-bar-track">
+                    <div class="finance-bar-fill" id="home-budget-bar" style="width: 40.6%;"></div>
+                  </div>
+                  <div class="finance-footer-row">
+                    <div class="finance-category-pills">
+                      <span class="f-pill">🍜 Meals ¥1,800</span>
+                      <span class="f-pill">🚇 Metro ¥450</span>
+                      <span class="f-pill">☕ Coffee ¥1,000</span>
+                    </div>
+                    <div class="finance-button-group">
+                      <button class="f-action-btn" onclick="openExpenseModal()">+ Add Expense</button>
+                      <button class="f-action-link" onclick="switchTab('screen-tools')">Full Budget ➔</button>
+                    </div>
                   </div>
                 </div>
+              </div>
 
-                <!-- AI Chat -->
-                <div class="toolbelt-card" onclick="switchTab('screen-chat')">
-                  <div class="tool-icon-box chat-box">💬</div>
-                  <div class="tool-text-content">
-                    <strong class="tool-title">AI Chat</strong>
-                    <span class="tool-desc">Offline-first Assistant</span>
+              <!-- Action Card 3: Saved Commute & Transit Alert -->
+              <div class="priority-card transit-card" onclick="switchTab('screen-transit')">
+                <div class="priority-card-indicator indigo"></div>
+                <div class="priority-card-main">
+                  <div class="priority-meta-row">
+                    <span class="priority-tag indigo">🚇 Saved Route • JR Yamanote Line</span>
+                    <span class="priority-time cached-badge">Offline Schedule (Cached 08:00 AM)</span>
                   </div>
+                  <div class="transit-route-row">
+                    <strong>Shibuya (渋谷)</strong>
+                    <span class="route-arrow">➔➔</span>
+                    <strong>Shinjuku (新宿)</strong>
+                  </div>
+                  <p class="priority-card-desc">Scheduled loop departure every 3-4 mins from Platform 2 (7 min journey).</p>
+                  <span class="transit-disclaimer-note">※ Standard schedule shown. Real-time delay alerts require an active network.</span>
                 </div>
+              </div>
+            </div>
+
+            <!-- DAILY FOCUS CHECKLIST -->
+            <div class="section-lead-row">
+              <h3 class="clean-section-title">Today's Focus & Reminders</h3>
+              <span class="task-progress-badge" id="task-progress-badge">1 of 3 Done</span>
+            </div>
+
+            <div class="daily-checklist-card">
+              <div class="task-item-row" onclick="toggleTask('task-1')">
+                <div class="task-checkbox" id="task-1-box">
+                  <svg class="check-icon" width="12" height="12"><use href="#icon-check" /></svg>
+                </div>
+                <div class="task-info">
+                  <strong class="task-title" id="task-1-title">Submit Residence Tax confirmation at Shibuya Ward Office</strong>
+                  <span class="task-sub">City Hall counter closes at 17:00 • Bring My Number Card</span>
+                </div>
+              </div>
+
+              <div class="task-item-row done" onclick="toggleTask('task-2')">
+                <div class="task-checkbox checked" id="task-2-box">
+                  <svg class="check-icon" width="12" height="12"><use href="#icon-check" /></svg>
+                </div>
+                <div class="task-info">
+                  <strong class="task-title completed" id="task-2-title">Morning Vitamin D3 dose (朝 08:00 AM)</strong>
+                  <span class="task-sub">Completed with breakfast • Hanko stamped</span>
+                </div>
+              </div>
+
+              <div class="task-item-row" onclick="toggleTask('task-3')">
+                <div class="task-checkbox" id="task-3-box">
+                  <svg class="check-icon" width="12" height="12"><use href="#icon-check" /></svg>
+                </div>
+                <div class="task-info">
+                  <strong class="task-title" id="task-3-title">7-Eleven foreign ATM cash withdrawal</strong>
+                  <span class="task-sub">Fee-free with international debit cards • 200m away</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- AIBO SERVICES HUB (Categorized by Purpose with Uniform 32px Icons) -->
+            <div class="section-lead-row">
+              <h3 class="clean-section-title">AIBO Suite Services (便利帳)</h3>
+              <span class="hub-count-tag">Grouped by Purpose</span>
+            </div>
+
+            <div class="service-hub-grid">
+              <!-- Health & Daily -->
+              <div class="service-hub-card" onclick="switchTab('screen-medication')">
+                <div class="hub-icon-pill med">💊</div>
+                <strong>Prescriptions & OTC</strong>
+                <span>Yakutai dose log & drugstores</span>
+              </div>
+
+              <!-- Transit & Navigation -->
+              <div class="service-hub-card" onclick="switchTab('screen-transit')">
+                <div class="hub-icon-pill transit">🚇</div>
+                <strong>Yamanote & Exits</strong>
+                <span>Loop schedule & exit placards</span>
+              </div>
+
+              <!-- Finances & Legal -->
+              <div class="service-hub-card" onclick="switchTab('screen-tools')">
+                <div class="hub-icon-pill budget">💴</div>
+                <strong>Yen Budget & ATM</strong>
+                <span>Daily spending & ATM guide</span>
+              </div>
+
+              <div class="service-hub-card" onclick="switchTab('screen-tools')">
+                <div class="hub-icon-pill vault">📁</div>
+                <strong>Document Vault</strong>
+                <span>Encrypted My Number & cards</span>
+              </div>
+
+              <!-- Safety & Language -->
+              <div class="service-hub-card" onclick="switchTab('screen-tools')">
+                <div class="hub-icon-pill sos">🚨</div>
+                <strong>Emergency SOS</strong>
+                <span>110 / 119 & Medical ICE card</span>
+              </div>
+
+              <div class="service-hub-card" onclick="switchTab('screen-tools')">
+                <div class="hub-icon-pill lang">🗣️</div>
+                <strong>Daily Phrasebook</strong>
+                <span>Essential survival Japanese</span>
+              </div>
+
+              <!-- Hardware Tools -->
+              <div class="service-hub-card" onclick="switchTab('screen-map')">
+                <div class="hub-icon-pill radar">🧭</div>
+                <strong>Radar Compass</strong>
+                <span>Hardware compass & landmarks</span>
+              </div>
+
+              <div class="service-hub-card" onclick="switchTab('screen-chat')">
+                <div class="hub-icon-pill chat">💬</div>
+                <strong>AI Consultation</strong>
+                <span>On-device Japanese assistant</span>
               </div>
             </div>
           </section>
@@ -725,9 +847,174 @@
             </div>
           </section>
 
+          <!-- ==========================================
+               SCREEN 6: TOOLS & SOS (Comprehensive Service Suite)
+               ========================================== -->
+          <section id="screen-tools" class="screen">
+            <div class="stationery-topbar">
+              <div>
+                <span class="seal-script-label">Comprehensive Offline Hub</span>
+                <h2 class="greeting-main">Tools, Finances & SOS</h2>
+              </div>
+              <div class="hanko-seal mini emergency">
+                <span>便利</span>
+              </div>
+            </div>
+
+            <!-- EMERGENCY & RESCUE SECTION (110 / 119 & ICE) -->
+            <div class="emergency-banner-box">
+              <div class="emergency-header-row">
+                <div class="emergency-badge-title">
+                  <svg width="16" height="16" stroke="currentColor"><use href="#icon-alert" /></svg>
+                  <strong>Emergency SOS Contacts (緊急通報)</strong>
+                </div>
+                <span class="ice-pill">ICE Medical</span>
+              </div>
+
+              <div class="emergency-actions-row">
+                <button class="emergency-call-btn red" onclick="triggerEmergencyCall('110')">
+                  <span class="call-num">110</span>
+                  <span class="call-desc">Police (警察) • Crime / Accident</span>
+                </button>
+                <button class="emergency-call-btn orange" onclick="triggerEmergencyCall('119')">
+                  <span class="call-num">119</span>
+                  <span class="call-desc">Ambulance / Fire (救急・消防)</span>
+                </button>
+              </div>
+
+              <div class="ice-medical-card">
+                <div class="ice-row">
+                  <span class="ice-label">Primary Holder</span>
+                  <strong class="ice-val">Arjun-san (Shibuya-ku, Tokyo)</strong>
+                </div>
+                <div class="ice-row">
+                  <span class="ice-label">Blood Type & Allergies</span>
+                  <strong class="ice-val">Type O+ • No Penicillin Allergies</strong>
+                </div>
+                <div class="ice-row">
+                  <span class="ice-label">Emergency Script</span>
+                  <span class="ice-val jp-text">「助けてください。英語の話せる人はいますか？」 (Tasukete kudasai. Eigo no hanaseru hito wa imasu ka?)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- FINANCES & DAILY YEN SECTION -->
+            <h3 class="stationery-section-title">
+              <span>Daily Yen & Expense Tracker</span>
+              <span class="jp-sub">家計簿</span>
+            </h3>
+            <div class="stationery-card finance-tool-card">
+              <div class="finance-tool-header">
+                <div>
+                  <span class="f-tool-label">Today's Remaining Budget</span>
+                  <strong class="f-tool-val">¥4,750 <span class="f-tool-sub">left of ¥8,000</span></strong>
+                </div>
+                <button class="tool-action-pill-btn" onclick="openExpensePrompt()">
+                  <span>+ Add Expense</span>
+                </button>
+              </div>
+              <div class="finance-bar-track large">
+                <div class="finance-bar-fill" style="width: 40.6%;"></div>
+              </div>
+              <div class="atm-guide-banner">
+                <span class="atm-icon">🏧</span>
+                <div class="atm-info">
+                  <strong>Fee-Free Foreign Card ATMs:</strong>
+                  <span>7-Eleven (Seven Bank) & Japan Post Bank accept foreign Visa/Mastercard without conversion surcharges.</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- DOCUMENT VAULT (SECURE OFFLINE STORAGE) -->
+            <h3 class="stationery-section-title">
+              <span>Document Vault & Verification</span>
+              <span class="jp-sub">書類金庫</span>
+            </h3>
+            <div class="stationery-card vault-tool-card">
+              <div class="vault-status-pill">
+                <span class="vault-lock-icon">🔒</span>
+                <span>AES-256 Encrypted on Device • 0 KB Leaves Your Phone</span>
+              </div>
+              <div class="vault-items-list">
+                <div class="vault-item">
+                  <div class="vault-doc-badge">🪪</div>
+                  <div class="vault-doc-info">
+                    <strong>Residence Card (在留カード)</strong>
+                    <span>Verified • Valid until Nov 2028 • Period of Stay: Highly Skilled</span>
+                  </div>
+                  <span class="vault-state-tag green">Stored ✓</span>
+                </div>
+                <div class="vault-item">
+                  <div class="vault-doc-badge">📑</div>
+                  <div class="vault-doc-info">
+                    <strong>My Number Card (マイナンバー)</strong>
+                    <span>Encrypted PIN & scan verified</span>
+                  </div>
+                  <span class="vault-state-tag green">Stored ✓</span>
+                </div>
+                <div class="vault-item">
+                  <div class="vault-doc-badge">🏥</div>
+                  <div class="vault-doc-info">
+                    <strong>National Health Insurance (国民健康保険)</strong>
+                    <span>70% Medical Coverage in Tokyo</span>
+                  </div>
+                  <span class="vault-state-tag green">Stored ✓</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- DAILY JAPANESE PHRASEBOOK -->
+            <h3 class="stationery-section-title">
+              <span>Essential Tokyo Daily Phrases</span>
+              <span class="jp-sub">日常会話</span>
+            </h3>
+            <div class="phrasebook-list">
+              <div class="phrase-card">
+                <div class="phrase-header">
+                  <span class="phrase-tag">Shopping & Dining</span>
+                  <span class="phrase-romaji">Kore wa ikura desu ka?</span>
+                </div>
+                <strong class="phrase-jp">これはい polarization / これはおいくらですか？</strong>
+                <span class="phrase-en">"How much is this?"</span>
+              </div>
+              <div class="phrase-card">
+                <div class="phrase-header">
+                  <span class="phrase-tag">Assistance</span>
+                  <span class="phrase-romaji">Eigo no dekiru kata wa imasu ka?</span>
+                </div>
+                <strong class="phrase-jp">英語のできる方はいますか？</strong>
+                <span class="phrase-en">"Does anyone speak English?"</span>
+              </div>
+              <div class="phrase-card">
+                <div class="phrase-header">
+                  <span class="phrase-tag">Restaurant</span>
+                  <span class="phrase-romaji">Kaikei o onegaishimasu</span>
+                </div>
+                <strong class="phrase-jp">お会計をお願いします。</strong>
+                <span class="phrase-en">"Could I have the check, please?"</span>
+              </div>
+            </div>
+
+            <!-- RADAR COMPASS SHORTCUT -->
+            <h3 class="stationery-section-title">
+              <span>Offline Radar Navigation</span>
+              <span class="jp-sub">コンパス</span>
+            </h3>
+            <div class="stationery-card radar-shortcut-card" onclick="switchTab('screen-map')">
+              <div class="radar-short-content">
+                <strong>Tokyo Radar Compass & Landmarks</strong>
+                <span>100% offline compass, GPS precision, and verified pharmacies</span>
+              </div>
+              <button class="open-radar-btn">
+                <svg width="14" height="14" stroke="currentColor"><use href="#icon-compass" /></svg>
+                <span>Open Radar</span>
+              </button>
+            </div>
+          </section>
+
         </div>
 
-        <!-- Bottom Navigation Bar -->
+        <!-- Bottom Navigation Bar (5 Core Accessible Tabs) -->
         <nav class="stationery-bottom-nav">
           <button class="nav-tab active" onclick="switchTab('screen-home')" data-tab="screen-home">
             <svg class="nav-icon" width="20" height="20"><use href="#icon-home" /></svg>
@@ -741,15 +1028,152 @@
             <svg class="nav-icon" width="20" height="20"><use href="#icon-train" /></svg>
             <span class="nav-tab-label">Transit</span>
           </button>
-          <button class="nav-tab" onclick="switchTab('screen-map')" data-tab="screen-map">
-            <svg class="nav-icon" width="20" height="20"><use href="#icon-compass" /></svg>
-            <span class="nav-tab-label">Radar</span>
-          </button>
           <button class="nav-tab" onclick="switchTab('screen-chat')" data-tab="screen-chat">
             <svg class="nav-icon" width="20" height="20"><use href="#icon-chat" /></svg>
-            <span class="nav-tab-label">AI Chat</span>
+            <span class="nav-tab-label">Assistant</span>
+          </button>
+          <button class="nav-tab" onclick="switchTab('screen-tools')" data-tab="screen-tools">
+            <svg class="nav-icon" width="20" height="20"><use href="#icon-grid" /></svg>
+            <span class="nav-tab-label">Tools & SOS</span>
           </button>
         </nav>
+
+        <!-- ==========================================
+             OFFLINE CAPABILITY TRANSPARENCY MODAL
+             ========================================== -->
+        <div class="app-modal-backdrop" id="offline-modal">
+          <div class="app-modal-sheet">
+            <div class="modal-header-row">
+              <div class="modal-title-wrap">
+                <span class="modal-sub-label">Offline Capability Transparency</span>
+                <h3 class="modal-main-title">What Works 100% Offline?</h3>
+              </div>
+              <button class="modal-close-btn" onclick="closeModal('offline-modal')">✕</button>
+            </div>
+            <div class="modal-body-content">
+              <p class="modal-explainer-text">AIBO is built on a strict privacy-first model. Here is the honest breakdown of our offline capabilities vs online services:</p>
+
+              <div class="transparency-item green-box">
+                <div class="t-badge green">🟢 100% On-Device (Zero Bytes Sent)</div>
+                <strong>Document Vault, Medication Reminders & Daily Budget</strong>
+                <span>Your Residence Card, My Number Card, Dose schedule, and yen logs are stored in AES-256 local encrypted SQLite storage on your phone. Nothing is uploaded to cloud servers.</span>
+              </div>
+
+              <div class="transparency-item amber-box">
+                <div class="t-badge amber">🟡 Offline-Cached Static Schedules</div>
+                <strong>Yamanote Loop Timetables & Station Exits</strong>
+                <span>All station stops, exit placards, and standard loop schedules are cached locally on device (Last updated: Today 08:00 AM).</span>
+              </div>
+
+              <div class="transparency-item red-box">
+                <div class="t-badge red">🔴 Requires Active Internet Connection</div>
+                <strong>Live Delay Alerts & Real-Time Sync</strong>
+                <span>Live delay notifications, platform emergency track updates, and cloud-assisted translation fallback require cellular or Wi-Fi data.</span>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="modal-primary-btn" onclick="closeModal('offline-modal')">Understood (了解)</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             PROFILE & GREETING CUSTOMIZER MODAL
+             ========================================== -->
+        <div class="app-modal-backdrop" id="profile-modal">
+          <div class="app-modal-sheet">
+            <div class="modal-header-row">
+              <div class="modal-title-wrap">
+                <span class="modal-sub-label">Profile Preferences</span>
+                <h3 class="modal-main-title">Configure Greeting & City</h3>
+              </div>
+              <button class="modal-close-btn" onclick="closeModal('profile-modal')">✕</button>
+            </div>
+            <div class="modal-body-content">
+              <div class="config-field">
+                <label class="config-label">Display Name</label>
+                <input type="text" id="cfg-name-input" class="config-input" value="Arjun" placeholder="Your name..." />
+              </div>
+
+              <div class="config-field">
+                <label class="config-label">Honorific / Title</label>
+                <select id="cfg-honorific-select" class="config-select">
+                  <option value="-san" selected>-san (さん) • Polite Standard</option>
+                  <option value="-kun">-kun (くん) • Friendly / Casual</option>
+                  <option value="-sama">-sama (様) • Formal Honorific</option>
+                  <option value="">None • First Name Only</option>
+                </select>
+              </div>
+
+              <div class="config-field">
+                <label class="config-label">Greeting Language Style</label>
+                <select id="cfg-style-select" class="config-select">
+                  <option value="bilingual" selected>Bilingual (おかえりなさい / Welcome back)</option>
+                  <option value="english">English Only (Welcome back)</option>
+                  <option value="japanese">Japanese Only (お帰りなさい)</option>
+                  <option value="casual">Casual (Yaa / やあ)</option>
+                </select>
+              </div>
+
+              <div class="config-field">
+                <label class="config-label">Configured City & Ward</label>
+                <select id="cfg-city-select" class="config-select">
+                  <option value="Shibuya, Tokyo" selected>Shibuya, Tokyo (渋谷区)</option>
+                  <option value="Shinjuku, Tokyo">Shinjuku, Tokyo (新宿区)</option>
+                  <option value="Minato, Tokyo">Minato, Tokyo (港区)</option>
+                  <option value="Chuo, Osaka">Chuo-ku, Osaka (大阪市中央区)</option>
+                  <option value="Kyoto">Nakagyo-ku, Kyoto (京都市)</option>
+                  <option value="Yokohama">Nishi-ku, Yokohama (横浜市)</option>
+                </select>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="modal-secondary-btn" onclick="closeModal('profile-modal')">Cancel</button>
+              <button class="modal-primary-btn" onclick="saveProfilePreferences()">Save & Update Greeting</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             QUICK EXPENSE MODAL
+             ========================================== -->
+        <div class="app-modal-backdrop" id="expense-modal">
+          <div class="app-modal-sheet">
+            <div class="modal-header-row">
+              <div class="modal-title-wrap">
+                <span class="modal-sub-label">Daily Yen Expense</span>
+                <h3 class="modal-main-title">Log Today's Spending</h3>
+              </div>
+              <button class="modal-close-btn" onclick="closeModal('expense-modal')">✕</button>
+            </div>
+            <div class="modal-body-content">
+              <div class="config-field">
+                <label class="config-label">Amount (¥ Yen)</label>
+                <input type="number" id="exp-amount-input" class="config-input large-num" placeholder="e.g. 850" min="10" step="10" />
+              </div>
+
+              <div class="config-field">
+                <label class="config-label">Category</label>
+                <select id="exp-category-select" class="config-select">
+                  <option value="🍜 Meals">🍜 Meals & Dining</option>
+                  <option value="🚇 Metro">🚇 Transit & Suica Top-up</option>
+                  <option value="☕ Coffee">☕ Coffee & Snacks</option>
+                  <option value="🛒 Groceries">🛒 Konbini & Supermarket</option>
+                  <option value="💊 Pharmacy">💊 Medicine & Drugstore</option>
+                </select>
+              </div>
+
+              <div class="config-field">
+                <label class="config-label">Note / Location (Optional)</label>
+                <input type="text" id="exp-note-input" class="config-input" placeholder="e.g. Lawson Shibuya" />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="modal-secondary-btn" onclick="closeModal('expense-modal')">Cancel</button>
+              <button class="modal-primary-btn" onclick="submitNewExpense()">Add to Today's Spending</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </main>

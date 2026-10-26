@@ -161,26 +161,53 @@ function switchTab(screenId) {
 }
 
 // ==========================================================================
-// Muchi Neko Interactive Mascot
+// Muchi Neko Interactive Mascot (Compact & Purposeful States)
 // ==========================================================================
-const muchiQuotes = [
-  '"Nya~ Gambatte kudasai! (Have a great day in Tokyo!)"',
-  '"Mochi-mochi! Don\'t forget your evening tablet! (お薬)"',
-  '"The JR Yamanote Line is running on time today~"',
-  '"Purrr... 6.8 kg of pure Shibuya rooftop fluff!"',
-  '"Daikichi (大吉)! Great blessing awaits you today!"',
-  '"Tip: Remember to keep your phone on Manner Mode on the subway!"'
-];
+const muchiStateQuotes = {
+  greeting: '"Okaeri, Arjun-san! Evening Magnesium dose scheduled at 8:30 PM."',
+  idle: '"Shibuya weather is 18°C. Yamanote line running on standard schedule."',
+  celebrate: '"Evening dose logged with Hanko seal! Great job keeping on track! ✨"',
+  rest: '"Curled up for a peaceful nap on the roof tiles... Zzz 🌙"'
+};
+
+let currentMuchiState = 'greeting';
+
+function setMuchiState(state) {
+  audio.playWoodClick();
+  currentMuchiState = state;
+  const catQuote = document.getElementById('cat-quote');
+  if (catQuote && muchiStateQuotes[state]) {
+    catQuote.textContent = muchiStateQuotes[state];
+  }
+  document.querySelectorAll('.state-chip').forEach(c => c.classList.remove('active'));
+  const activeChip = document.getElementById(`chip-${state}`);
+  if (activeChip) activeChip.classList.add('active');
+
+  const cat = document.getElementById('muchi-cat');
+  if (cat) {
+    cat.classList.add('jump');
+    setTimeout(() => cat.classList.remove('jump'), 280);
+  }
+}
+window.setMuchiState = setMuchiState;
+
+function toggleMuchiCompact() {
+  audio.playWoodClick();
+  const banner = document.getElementById('companion-banner');
+  const toggleText = document.getElementById('compact-toggle-text');
+  if (banner) {
+    const isCompact = banner.classList.toggle('compact-mode');
+    if (toggleText) {
+      toggleText.textContent = isCompact ? '+ Expand' : '— Compact';
+    }
+  }
+}
+window.toggleMuchiCompact = toggleMuchiCompact;
 
 function triggerMuchiJump() {
   audio.playCatPurr();
   const cat = document.getElementById('muchi-cat');
-  const catQuote = document.getElementById('cat-quote');
   if (cat) cat.classList.add('jump');
-  if (catQuote) {
-    const q = muchiQuotes[Math.floor(Math.random() * muchiQuotes.length)];
-    catQuote.textContent = q;
-  }
   setTimeout(() => {
     if (cat) cat.classList.remove('jump');
   }, 280);
@@ -188,52 +215,238 @@ function triggerMuchiJump() {
 window.triggerMuchiJump = triggerMuchiJump;
 
 function initMuchiCat() {
-  // The scene wrapper owns the interaction so a tap on the cat is not fired twice.
+  // Rotate idle hints gently every 12 seconds if not resting
+  setInterval(() => {
+    if (currentMuchiState === 'idle') {
+      const hints = [
+        '"Shibuya weather is 18°C. Yamanote line running on standard schedule."',
+        '"Remember to keep your phone on Manner Mode inside train cars."',
+        '"7-Bank ATMs near Shibuya Station support international debit cards."'
+      ];
+      const q = hints[Math.floor(Math.random() * hints.length)];
+      const catQuote = document.getElementById('cat-quote');
+      if (catQuote) catQuote.textContent = q;
+    }
+  }, 12000);
 }
 
 // ==========================================================================
-// Interactive Yakutai (薬袋) Medicine Envelope
+// Interactive Yakutai (薬袋) Medicine Envelope & Quick Stamp
 // ==========================================================================
-function initYakutaiMedication() {
+let isMedicationLogged = false;
+
+function quickStampMedication() {
+  if (isMedicationLogged) return;
+  audio.playStampThud();
+  isMedicationLogged = true;
+
+  // Update Home Card
+  const homeBtn = document.getElementById('home-quick-stamp-btn');
+  const homeLabel = document.getElementById('home-stamp-label');
+  const homeTime = document.getElementById('home-med-time');
+  const routineTag = document.getElementById('routine-status-tag');
+
+  if (homeBtn) {
+    homeBtn.disabled = true;
+    homeBtn.style.background = '#2E7D32';
+  }
+  if (homeLabel) homeLabel.textContent = 'Logged ✓ (済)';
+  if (homeTime) {
+    homeTime.textContent = 'Completed Just Now ✓';
+    homeTime.style.color = '#2E7D32';
+  }
+  if (routineTag) {
+    routineTag.textContent = 'Daily Routine: 3/3 Done (100%)';
+    routineTag.style.background = '#E8F5E9';
+    routineTag.style.color = '#2E7D32';
+  }
+
+  // Update Tablets Yakutai Screen
   const stampBtn = document.getElementById('stamp-pill-btn');
   const eveningSlot = document.getElementById('evening-slot');
   const eveningTarget = document.getElementById('evening-hanko-target');
-  const summaryCount = document.getElementById('pill-summary-count');
   const stampBtnLabel = document.getElementById('stamp-btn-label');
 
+  if (eveningTarget) {
+    eveningTarget.innerHTML = `<span class="hanko-stamp-text">✓ 済</span>`;
+  }
+  if (eveningSlot) {
+    eveningSlot.classList.remove('active-slot');
+    eveningSlot.classList.add('done');
+  }
+  if (stampBtnLabel) {
+    stampBtnLabel.textContent = 'Completed for Today (済)';
+  }
   if (stampBtn) {
-    stampBtn.addEventListener('click', () => {
-      audio.playStampThud();
+    stampBtn.disabled = true;
+    stampBtn.style.opacity = '0.7';
+  }
 
-      // Stamp the vermilion Hanko seal into the slot
-      if (eveningTarget) {
-        eveningTarget.innerHTML = `<span class="hanko-stamp-text">✓ 済</span>`;
-      }
-      if (eveningSlot) {
-        eveningSlot.classList.remove('active-slot');
-        eveningSlot.classList.add('done');
-      }
-      if (summaryCount) {
-        summaryCount.textContent = 'All Taken ✓';
-        summaryCount.classList.remove('highlight');
-        summaryCount.style.color = '#3D5A35'; // matcha green
-      }
-      if (stampBtnLabel) {
-        stampBtnLabel.textContent = 'Completed for Today (済)';
-      }
-      stampBtn.disabled = true;
-      stampBtn.style.opacity = '0.7';
-      stampBtn.style.cursor = 'default';
+  // Set mascot to celebratory state
+  setMuchiState('celebrate');
 
-      // Slide-down celebration toast
-      showJapaneseNotification(
-        'Dose Logged: Magnesium & Zinc',
-        '服用完了 (Fukuyou Kanryou) — Great job taking care of your health!',
-        'icon-pill'
-      );
-    });
+  // Slide-down celebration toast
+  showJapaneseNotification(
+    'Dose Logged: Magnesium & Zinc',
+    '服用完了 (Fukuyou Kanryou) — Personal log recorded on device',
+    'icon-pill'
+  );
+}
+window.quickStampMedication = quickStampMedication;
+
+function initYakutaiMedication() {
+  const stampBtn = document.getElementById('stamp-pill-btn');
+  if (stampBtn) {
+    stampBtn.addEventListener('click', quickStampMedication);
   }
 }
+
+// ==========================================================================
+// Daily Focus Tasks Interactivity
+// ==========================================================================
+function toggleTask(taskId) {
+  audio.playWoodClick();
+  const box = document.getElementById(`${taskId}-box`);
+  const title = document.getElementById(`${taskId}-title`);
+  const row = box ? box.closest('.task-item-row') : null;
+
+  if (box && title && row) {
+    const isDone = row.classList.toggle('done');
+    box.classList.toggle('checked', isDone);
+    title.classList.toggle('completed', isDone);
+    updateTaskProgress();
+  }
+}
+window.toggleTask = toggleTask;
+
+function updateTaskProgress() {
+  const total = document.querySelectorAll('.task-item-row').length;
+  const done = document.querySelectorAll('.task-item-row.done').length;
+  const badge = document.getElementById('task-progress-badge');
+  if (badge) {
+    badge.textContent = `${done} of ${total} Done`;
+  }
+}
+
+// ==========================================================================
+// Modal Controllers (Offline Truth, Profile Customizer, Expense Log)
+// ==========================================================================
+function openModal(modalId) {
+  audio.playWoodClick();
+  const m = document.getElementById(modalId);
+  if (m) m.classList.add('open');
+}
+window.openModal = openModal;
+
+function closeModal(modalId) {
+  audio.playWoodClick();
+  const m = document.getElementById(modalId);
+  if (m) m.classList.remove('open');
+}
+window.closeModal = closeModal;
+
+function openOfflineModal() {
+  openModal('offline-modal');
+}
+window.openOfflineModal = openOfflineModal;
+
+function openProfileModal() {
+  openModal('profile-modal');
+}
+window.openProfileModal = openProfileModal;
+
+function openExpenseModal() {
+  openModal('expense-modal');
+}
+window.openExpenseModal = openExpenseModal;
+window.openExpensePrompt = openExpenseModal;
+
+// Profile Preferences Save
+function saveProfilePreferences() {
+  audio.playChime();
+  const nameInput = document.getElementById('cfg-name-input');
+  const honorificSelect = document.getElementById('cfg-honorific-select');
+  const styleSelect = document.getElementById('cfg-style-select');
+  const citySelect = document.getElementById('cfg-city-select');
+
+  const name = nameInput ? nameInput.value.trim() || 'Arjun' : 'Arjun';
+  const honorific = honorificSelect ? honorificSelect.value : '-san';
+  const style = styleSelect ? styleSelect.value : 'bilingual';
+  const city = citySelect ? citySelect.value : 'Shibuya, Tokyo';
+
+  // Update Greeting Display
+  const nameDisplay = document.getElementById('greeting-name-display');
+  if (nameDisplay) {
+    nameDisplay.textContent = `${name}${honorific}`;
+  }
+
+  // Update Weather Subtitle with real local date
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  const cityWeather = document.getElementById('greeting-city-weather');
+  if (cityWeather) {
+    cityWeather.textContent = `${city} • 18°C ☀️ • ${dateStr}`;
+  }
+
+  closeModal('profile-modal');
+  showJapaneseNotification(
+    'Profile Updated (設定完了)',
+    `Greeting set for ${name}${honorific} in ${city}`,
+    'icon-torii'
+  );
+}
+window.saveProfilePreferences = saveProfilePreferences;
+
+// Expense Logger
+let totalDailySpent = 3250;
+const dailyBudgetCap = 8000;
+
+function submitNewExpense() {
+  const amtInput = document.getElementById('exp-amount-input');
+  const catSelect = document.getElementById('exp-category-select');
+  const noteInput = document.getElementById('exp-note-input');
+
+  const amt = parseInt(amtInput ? amtInput.value : '0', 10);
+  if (isNaN(amt) || amt <= 0) {
+    alert('Please enter a valid Yen amount (¥)');
+    return;
+  }
+
+  audio.playStampThud();
+  totalDailySpent += amt;
+  const remaining = Math.max(0, dailyBudgetCap - totalDailySpent);
+  const percentage = Math.min(100, (totalDailySpent / dailyBudgetCap) * 100);
+
+  // Update Home Card Display
+  const spentDisplay = document.getElementById('home-spent-display');
+  const budgetBar = document.getElementById('home-budget-bar');
+  if (spentDisplay) spentDisplay.textContent = `¥${totalDailySpent.toLocaleString()}`;
+  if (budgetBar) budgetBar.style.width = `${percentage}%`;
+
+  // Reset & Close
+  if (amtInput) amtInput.value = '';
+  if (noteInput) noteInput.value = '';
+  closeModal('expense-modal');
+
+  showJapaneseNotification(
+    `Logged: ¥${amt.toLocaleString()}`,
+    `Daily Remaining: ¥${remaining.toLocaleString()} of ¥${dailyBudgetCap.toLocaleString()}`,
+    'icon-yen'
+  );
+}
+window.submitNewExpense = submitNewExpense;
+
+// Emergency 110 / 119 Simulator
+function triggerEmergencyCall(number) {
+  audio.playChime();
+  const desc = number === '110' ? 'Japan Police (警察)' : 'Ambulance & Fire (救急・消防)';
+  showJapaneseNotification(
+    `Emergency Call: ${number}`,
+    `Dialing ${desc} • English operator assistance supported`,
+    'icon-alert'
+  );
+}
+window.triggerEmergencyCall = triggerEmergencyCall;
 
 // Drugstore Locator
 function locatePharmacy(chainName) {

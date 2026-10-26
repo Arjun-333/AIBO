@@ -3301,3 +3301,101 @@ body.stationery-theme {
   border-color: var(--color-vermilion);
   transform: translateX(2px);
 }
+
+.f-action-btn.secondary {
+  background: #FAF7EE;
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+}
+.f-action-btn.secondary:hover {
+  background: var(--surface-hover);
+  border-color: var(--text-primary);
+}
+
+/* ==========================================================================
+   Japan Living Bills & Monthly Budget Envelopes
+   ========================================================================== */
+.monthly-overview-card {
+  background: #FAF7EE;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.monthly-overview-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.monthly-overview-stat .stat-lbl {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+.monthly-overview-stat .stat-num {
+  font-size: 16px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+}
+
+.bill-envelopes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+}
+.envelope-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: all 0.15s ease;
+}
+.envelope-card:hover {
+  border-color: var(--color-matcha);
+  background: #FCFAF5;
+}
+.envelope-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+}
+.envelope-title-row strong {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.envelope-bar-track {
+  width: 100%;
+  height: 4px;
+  background: #EDE8DE;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.envelope-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: var(--color-matcha);
+  transition: width 0.3s ease;
+}
+.envelope-values {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10.5px;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.budget-grid-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 6px;
+}

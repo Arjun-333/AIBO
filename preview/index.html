@@ -243,6 +243,7 @@
                     </div>
                     <div class="finance-button-group">
                       <button class="f-action-btn" onclick="openExpenseModal()">+ Add Expense</button>
+                      <button class="f-action-btn secondary" onclick="openBudgetModal()">⚙️ Budget & Bills</button>
                       <button class="f-action-link" onclick="switchTab('screen-tools')">Full Budget ➔</button>
                     </div>
                   </div>
@@ -816,13 +817,33 @@
                   <span class="f-tool-label">Today's Remaining Budget</span>
                   <strong class="f-tool-val" id="tools-remaining-display">¥8,000 <span class="f-tool-sub">left of ¥8,000</span></strong>
                 </div>
-                <button class="tool-action-pill-btn" onclick="openExpensePrompt()">
-                  <span>+ Add Expense</span>
-                </button>
+                <div style="display: flex; gap: 8px;">
+                  <button class="tool-action-pill-btn secondary" onclick="openBudgetModal()">
+                    <span>⚙️ Budget & Bills</span>
+                  </button>
+                  <button class="tool-action-pill-btn" onclick="openExpensePrompt()">
+                    <span>+ Add Expense</span>
+                  </button>
+                </div>
               </div>
               <div class="finance-bar-track large">
                 <div class="finance-bar-fill" id="tools-budget-bar" style="width: 0%;"></div>
               </div>
+
+              <!-- Monthly Budget & Japan Bill Overview -->
+              <div class="monthly-overview-card" id="tools-monthly-overview"></div>
+
+              <div class="bill-envelopes-section">
+                <div class="bill-envelopes-header">
+                  <div>
+                    <h4 class="bill-envelopes-title">Japan Living Bill Envelopes (生活費・固定費)</h4>
+                    <span class="bill-envelopes-sub">Allocated targets vs current monthly spend</span>
+                  </div>
+                  <button class="text-link-action" onclick="openBudgetModal()">✎ Adjust Allocations</button>
+                </div>
+                <div class="bill-envelopes-grid" id="tools-bill-envelopes"></div>
+              </div>
+
               <div id="tools-transactions-container"></div>
               <div class="atm-guide-banner" style="margin-top: 14px;">
                 <span class="atm-icon">🏧</span>
@@ -1041,11 +1062,18 @@
               <div class="config-field">
                 <label class="config-label">Category</label>
                 <select id="exp-category-select" class="config-select">
-                  <option value="🍜 Meals">🍜 Meals & Dining</option>
-                  <option value="🚇 Metro">🚇 Transit & Suica Top-up</option>
-                  <option value="☕ Coffee">☕ Coffee & Snacks</option>
-                  <option value="🛒 Groceries">🛒 Konbini & Supermarket</option>
-                  <option value="💊 Pharmacy">💊 Medicine & Drugstore</option>
+                  <option value="🍜 Dining Out (外食)">🍜 Dining Out (外食)</option>
+                  <option value="🛒 Groceries (食費)">🛒 Groceries & Konbini (食費)</option>
+                  <option value="🚇 Transit / Suica (交通費)">🚇 Transit / Suica (交通費)</option>
+                  <option value="☕ Cafe & Snacks (カフェ)">☕ Cafe & Snacks (カフェ)</option>
+                  <option value="🏠 Rent (家賃)">🏠 Rent & Maintenance (家賃・共益費)</option>
+                  <option value="⚡ Electricity (電気代)">⚡ Electricity (電気代 - TEPCO/Tokyo Gas)</option>
+                  <option value="🔥 Gas (ガス代)">🔥 Gas (ガス代 - Tokyo Gas)</option>
+                  <option value="💧 Water (水道代)">💧 Water (水道代 - Bureau of Waterworks)</option>
+                  <option value="📶 Mobile & Internet (通信費)">📶 Mobile & Wi-Fi (通信費 - Docomo/SoftBank)</option>
+                  <option value="🏥 Health / Pension (保険・年金)">🏥 Health & Pension (国民健康保険・年金)</option>
+                  <option value="💊 Pharmacy (薬局)">💊 Medicine & Drugstore (薬局)</option>
+                  <option value="🛍️ Sundries & Daily Living (生活費)">🛍️ Sundries & Daily Living (生活費・日用品)</option>
                 </select>
               </div>
 
@@ -1202,6 +1230,88 @@
             <div class="modal-footer">
               <button class="modal-secondary-btn" onclick="closeModal('ice-modal')">Cancel</button>
               <button class="modal-primary-btn" onclick="saveIceCardSettings()">Save Emergency Profile</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             MONTHLY BUDGET & JAPAN BILL ENVELOPES MODAL
+             ========================================== -->
+        <div class="app-modal-backdrop" id="budget-config-modal">
+          <div class="app-modal-sheet" style="max-height: 85vh; overflow-y: auto;">
+            <div class="modal-header-row">
+              <div class="modal-title-wrap">
+                <span class="modal-sub-label">Household Accounting • 家計簿</span>
+                <h3 class="modal-main-title">Monthly Budget & Bill Envelopes</h3>
+              </div>
+              <button class="modal-close-btn" onclick="closeModal('budget-config-modal')">✕</button>
+            </div>
+            <div class="modal-body-content">
+              <!-- Total Monthly Budget Field -->
+              <div class="config-field">
+                <label class="config-label">Total Monthly Budget (月額総予算)</label>
+                <div style="position: relative;">
+                  <span style="position: absolute; left: 14px; top: 12px; font-weight: 700; color: var(--text-secondary); font-size: 16px;">¥</span>
+                  <input type="number" id="cfg-monthly-total" class="config-input large-num" style="padding-left: 32px;" placeholder="240000" step="1000" oninput="recalculateBudgetPreview()" />
+                </div>
+                <span class="config-hint">Your complete income target or monthly spending ceiling in Japan.</span>
+              </div>
+
+              <!-- Live Balance Summary Banner -->
+              <div id="budget-calc-preview" style="background: var(--bg-primary); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 12px; margin-bottom: 16px;">
+                <!-- Populated dynamically via recalculateBudgetPreview() -->
+              </div>
+
+              <!-- Japan Bill Categories Sub-allocation -->
+              <h4 style="font-size: 13px; font-weight: 700; color: var(--color-charcoal); margin: 12px 0 6px 0; text-transform: uppercase; letter-spacing: 0.05em;">
+                Fixed Bills & Living Envelopes (固定費・変動費)
+              </h4>
+              <p style="font-size: 11px; color: var(--text-secondary); margin-bottom: 12px;">
+                Allocate envelope caps for common Tokyo bills (furikomi rent, utility slips, health insurance & commuter pass).
+              </p>
+
+              <div class="budget-grid-inputs">
+                <div class="config-field">
+                  <label class="config-label">🏠 Rent & Fee (家賃・共益費)</label>
+                  <input type="number" id="cfg-env-rent" class="config-input" step="500" oninput="recalculateBudgetPreview()" />
+                </div>
+                <div class="config-field">
+                  <label class="config-label">⚡ Electricity (電気代 - TEPCO)</label>
+                  <input type="number" id="cfg-env-elec" class="config-input" step="100" oninput="recalculateBudgetPreview()" />
+                </div>
+                <div class="config-field">
+                  <label class="config-label">🔥 Gas (ガス代 - Tokyo Gas)</label>
+                  <input type="number" id="cfg-env-gas" class="config-input" step="100" oninput="recalculateBudgetPreview()" />
+                </div>
+                <div class="config-field">
+                  <label class="config-label">💧 Water (水道代 - 2-Month Bill)</label>
+                  <input type="number" id="cfg-env-water" class="config-input" step="100" oninput="recalculateBudgetPreview()" />
+                </div>
+                <div class="config-field">
+                  <label class="config-label">📶 Mobile & Fiber (通信費)</label>
+                  <input type="number" id="cfg-env-net" class="config-input" step="100" oninput="recalculateBudgetPreview()" />
+                </div>
+                <div class="config-field">
+                  <label class="config-label">🏥 Health & Pension (国保・年金)</label>
+                  <input type="number" id="cfg-env-ins" class="config-input" step="100" oninput="recalculateBudgetPreview()" />
+                </div>
+                <div class="config-field">
+                  <label class="config-label">🛒 Groceries (食費・スーパー)</label>
+                  <input type="number" id="cfg-env-food" class="config-input" step="500" oninput="recalculateBudgetPreview()" />
+                </div>
+                <div class="config-field">
+                  <label class="config-label">🚇 Transit & Suica (交通費・定期)</label>
+                  <input type="number" id="cfg-env-train" class="config-input" step="500" oninput="recalculateBudgetPreview()" />
+                </div>
+                <div class="config-field" style="grid-column: span 2;">
+                  <label class="config-label">🛍️ Daily Living & Dining Out (生活費・外食)</label>
+                  <input type="number" id="cfg-env-disc" class="config-input" step="500" oninput="recalculateBudgetPreview()" />
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="modal-secondary-btn" onclick="closeModal('budget-config-modal')">Cancel</button>
+              <button class="modal-primary-btn" onclick="saveBudgetPlan()">Save Budget & Envelopes</button>
             </div>
           </div>
         </div>

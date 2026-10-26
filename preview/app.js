@@ -218,6 +218,49 @@ const AiboStore = {
     return todayExpenses.reduce((sum, e) => sum + e.amount, 0);
   },
 
+  getMonthExpenses() {
+    const expenses = this.getExpenses();
+    const now = new Date();
+    return expenses.filter(e => {
+      const d = new Date(e.timestamp);
+      return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+    });
+  },
+
+  getMonthSpentTotal() {
+    const monthExpenses = this.getMonthExpenses();
+    return monthExpenses.reduce((sum, e) => sum + e.amount, 0);
+  },
+
+  // 2b. Monthly Budget & Japan Bill Envelopes
+  getBudgetConfig() {
+    const profile = this.getProfile();
+    return {
+      monthlyTotal: profile.monthlyBudget || 240000,
+      dailyTarget: profile.dailyBudget || 8000,
+      envelopes: profile.billEnvelopes || {
+        rent: 85000,        // 🏠 Rent & Maintenance (家賃・共益費)
+        electricity: 6500,  // ⚡ Electricity (電気代 - TEPCO/Tokyo Gas)
+        gas: 4500,          // 🔥 Gas (ガス代 - Tokyo Gas)
+        water: 3500,        // 💧 Water (水道代 - Bureau of Waterworks)
+        internet: 5500,     // 📶 Mobile & Wi-Fi (通信費 - Docomo/SoftBank/Fiber)
+        insurance: 15000,   // 🏥 Health & Pension (国民健康保険・国民年金)
+        groceries: 45000,   // 🛒 Groceries & Supermarket (食費)
+        transit: 10000,     // 🚇 Transit / Commuter Pass (交通費・定期券)
+        discretionary: 65000// 🛍️ Daily Living & Dining (生活費・外食)
+      }
+    };
+  },
+
+  saveBudgetConfig(monthlyTotal, envelopes) {
+    const profile = this.getProfile();
+    profile.monthlyBudget = Math.round(Number(monthlyTotal));
+    profile.billEnvelopes = envelopes;
+    // Calculate daily target from discretionary living allowance or total divided by 30
+    profile.dailyBudget = Math.round((envelopes.discretionary || profile.monthlyBudget) / 30);
+    this.saveProfile(profile);
+  },
+
   // 3. Tasks / Agenda
   getTasks() {
     try {
@@ -580,6 +623,81 @@ function renderExpenses() {
         .map(([cat, amt]) => `<span class="f-pill">${escapeHtml(cat)} ¥${amt.toLocaleString()}</span>`)
         .join('');
     }
+  }
+
+  // Render Monthly Overview & Japan Bill Envelopes on Screen 6
+  const monthlyOverviewEl = document.getElementById('tools-monthly-overview');
+  const monthSpent = AiboStore.getMonthSpentTotal();
+  const budgetConfig = AiboStore.getBudgetConfig();
+  const monthRemaining = Math.max(0, budgetConfig.monthlyTotal - monthSpent);
+  const monthPct = Math.min(100, (monthSpent / budgetConfig.monthlyTotal) * 100);
+
+  if (monthlyOverviewEl) {
+    monthlyOverviewEl.innerHTML = `
+      <div class="monthly-overview-stat">
+        <span class="stat-lbl">Monthly Budget (月額予算)</span>
+        <strong class="stat-num">¥${budgetConfig.monthlyTotal.toLocaleString()}</strong>
+      </div>
+      <div class="monthly-overview-stat">
+        <span class="stat-lbl">Spent This Month</span>
+        <strong class="stat-num" style="color: ${monthPct > 85 ? 'var(--color-vermilion)' : 'var(--text-primary)'};">¥${monthSpent.toLocaleString()}</strong>
+      </div>
+      <div class="monthly-overview-stat">
+        <span class="stat-lbl">Remaining</span>
+        <strong class="stat-num" style="color: var(--color-matcha);">¥${monthRemaining.toLocaleString()}</strong>
+      </div>
+    `;
+  }
+
+  // Screen 6: Japan Bill Envelopes Breakdown
+  const envelopesContainer = document.getElementById('tools-bill-envelopes');
+  if (envelopesContainer) {
+    const monthExpenses = AiboStore.getMonthExpenses();
+    const envTotals = {};
+    monthExpenses.forEach(e => {
+      const cat = e.category || '';
+      if (cat.includes('Rent') || cat.includes('家賃')) envTotals.rent = (envTotals.rent || 0) + e.amount;
+      else if (cat.includes('Electricity') || cat.includes('電気')) envTotals.electricity = (envTotals.electricity || 0) + e.amount;
+      else if (cat.includes('Gas') || cat.includes('ガス')) envTotals.gas = (envTotals.gas || 0) + e.amount;
+      else if (cat.includes('Water') || cat.includes('水道')) envTotals.water = (envTotals.water || 0) + e.amount;
+      else if (cat.includes('Internet') || cat.includes('Mobile') || cat.includes('通信')) envTotals.internet = (envTotals.internet || 0) + e.amount;
+      else if (cat.includes('Insurance') || cat.includes('Pension') || cat.includes('年金') || cat.includes('保険')) envTotals.insurance = (envTotals.insurance || 0) + e.amount;
+      else if (cat.includes('Groceries') || cat.includes('食費')) envTotals.groceries = (envTotals.groceries || 0) + e.amount;
+      else if (cat.includes('Transit') || cat.includes('Metro') || cat.includes('Suica') || cat.includes('交通')) envTotals.transit = (envTotals.transit || 0) + e.amount;
+      else envTotals.discretionary = (envTotals.discretionary || 0) + e.amount;
+    });
+
+    const envDefinitions = [
+      { key: 'rent', name: '🏠 Rent (家賃)', target: budgetConfig.envelopes.rent || 85000 },
+      { key: 'electricity', name: '⚡ Electricity (電気代)', target: budgetConfig.envelopes.electricity || 6500 },
+      { key: 'gas', name: '🔥 Gas (ガス代)', target: budgetConfig.envelopes.gas || 4500 },
+      { key: 'water', name: '💧 Water (水道代)', target: budgetConfig.envelopes.water || 3500 },
+      { key: 'internet', name: '📶 Mobile & Wi-Fi (通信費)', target: budgetConfig.envelopes.internet || 5500 },
+      { key: 'insurance', name: '🏥 Health & Pension (保険・年金)', target: budgetConfig.envelopes.insurance || 15000 },
+      { key: 'groceries', name: '🛒 Groceries (食費)', target: budgetConfig.envelopes.groceries || 45000 },
+      { key: 'transit', name: '🚇 Transit & Suica (交通費)', target: budgetConfig.envelopes.transit || 10000 },
+      { key: 'discretionary', name: '🛍️ Daily Living & Dining (生活費)', target: budgetConfig.envelopes.discretionary || 65000 },
+    ];
+
+    envelopesContainer.innerHTML = envDefinitions.map(def => {
+      const spent = envTotals[def.key] || 0;
+      const pct = Math.min(100, Math.round((spent / def.target) * 100));
+      return `
+        <div class="envelope-card">
+          <div class="envelope-title-row">
+            <strong>${def.name}</strong>
+            <span style="font-size: 10px; color: ${pct >= 100 ? 'var(--color-vermilion)' : 'var(--text-secondary)'}; font-weight: 600;">${pct}%</span>
+          </div>
+          <div class="envelope-bar-track">
+            <div class="envelope-bar-fill" style="width: ${pct}%; background: ${pct > 95 ? 'var(--color-vermilion)' : (pct > 75 ? 'var(--color-amber)' : 'var(--color-matcha)')};"></div>
+          </div>
+          <div class="envelope-values">
+            <span>¥${spent.toLocaleString()} spent</span>
+            <span>of ¥${def.target.toLocaleString()}</span>
+          </div>
+        </div>
+      `;
+    }).join('');
   }
 
   // Render Full Transaction List on Screen 6
@@ -1227,6 +1345,117 @@ window.openVaultModal = openVaultModal;
 
 function openIceModal() { openModal('ice-modal'); }
 window.openIceModal = openIceModal;
+
+// 8. Budget and Japan Bill Envelopes Modal Logic
+function openBudgetModal() {
+  const cfg = AiboStore.getBudgetConfig();
+  const setVal = (id, val) => {
+    const el = document.getElementById(id);
+    if (el) el.value = val;
+  };
+  setVal('cfg-monthly-total', cfg.monthlyTotal);
+  setVal('cfg-env-rent', cfg.envelopes.rent || 85000);
+  setVal('cfg-env-elec', cfg.envelopes.electricity || 6500);
+  setVal('cfg-env-gas', cfg.envelopes.gas || 4500);
+  setVal('cfg-env-water', cfg.envelopes.water || 3500);
+  setVal('cfg-env-net', cfg.envelopes.internet || 5500);
+  setVal('cfg-env-ins', cfg.envelopes.insurance || 15000);
+  setVal('cfg-env-food', cfg.envelopes.groceries || 45000);
+  setVal('cfg-env-train', cfg.envelopes.transit || 10000);
+  setVal('cfg-env-disc', cfg.envelopes.discretionary || 65000);
+
+  recalculateBudgetPreview();
+  openModal('budget-config-modal');
+}
+window.openBudgetModal = openBudgetModal;
+
+function recalculateBudgetPreview() {
+  const getVal = (id) => Math.max(0, Number(document.getElementById(id)?.value || 0));
+  const total = getVal('cfg-monthly-total');
+  const rent = getVal('cfg-env-rent');
+  const elec = getVal('cfg-env-elec');
+  const gas = getVal('cfg-env-gas');
+  const water = getVal('cfg-env-water');
+  const net = getVal('cfg-env-net');
+  const ins = getVal('cfg-env-ins');
+  const food = getVal('cfg-env-food');
+  const train = getVal('cfg-env-train');
+  const disc = getVal('cfg-env-disc');
+
+  const fixedBills = rent + elec + gas + water + net + ins;
+  const variableEnvelopes = food + train + disc;
+  const totalEnvelopes = fixedBills + variableEnvelopes;
+  const diff = total - totalEnvelopes;
+  const dailyDiscretionary = Math.round(disc / 30);
+
+  const previewEl = document.getElementById('budget-calc-preview');
+  if (previewEl) {
+    let statusNotice = '';
+    if (diff > 0) {
+      statusNotice = `<span style="color: var(--color-matcha); font-weight: 600;">✓ ¥${diff.toLocaleString()} unallocated cushion</span>`;
+    } else if (diff === 0) {
+      statusNotice = `<span style="color: var(--color-matcha); font-weight: 600;">✓ 100% Balanced</span>`;
+    } else {
+      statusNotice = `<span style="color: var(--color-vermilion); font-weight: 600;">⚠️ Over by ¥${Math.abs(diff).toLocaleString()}</span>`;
+    }
+
+    previewEl.innerHTML = `
+      <div style="display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 4px;">
+        <span style="color: var(--text-secondary);">Fixed Tokyo Bills:</span>
+        <strong>¥${fixedBills.toLocaleString()}/mo</strong>
+      </div>
+      <div style="display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 4px;">
+        <span style="color: var(--text-secondary);">Living & Variable:</span>
+        <strong>¥${variableEnvelopes.toLocaleString()}/mo</strong>
+      </div>
+      <div style="display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 6px; padding-top: 4px; border-top: 1px dashed var(--border-subtle);">
+        <span style="color: var(--text-secondary);">Total Allocated:</span>
+        <strong>¥${totalEnvelopes.toLocaleString()} of ¥${total.toLocaleString()}</strong>
+      </div>
+      <div style="display: flex; justify-content: space-between; font-size: 11px; align-items: center;">
+        <span>${statusNotice}</span>
+        <span style="font-size: 10px; background: rgba(47,93,68,0.1); color: var(--color-matcha); padding: 2px 6px; border-radius: 4px; font-weight: 600;">
+          Daily Living: ~¥${dailyDiscretionary.toLocaleString()}/day
+        </span>
+      </div>
+    `;
+  }
+}
+window.recalculateBudgetPreview = recalculateBudgetPreview;
+
+function saveBudgetPlan() {
+  const getVal = (id) => Math.max(0, Number(document.getElementById(id)?.value || 0));
+  const total = getVal('cfg-monthly-total');
+  if (total <= 0) {
+    alert('Please enter a valid monthly budget total.');
+    return;
+  }
+
+  const envelopes = {
+    rent: getVal('cfg-env-rent'),
+    electricity: getVal('cfg-env-elec'),
+    gas: getVal('cfg-env-gas'),
+    water: getVal('cfg-env-water'),
+    internet: getVal('cfg-env-net'),
+    insurance: getVal('cfg-env-ins'),
+    groceries: getVal('cfg-env-food'),
+    transit: getVal('cfg-env-train'),
+    discretionary: getVal('cfg-env-disc')
+  };
+
+  AiboStore.saveBudgetConfig(total, envelopes);
+  closeModal('budget-config-modal');
+  audio.playChime();
+  showJapaneseNotification(
+    'Monthly Budget & Envelopes Saved',
+    `Monthly ¥${total.toLocaleString()} • Daily allowance updated`,
+    'icon-sparkles'
+  );
+
+  renderExpenses();
+  renderProfile();
+}
+window.saveBudgetPlan = saveBudgetPlan;
 
 function triggerEmergencyCall(number) {
   audio.playChime();

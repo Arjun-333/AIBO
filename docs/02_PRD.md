@@ -3,7 +3,7 @@
 **Document status:** APPROVED — Phase 01 sign-off complete  
 **Last updated:** 2026-10-25  
 **Phase:** 01 — Foundation and Documentation  
-**Companion documents:** `01_PROJECT_CHARTER.md`, `03_AGENT_RULES.md`, `05_ROADMAP_AND_STATUS.md`
+**Companion documents:** `01_PROJECT_CHARTER.md`, `03_AGENT_RULES.md`, `05_ROADMAP_AND_STATUS.md`, `15_FEATURE_AUDIT_CHECKLIST.md`
 
 ---
 

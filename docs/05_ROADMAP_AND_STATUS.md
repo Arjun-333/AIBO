@@ -1,8 +1,10 @@
 # Project AIBO — Roadmap and Status
 
 **Document status:** APPROVED — All 12 Phases Complete & Signed Off  
-**Last updated:** 2026-10-25  
+**Last updated:** 2026-10-26  
 **Current phase:** Phase 12 — Stabilisation + Long-Term Maintenance (🎉 COMPLETE — v1.0.0 RELEASE READY)
+
+**Maintenance note (2026-10-26):** A post-release UX pass corrected light/dark contrast issues, simplified dashboard actions, added safer expense deletion, and improved preview keyboard accessibility. No new product scope or dependencies were added.
 
 ---
 

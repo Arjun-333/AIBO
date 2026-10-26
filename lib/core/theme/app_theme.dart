@@ -23,8 +23,10 @@ class AppTheme {
   static const Color accentRose = vermilionRed;
   static const Color accentTeal = matchaTeal;
   static const Color backgroundDark = washiCream;
-  static const Color surfaceDark = Color(0xFFFFFFFF);
-  static const Color surfaceLightDark = warmBorder;
+  // Dark utility surfaces are used by maps, chat, planner, vault, and emergency
+  // detail views while the main dashboard remains light.
+  static const Color surfaceDark = Color(0xFF1C1C1C);
+  static const Color surfaceLightDark = Color(0xFF333333);
 
   static ThemeData get darkTheme => washiTheme;
 

@@ -290,24 +290,21 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: const Icon(Icons.map_outlined, color: AppTheme.inkBlack),
             tooltip: 'Offline Maps & Navigation',
           ),
-          IconButton(
-            onPressed: () {
+          PopupMenuButton<String>(
+            tooltip: 'More tools',
+            icon: const Icon(Icons.more_horiz, color: AppTheme.charcoal),
+            onSelected: (value) {
               SoundMotionService.instance.playTapSound();
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const VaultScreen()),
-              );
+              if (value == 'vault') {
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const VaultScreen()));
+              } else if (value == 'backup') {
+                _exportBackup();
+              }
             },
-            icon: const Icon(Icons.lock_person_outlined, color: AppTheme.charcoal),
-            tooltip: 'Document Vault',
-          ),
-          IconButton(
-            onPressed: () {
-              SoundMotionService.instance.playTapSound();
-              _exportBackup();
-            },
-            icon: const Icon(Icons.backup_outlined, color: AppTheme.charcoal),
-            tooltip: 'Export Encrypted Backup',
+            itemBuilder: (_) => const [
+              PopupMenuItem(value: 'vault', child: Text('Document Vault')),
+              PopupMenuItem(value: 'backup', child: Text('Export Encrypted Backup')),
+            ],
           ),
         ],
       ),
@@ -322,7 +319,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   // Interactive Motion Carousel: Muchi Neko Cat <-> Welcome to Japan Torii Banner
                   SizedBox(
-                    height: 480,
+                    height: 360,
                     child: PageView(
                       controller: _pageController,
                       onPageChanged: (page) => setState(() => _currentHeroPage = page),

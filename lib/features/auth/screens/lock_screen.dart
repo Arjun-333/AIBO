@@ -137,14 +137,14 @@ class _LockScreenState extends State<LockScreen> {
                   const SizedBox(height: 4),
                   const Text(
                     'AI Buddy & Organiser • Japan',
-                    style: TextStyle(fontSize: 13, color: Colors.white54),
+                    style: TextStyle(fontSize: 13, color: AppTheme.mutedGrey),
                   ),
                   const SizedBox(height: 32),
                   Text(
                     !_hasPin ? 'Create Master Security PIN' : _statusMessage,
                     style: TextStyle(
                       fontSize: 14,
-                      color: _statusMessage.contains('Incorrect') ? AppTheme.accentRose : Colors.white70,
+                      color: _statusMessage.contains('Incorrect') ? AppTheme.accentRose : AppTheme.charcoal,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -182,7 +182,7 @@ class _LockScreenState extends State<LockScreen> {
               // Bottom Notice
               const Text(
                 '100% Offline • AES-256 Encrypted on Device',
-                style: TextStyle(fontSize: 11, color: Colors.white30, letterSpacing: 0.5),
+                style: TextStyle(fontSize: 11, color: AppTheme.mutedGrey, letterSpacing: 0.5),
               ),
             ],
           ),

@@ -1,11 +1,13 @@
 // ==========================================================================
 // AIBO (相棒) - Japanese Stationery & Tactile Engine
+// English-Primary Edition with Japanese Accents & Vector SVGs
 // ==========================================================================
 
 // Web Audio API Synthesizer (Realistic wooden clack, ink stamp thud, temple chime, cat purr)
 class TactileAudioEngine {
   constructor() {
-    this.enabled = true;
+    // Sound is opt-in so the preview never surprises users in public or at work.
+    this.enabled = false;
     this.ctx = null;
   }
 
@@ -19,7 +21,7 @@ class TactileAudioEngine {
     }
   }
 
-  // Wooden clack / Hyoshigi (拍子木) tactile click
+  // Wooden clack / Hyoshigi tactile click
   playWoodClick() {
     if (!this.enabled) return;
     this.init();
@@ -40,7 +42,7 @@ class TactileAudioEngine {
     osc.stop(this.ctx.currentTime + 0.035);
   }
 
-  // Deep red ink stamp thud (印鑑・押印音)
+  // Deep red ink stamp thud (押印音)
   playStampThud() {
     if (!this.enabled) return;
     this.init();
@@ -61,7 +63,7 @@ class TactileAudioEngine {
     osc.stop(this.ctx.currentTime + 0.09);
   }
 
-  // Japanese Temple Chime / Suikinkutsu (水琴窟・風鈴)
+  // Japanese Temple Chime
   playChime() {
     if (!this.enabled) return;
     this.init();
@@ -110,9 +112,9 @@ class TactileAudioEngine {
 const audio = new TactileAudioEngine();
 
 // ==========================================================================
-// Washi Slide-Down Notification Engine
+// Slide-Down Notification Engine with Custom Vector SVGs
 // ==========================================================================
-function showJapaneseNotification(title, messageJa, emoji = '⛩️') {
+function showJapaneseNotification(title, subtitle, iconId = 'icon-torii') {
   audio.playChime();
   const container = document.getElementById('toast-container');
   if (!container) return;
@@ -120,10 +122,12 @@ function showJapaneseNotification(title, messageJa, emoji = '⛩️') {
   const toast = document.createElement('div');
   toast.className = 'app-toast';
   toast.innerHTML = `
-    <div class="toast-icon">${emoji}</div>
+    <div class="toast-icon">
+      <svg width="20" height="20" stroke="var(--shu-vermilion)"><use href="#${iconId}" /></svg>
+    </div>
     <div class="toast-body">
       <strong>${title}</strong>
-      <span>${messageJa}</span>
+      <span>${subtitle}</span>
     </div>
   `;
   container.appendChild(toast);
@@ -160,35 +164,31 @@ function switchTab(screenId) {
 // Muchi Neko Interactive Mascot
 // ==========================================================================
 const muchiQuotes = [
-  "Nya~ 今日も無事にお過ごしください (Take care today!)",
-  "もちもち〜 夕方のマグネシウム錠剤をお忘れなく! 💊",
-  "山手線は本日も時間通り運行中にゃ〜 🚇",
-  "ゴロゴロ... 6.8kgの純粋な東京のぬくもりにゃ ✨",
-  "大吉! 今日はとても縁起の良い一日になりそうにゃ ⛩️",
-  "電車内ではマナーモードの設定を忘れずににゃ 📵"
+  '"Nya~ Gambatte kudasai! (Have a great day in Tokyo!)"',
+  '"Mochi-mochi! Don\'t forget your evening tablet! (お薬)"',
+  '"The JR Yamanote Line is running on time today~"',
+  '"Purrr... 6.8 kg of pure Shibuya rooftop fluff!"',
+  '"Daikichi (大吉)! Great blessing awaits you today!"',
+  '"Tip: Remember to keep your phone on Manner Mode on the subway!"'
 ];
 
-function initMuchiCat() {
+function triggerMuchiJump() {
+  audio.playCatPurr();
   const cat = document.getElementById('muchi-cat');
-  const catSky = document.querySelector('.cat-scene-artisan');
   const catQuote = document.getElementById('cat-quote');
-
-  function jump() {
-    audio.playCatPurr();
-    if (cat) cat.classList.add('jump');
-    if (catQuote) {
-      const q = muchiQuotes[Math.floor(Math.random() * muchiQuotes.length)];
-      catQuote.textContent = q;
-    }
-    setTimeout(() => {
-      if (cat) cat.classList.remove('jump');
-    }, 280);
+  if (cat) cat.classList.add('jump');
+  if (catQuote) {
+    const q = muchiQuotes[Math.floor(Math.random() * muchiQuotes.length)];
+    catQuote.textContent = q;
   }
+  setTimeout(() => {
+    if (cat) cat.classList.remove('jump');
+  }, 280);
+}
+window.triggerMuchiJump = triggerMuchiJump;
 
-  if (cat) cat.addEventListener('click', jump);
-  if (catSky) catSky.addEventListener('click', (e) => {
-    if (e.target !== cat && !cat.contains(e.target)) jump();
-  });
+function initMuchiCat() {
+  // The scene wrapper owns the interaction so a tap on the cat is not fired twice.
 }
 
 // ==========================================================================
@@ -207,19 +207,19 @@ function initYakutaiMedication() {
 
       // Stamp the vermilion Hanko seal into the slot
       if (eveningTarget) {
-        eveningTarget.innerHTML = `<span class="hanko-stamp-text">済</span>`;
+        eveningTarget.innerHTML = `<span class="hanko-stamp-text">✓ 済</span>`;
       }
       if (eveningSlot) {
         eveningSlot.classList.remove('active-slot');
         eveningSlot.classList.add('done');
       }
       if (summaryCount) {
-        summaryCount.textContent = '全服用済 ✓';
+        summaryCount.textContent = 'All Taken ✓';
         summaryCount.classList.remove('highlight');
         summaryCount.style.color = '#3D5A35'; // matcha green
       }
       if (stampBtnLabel) {
-        stampBtnLabel.textContent = '本日服用完了 (All Doses Taken ✓)';
+        stampBtnLabel.textContent = 'Completed for Today (済)';
       }
       stampBtn.disabled = true;
       stampBtn.style.opacity = '0.7';
@@ -227,9 +227,9 @@ function initYakutaiMedication() {
 
       // Slide-down celebration toast
       showJapaneseNotification(
-        '【調剤記録】夕食後薬 押印完了',
-        '服用済（マグネシウム・亜鉛）— お疲れ様でした！',
-        '💊'
+        'Dose Logged: Magnesium & Zinc',
+        '服用完了 (Fukuyou Kanryou) — Great job taking care of your health!',
+        'icon-pill'
       );
     });
   }
@@ -239,9 +239,9 @@ function initYakutaiMedication() {
 function locatePharmacy(chainName) {
   audio.playWoodClick();
   showJapaneseNotification(
-    `最寄りの${chainName}を探索`,
-    '徒歩圏内の店舗（免税・調剤対応）へ案内します',
-    '📍'
+    `Locating Nearest ${chainName}`,
+    '最寄り店舗を検索中 (Directing to Radar Compass)',
+    'icon-pin'
   );
   setTimeout(() => {
     switchTab('screen-map');
@@ -257,15 +257,15 @@ function locatePharmacy(chainName) {
 function initOmikuji() {
   const btn = document.getElementById('omikuji-btn');
   const fortunes = [
-    { title: '【大吉】 運気最高潮', desc: '相棒の加護あり。東京での手続きや道中すべて順調に進みます。' },
-    { title: '【中吉】 平穏無事', desc: '穏やかな良き日。新宿・渋谷の散策に適しています。' },
-    { title: '【吉】 健康第一', desc: 'お薬とビタミンをしっかり摂り、水分補給を怠りなく。' }
+    { title: 'Daikichi (大吉) • Great Fortune', desc: 'Blessed journey today! All Tokyo travels and tasks will go smoothly.' },
+    { title: 'Chukichi (中吉) • Moderate Blessing', desc: 'A peaceful, pleasant day. Great time to explore Harajuku or Shinjuku.' },
+    { title: 'Shokichi (小吉) • Small Fortune', desc: 'Health first! Stay hydrated and take your daily vitamins on schedule.' }
   ];
 
   if (btn) {
     btn.addEventListener('click', () => {
       const f = fortunes[Math.floor(Math.random() * fortunes.length)];
-      showJapaneseNotification(f.title, f.desc, '⛩️');
+      showJapaneseNotification(f.title, f.desc, 'icon-torii');
     });
   }
 }
@@ -279,9 +279,9 @@ function initTicketInteractions() {
     ticket.addEventListener('click', () => {
       audio.playWoodClick();
       showJapaneseNotification(
-        'JR山手線 硬券乗車票',
-        '渋谷駅 ➔ 新宿駅（平常運転・遅延なし）',
-        '🎫'
+        'JR Yamanote Line Ticket (山手線)',
+        'Shibuya ➔ Shinjuku • Normal service on all lines',
+        'icon-train'
       );
     });
   }
@@ -322,8 +322,8 @@ function initChatEngine() {
       aiboRow.innerHTML = `
         <div class="hanko-seal mini">相棒</div>
         <div class="scroll-bubble">
-          承知いたしました（はい）。ご相談内容を確認しました。ローカル暗号化データベース（AES-256）を参照し、安全にお手伝いいたします。
-          <div class="scroll-time">Just now • 筆談済</div>
+          Understood! (Hai - はい). I can help you plan your day in Japan. This is a demo response; your personal data remains on-device in the real app.
+          <div class="scroll-time">Just now • Demo response</div>
         </div>
       `;
       log.appendChild(aiboRow);
@@ -342,9 +342,9 @@ function initChatEngine() {
     voiceBtn.addEventListener('click', () => {
       audio.playChime();
       showJapaneseNotification(
-        'バイリンガル音声認識 開始',
-        '日本語・English 音声入力を待機中 (Offline STT)',
-        '🎙️'
+        'Bilingual Voice Recognition Active',
+        'Listening in English & 日本語 (Offline STT)',
+        'icon-mic'
       );
     });
   }
@@ -373,28 +373,45 @@ function initControls() {
 
   // Frame Toggle
   const frameBtn = document.getElementById('toggle-frame-btn');
+  const frameText = document.getElementById('frame-btn-text');
   const frame = document.getElementById('phone-frame');
   if (frameBtn && frame) {
     frameBtn.addEventListener('click', () => {
       audio.playWoodClick();
       const isFull = frame.classList.toggle('fullview');
-      frameBtn.innerHTML = isFull
-        ? '<span class="icon">📱</span> 枠: 携帯電話'
-        : '<span class="icon">🖥️</span> 枠: 全画面';
+      if (frameText) {
+        frameText.textContent = isFull ? 'View: Full Width' : 'View: Phone Frame';
+      }
     });
   }
 
   // Sound Toggle
   const soundBtn = document.getElementById('toggle-sound-btn');
+  const soundText = document.getElementById('sound-btn-text');
   if (soundBtn) {
     soundBtn.addEventListener('click', () => {
       audio.enabled = !audio.enabled;
       audio.playWoodClick();
-      soundBtn.innerHTML = audio.enabled
-        ? '<span class="icon">🔔</span> 音声: ON'
-        : '<span class="icon">🔇</span> 音声: OFF';
+      if (soundText) {
+        soundText.textContent = audio.enabled ? 'Audio: ON' : 'Audio: OFF';
+      }
     });
   }
+}
+
+// Give card-like preview controls keyboard access as well as pointer access.
+function initKeyboardInteractions() {
+  const selectors = '.cat-scene-wrapper, .metric-pill-item, .toolbelt-card, .pharmacy-ticket, .koken-ticket';
+  document.querySelectorAll(selectors).forEach((element) => {
+    element.setAttribute('role', 'button');
+    element.setAttribute('tabindex', '0');
+    element.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        element.click();
+      }
+    });
+  });
 }
 
 // ==========================================================================
@@ -407,13 +424,24 @@ document.addEventListener('DOMContentLoaded', () => {
   initTicketInteractions();
   initChatEngine();
   initControls();
+  initKeyboardInteractions();
 
   // Welcome Slide-down Toast
   setTimeout(() => {
     showJapaneseNotification(
-      'ようこそ 相棒（AIBO）へ',
-      '和文具・調剤薬袋・東京通勤案内 起動完了',
-      '⛩️'
+      'Welcome to AIBO (ようこそ 相棒へ)',
+      'Your English & Japanese daily companion is ready',
+      'icon-torii'
     );
   }, 500);
 });
+
+// Daily Phrase Pronunciation & Audio Trigger
+function playDailyPhraseSound() {
+  audio.playChime();
+  showJapaneseNotification(
+    'Konbini Phrase: "Fukuro wa daijōbu desu"',
+    'Say this when the cashier asks "Fukuro wa go-riyou desu ka?"',
+    'icon-sound'
+  );
+}

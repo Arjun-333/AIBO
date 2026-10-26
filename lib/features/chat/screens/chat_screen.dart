@@ -152,7 +152,7 @@ class _ChatScreenState extends State<ChatScreen> {
         title: const Column(
           children: [
             Text('AIBO Japan Companion', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            Text('Culture • Admin • Language • Rules', style: TextStyle(fontSize: 11, color: Colors.white54)),
+            Text('Culture • Admin • Language • Rules', style: TextStyle(fontSize: 11, color: AppTheme.mutedGrey)),
           ],
         ),
         actions: [
@@ -195,7 +195,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   const SizedBox(width: 10),
                   Text(
                     'AIBO is thinking...',
-                    style: TextStyle(fontSize: 12, color: Colors.white.withOpacity(0.6)),
+                    style: const TextStyle(fontSize: 12, color: AppTheme.mutedGrey),
                   ),
                 ],
               ),
@@ -308,7 +308,7 @@ class _ChatScreenState extends State<ChatScreen> {
             const SizedBox(height: 8),
             Text(
               'Ask me about recycling rules, paying utility bills, ward office registration, or translating Japanese phrases.',
-              style: TextStyle(fontSize: 13, color: Colors.white.withOpacity(0.6)),
+              style: const TextStyle(fontSize: 13, color: AppTheme.mutedGrey),
               textAlign: TextAlign.center,
             ),
           ],

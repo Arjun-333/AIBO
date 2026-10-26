@@ -149,7 +149,7 @@ class _PlannerScreenState extends State<PlannerScreen> {
                 const SizedBox(height: 16),
                 TextField(
                   controller: titleCtrl,
-                  style: const TextStyle(color: Colors.white),
+                  style: const TextStyle(color: AppTheme.inkBlack),
                   decoration: const InputDecoration(
                     labelText: 'Task Title',
                     hintText: 'e.g. Ward Office Juminhyo Copy (住民票)',
@@ -159,7 +159,7 @@ class _PlannerScreenState extends State<PlannerScreen> {
                 TextField(
                   controller: descCtrl,
                   maxLines: 2,
-                  style: const TextStyle(color: Colors.white),
+                  style: const TextStyle(color: AppTheme.inkBlack),
                   decoration: const InputDecoration(
                     labelText: 'Notes / Details',
                     hintText: 'Bring Residence Card and My Number Card',

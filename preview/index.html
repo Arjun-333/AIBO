@@ -5,57 +5,114 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AIBO (相棒) — Japanese Stationery & Tactile Craft Edition</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700;800&family=Outfit:wght@300;400;500;600;700;800&family=Yuji+Boku&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="stationery-theme">
-  <!-- Washi Paper Grain Noise Texture -->
+  <!-- Washi Paper Texture Overlay -->
   <div class="washi-texture-overlay"></div>
+
+  <!-- Precision Custom SVG Icon Library (Zero Emojis) -->
+  <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="icon-torii" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M2 5h20" /><path d="M4 8h16" /><path d="M7 5v15" /><path d="M17 5v15" /><path d="M11 5v3" /><path d="M13 5v3" />
+    </symbol>
+    <symbol id="icon-pill" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z" /><path d="m8.5 8.5 7 7" />
+    </symbol>
+    <symbol id="icon-train" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="4" y="3" width="16" height="15" rx="3" /><path d="M4 11h16" /><path d="M8 7h8" />
+      <circle cx="8" cy="14.5" r="1.2" fill="currentColor" /><circle cx="16" cy="14.5" r="1.2" fill="currentColor" />
+      <path d="m5 18-2 3" /><path d="m19 18 2 3" />
+    </symbol>
+    <symbol id="icon-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" fill="currentColor" fill-opacity="0.25" />
+    </symbol>
+    <symbol id="icon-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /><path d="M8 9h8" /><path d="M8 13h5" />
+    </symbol>
+    <symbol id="icon-lantern" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="7" y="5" width="10" height="14" rx="4" /><path d="M10 2h4" /><path d="M12 2v3" /><path d="M7 9h10" /><path d="M7 15h10" /><path d="M12 19v3" /><path d="M10 22h4" />
+    </symbol>
+    <symbol id="icon-fuji" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m2 20 8.5-14.5a2 2 0 0 1 3 0L22 20H2Z" /><path d="m8.5 9 3.5 2.5 3.5-2.5" />
+    </symbol>
+    <symbol id="icon-tower" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m6 21 4.5-16h3L18 21" /><path d="M12 2v3" /><path d="M8 14h8" /><path d="M7 18h10" />
+    </symbol>
+    <symbol id="icon-brush" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m18 2 4 4-10 10H8v-4L18 2Z" /><path d="m5 17-2 4 4-2" />
+    </symbol>
+    <symbol id="icon-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="2" width="6" height="12" rx="3" /><path d="M5 10a7 7 0 0 0 14 0" /><line x1="12" y1="19" x2="12" y2="22" />
+    </symbol>
+    <symbol id="icon-sound" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" /><path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+    </symbol>
+    <symbol id="icon-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="5" y="2" width="14" height="20" rx="3" /><path d="M12 18h.01" />
+    </symbol>
+    <symbol id="icon-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" />
+    </symbol>
+    <symbol id="icon-stamp" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 22h14" /><path d="M19.27 13.73A2.5 2.5 0 0 0 17.5 13h-11a2.5 2.5 0 0 0-1.77.73l-1.46 1.47A1.5 1.5 0 0 0 4.33 17H19.67a1.5 1.5 0 0 0 1.06-1.8l-1.46-1.47Z" /><path d="M12 13V2" />
+    </symbol>
+    <symbol id="icon-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" />
+    </symbol>
+  </svg>
 
   <!-- Top Preview Bar -->
   <header class="preview-header">
     <div class="header-branding">
-      <div class="hanko-seal mini">
-        <span>相棒</span>
+      <div class="torii-branding-icon">
+        <svg class="ui-icon torii-icon" width="28" height="28" stroke="var(--shu-vermilion)"><use href="#icon-torii" /></svg>
       </div>
       <div>
-        <h1 class="header-title">AIBO <span class="tate-tag">和文具・相棒</span></h1>
-        <p class="tagline">Personal AI Companion for Life in Japan • Artisan Stationery Edition</p>
+        <div class="brand-row">
+          <h1 class="header-title">AIBO</h1>
+          <span class="hanko-seal mini">相棒</span>
+        </div>
+        <p class="tagline">Personal AI Companion for Life in Japan • Muchi Neko Edition</p>
       </div>
     </div>
     <div class="header-controls">
-      <div class="paper-badge">100% 局所保存 • Offline First</div>
+      <div class="paper-badge online-pill">
+        <span class="dot-seal"></span> Offline-First v1.0.0
+      </div>
       <button id="toggle-sound-btn" class="paper-btn" title="Toggle Tactile Audio">
-        <span class="icon">🔔</span> 音声: ON
+        <svg class="ui-icon" width="15" height="15"><use href="#icon-sound" /></svg>
+        <span id="sound-btn-text">Sound: OFF</span>
       </button>
       <button id="toggle-frame-btn" class="paper-btn" title="Toggle Phone Frame">
-        <span class="icon">📱</span> 枠: 携帯電話
+        <svg class="ui-icon" width="15" height="15"><use href="#icon-phone" /></svg>
+        <span id="frame-btn-text">View: Phone Mockup</span>
       </button>
     </div>
   </header>
 
-  <!-- Main Simulator Wrapper -->
+  <!-- Main Simulator Container -->
   <main class="simulator-wrapper">
     <div class="phone-frame" id="phone-frame">
-      <!-- Notch -->
+      <!-- Phone Notch -->
       <div class="phone-notch">
         <div class="speaker-grill"></div>
         <div class="camera-lens"></div>
       </div>
 
-      <!-- App Viewport -->
+      <!-- App Viewport Inside Phone -->
       <div class="app-viewport" id="app-viewport">
-        <!-- Floating Toast Container -->
+        <!-- Floating Notification Toast -->
         <div id="toast-container" class="toast-container"></div>
 
         <!-- Phone Status Bar -->
         <div class="status-bar">
-          <span class="status-time" id="status-clock">09:41</span>
+          <span class="status-time" id="status-clock">01:02</span>
           <div class="status-icons">
-            <span class="seal-icon">⛩️</span>
-            <span>令和八年</span>
-            <span>🔋 98%</span>
+            <span class="network-badge">5G</span>
+            <span class="battery-text">98%</span>
           </div>
         </div>
 
@@ -63,346 +120,342 @@
         <div class="screens-container">
 
           <!-- ==========================================
-               SCREEN 1: HOME (和文具・本日の相棒)
+               SCREEN 1: HOME (Dashboard)
                ========================================== -->
           <section id="screen-home" class="screen active">
-            <!-- App Top Header -->
-            <div class="stationery-topbar">
-              <div class="user-greeting">
-                <span class="seal-script-label">おかえりなさいませ</span>
-                <h2 class="greeting-main">Arjun <span class="honorific">様</span></h2>
+            <!-- User Greeting Topbar -->
+            <div class="user-greeting-row">
+              <div>
+                <span class="greeting-subtitle">おかえりなさい (Welcome back)</span>
+                <h2 class="greeting-heading">Arjun-san <span class="wave-hand">👋</span></h2>
               </div>
-              <div class="topbar-seals">
-                <button class="hanko-btn" id="omikuji-btn" title="Draw Daily Fortune (おみくじ)">
-                  <div class="hanko-stamp-circle">
-                    <span>大吉</span>
-                  </div>
-                  <span class="stamp-sub">御神籤</span>
-                </button>
+              <div class="offline-status-badge">
+                <div class="torii-badge-icon">
+                  <svg width="15" height="15" stroke="var(--shu-vermilion)"><use href="#icon-torii" /></svg>
+                </div>
+                <span class="offline-pill-text"><span class="green-dot"></span> 100% Offline</span>
               </div>
             </div>
 
             <!-- Muchi Neko Artisan Companion Card -->
-            <div class="stationery-card companion-card" id="cat-card">
-              <!-- Tate-gaki Vertical Japanese Ribbon -->
-              <div class="tate-ribbon">
-                <span>むちねこ・東京屋根裏守</span>
+            <div class="muchi-companion-card" id="cat-card">
+              <!-- Scene: Night sky, red lantern, yellow moon, speech bubble, muchi neko sitting on roof -->
+              <div class="cat-scene-wrapper" onclick="triggerMuchiJump()">
+                <div class="scene-lantern">
+                  <svg width="22" height="22" stroke="var(--shu-vermilion)"><use href="#icon-lantern" /></svg>
+                </div>
+                <div class="scene-moon"></div>
+
+                <!-- Speech Bubble -->
+                <div class="cat-quote-bubble" id="cat-bubble">
+                  <span id="cat-quote">Purrr... 6.8 kg of pure Tokyo fluff! ✨</span>
+                </div>
+
+                <!-- Muchi Neko Mascot -->
+                <div class="muchi-cat-figure" id="muchi-cat" title="Tap Muchi Neko to interact!">
+                  <div class="cat-ears-wrap">
+                    <div class="m-ear left"></div>
+                    <div class="m-ear right"></div>
+                  </div>
+                  <div class="cat-round-face">
+                    <div class="cat-eyes-row">
+                      <div class="m-eye left"></div>
+                      <div class="m-eye right"></div>
+                    </div>
+                    <div class="cat-cheeks-row">
+                      <div class="m-cheek left"></div>
+                      <div class="m-cheek right"></div>
+                    </div>
+                    <div class="cat-mouth-w">ω</div>
+                    <div class="cat-bell-collar">
+                      <div class="bell-charm">🔔</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Rooftop Tiles -->
+                <div class="scene-kawara-roof"></div>
               </div>
 
-              <!-- Sumi-e & Washi Sky Scene -->
-              <div class="cat-scene-artisan">
-                <div class="paper-moon"></div>
-                <div class="hanging-lantern">🏮</div>
-                
-                <!-- Muchi Neko Speech Callout -->
-                <div class="sumi-bubble" id="cat-bubble">
-                  <span id="cat-quote">Nya~ 今日も無事にお過ごしください (Take care today!)</span>
+              <!-- Card Body -->
+              <div class="muchi-card-body">
+                <div class="muchi-title-row">
+                  <strong class="muchi-name">むちねこ (Muchi Neko)</strong>
+                  <span class="muchi-role">Tokyo Rooftop Guardian</span>
                 </div>
 
-                <!-- Illustrated Muchi Neko -->
-                <div class="cat-character" id="muchi-cat" title="Tap Muchi Neko to interact!">
-                  <div class="cat-ears">
-                    <div class="ear left"></div>
-                    <div class="ear right"></div>
-                  </div>
-                  <div class="cat-body">
-                    <div class="cat-eyes">
-                      <div class="eye left"></div>
-                      <div class="eye right"></div>
-                    </div>
-                    <div class="cat-cheeks">
-                      <div class="cheek left"></div>
-                      <div class="cheek right"></div>
-                    </div>
-                    <div class="cat-mouth">ω</div>
-                    <div class="cat-collar">
-                      <div class="collar-bell">🔔</div>
-                    </div>
-                  </div>
-                  <div class="cat-tail"></div>
-                  <div class="cat-paws">
-                    <div class="paw left"></div>
-                    <div class="paw right"></div>
-                  </div>
+                <div class="gauge-info-row">
+                  <span class="gauge-title">Mochi Roundness Gauge</span>
+                  <strong class="gauge-metric" id="weight-display">6.8 kg • むちむち (Super Squishy)</strong>
                 </div>
 
-                <!-- Traditional Rooftop Tiles Texture -->
-                <div class="kawara-roof"></div>
+                <div class="gauge-progress-track">
+                  <div class="gauge-progress-fill" style="width: 86%;"></div>
+                </div>
+
+                <button class="muchi-purr-btn" id="muchi-pet-btn" onclick="triggerMuchiJump()">
+                  <span>✨ Tap Muchi Neko to hear him purr and jump!</span>
+                </button>
               </div>
+            </div>
 
-              <!-- Card Body with Ink Stamps & Meter -->
-              <div class="companion-body">
-                <div class="companion-meta-row">
-                  <div>
-                    <strong class="cat-title">むちねこ (Muchi Neko)</strong>
-                    <span class="cat-sub">Guardian Companion of Shibuya Rooftops</span>
-                  </div>
-                  <div class="hanko-seal small" id="cat-certified-seal">
-                    <span>認定</span>
-                  </div>
+            <!-- Today in Tokyo Card -->
+            <div class="today-overview-card">
+              <div class="today-header-row">
+                <div class="today-title">
+                  <span class="clipboard-icon">📋</span>
+                  <span>Today in Tokyo • 本日の予定</span>
                 </div>
-
-                <!-- Tactile Weight Gauge -->
-                <div class="washi-gauge">
-                  <div class="gauge-labels">
-                    <span class="meter-title">もちもち弾力度 (Mochi Roundness)</span>
-                    <strong class="meter-val" id="weight-display">6.8 kg • むちむち</strong>
-                  </div>
-                  <div class="meter-track">
-                    <div class="meter-fill" style="width: 86%;"></div>
-                  </div>
+                <span class="today-tag-chip">Today</span>
+              </div>
+              <div class="today-metrics-grid">
+                <div class="metric-pill-item" onclick="switchTab('screen-medication')">
+                  <strong class="metric-big-val" id="pill-summary-count">1 Pending</strong>
+                  <span class="metric-sub-label">💊 Tablet Dose</span>
                 </div>
-
-                <div class="tactile-card-footer">
-                  <span class="hint-text">🐾 Muchi Neko をタップして鳴き声とおみくじを聞く</span>
+                <div class="metric-pill-item" onclick="switchTab('screen-transit')">
+                  <strong class="metric-big-val">Yamanote</strong>
+                  <span class="metric-sub-label">🚇 Transit Loop</span>
+                </div>
+                <div class="metric-pill-item">
+                  <strong class="metric-big-val">¥3,250</strong>
+                  <span class="metric-sub-label">💴 Daily Spent</span>
                 </div>
               </div>
             </div>
 
-            <!-- Authentic Japanese Day Summary (日誌) -->
-            <div class="stationery-card journal-card">
-              <div class="journal-header">
-                <span class="brush-icon">🖌️</span>
-                <span class="journal-title">本日の予定帳 • Tokyo Daily Slate</span>
-                <span class="date-chip" id="today-date-chip">令和八年十月廿六日</span>
-              </div>
-              <div class="journal-grid">
-                <div class="journal-item">
-                  <span class="j-label">💊 服用薬</span>
-                  <strong class="j-val highlight" id="pill-summary-count">残 1 包</strong>
-                  <span class="j-sub">夕食後予定</span>
+            <!-- Essential Japan Toolbelt (2x2 Grid) -->
+            <div class="toolbelt-section">
+              <h3 class="toolbelt-heading">Essential Japan Toolbelt • 便利ツール</h3>
+              <div class="toolbelt-grid">
+                <!-- Tablet Reminder -->
+                <div class="toolbelt-card" onclick="switchTab('screen-medication')">
+                  <div class="tool-icon-box pill-box">💊</div>
+                  <div class="tool-text-content">
+                    <strong class="tool-title">Tablet Reminder</strong>
+                    <span class="tool-desc">Dose alerts & OTC Guide</span>
+                  </div>
                 </div>
-                <div class="journal-item">
-                  <span class="j-label">🚇 通勤線</span>
-                  <strong class="j-val">JR山手線</strong>
-                  <span class="j-sub">平常運転</span>
-                </div>
-                <div class="journal-item">
-                  <span class="j-label">💴 本日支出</span>
-                  <strong class="j-val">¥3,250</strong>
-                  <span class="j-sub">内食・交通</span>
-                </div>
-              </div>
-            </div>
 
-            <!-- Quick Action Stationery Stamp Badges -->
-            <h3 class="stationery-section-title">
-              <span>便利道具</span>
-              <span class="jp-sub">Quick Japanese Utilities</span>
-            </h3>
-            <div class="stationery-grid">
-              <button class="stationery-tile" onclick="switchTab('screen-medication')">
-                <div class="tile-seal red">薬</div>
-                <div class="tile-info">
-                  <strong>お薬袋・処方手帳</strong>
-                  <span>Tablet Tracker & OTC Guide</span>
+                <!-- Tokyo Transit -->
+                <div class="toolbelt-card" onclick="switchTab('screen-transit')">
+                  <div class="tool-icon-box transit-box">🚇</div>
+                  <div class="tool-text-content">
+                    <strong class="tool-title">Tokyo Transit</strong>
+                    <span class="tool-desc">Yamanote & Exit Guide</span>
+                  </div>
                 </div>
-              </button>
-              <button class="stationery-tile" onclick="switchTab('screen-transit')">
-                <div class="tile-seal green">鉄</div>
-                <div class="tile-info">
-                  <strong>硬券切符・山手線</strong>
-                  <span>Transit Stub & Exit Navigator</span>
+
+                <!-- Radar Compass -->
+                <div class="toolbelt-card" onclick="switchTab('screen-map')">
+                  <div class="tool-icon-box radar-box">🧭</div>
+                  <div class="tool-text-content">
+                    <strong class="tool-title">Radar Compass</strong>
+                    <span class="tool-desc">Drugstore & Clinic Locator</span>
+                  </div>
                 </div>
-              </button>
-              <button class="stationery-tile" onclick="switchTab('screen-map')">
-                <div class="tile-seal blue">図</div>
-                <div class="tile-info">
-                  <strong>羅針盤・薬局地図</strong>
-                  <span>Offline Compass & Pharmacy Radar</span>
+
+                <!-- AI Chat -->
+                <div class="toolbelt-card" onclick="switchTab('screen-chat')">
+                  <div class="tool-icon-box chat-box">💬</div>
+                  <div class="tool-text-content">
+                    <strong class="tool-title">AI Chat</strong>
+                    <span class="tool-desc">Offline-first Assistant</span>
+                  </div>
                 </div>
-              </button>
-              <button class="stationery-tile" onclick="switchTab('screen-chat')">
-                <div class="tile-seal gold">相</div>
-                <div class="tile-info">
-                  <strong>相談所・人工知能</strong>
-                  <span>Bilingual AI Consultation</span>
-                </div>
-              </button>
+              </div>
             </div>
           </section>
 
           <!-- ==========================================
-               SCREEN 2: MEDICATION (和風 薬袋 - Yakutai Envelope)
+               SCREEN 2: MEDICATION (Yakutai Envelope & OTC Guide)
                ========================================== -->
           <section id="screen-medication" class="screen">
             <div class="stationery-topbar">
               <div>
-                <span class="seal-script-label">調剤薬局健康管理</span>
-                <h2 class="greeting-main">お薬袋・処方薬手帳</h2>
+                <span class="seal-script-label">Daily Health & Tablet Reminder</span>
+                <h2 class="greeting-main">Prescription Packet & Pharmacy Guide</h2>
               </div>
               <div class="hanko-seal mini">
-                <span>薬局</span>
+                <span>薬袋</span>
               </div>
             </div>
 
-            <!-- AUTHENTIC JAPANESE MEDICINE ENVELOPE (薬袋) -->
+            <!-- AUTHENTIC JAPANESE MEDICINE ENVELOPE (薬袋 - Yakutai) -->
             <div class="yakutai-envelope" id="yakutai-envelope">
-              <!-- Top Header with Red Cross & Pharmacy Name -->
+              <!-- Header with Red Cross -->
               <div class="yakutai-header">
                 <div class="yakutai-cross">✚</div>
                 <div class="yakutai-title-block">
-                  <h3 class="yakutai-main-title">薬　袋</h3>
-                  <span class="yakutai-sub-title">YAKUTAI • PRESCRIPTION DOSAGE PACKET</span>
+                  <h3 class="yakutai-main-title">YAKUTAI <span class="title-jp">薬袋</span></h3>
+                  <span class="yakutai-sub-title">JAPANESE PRESCRIPTION DOSAGE PACKET</span>
                 </div>
                 <div class="yakutai-rx-seal">
                   <span>処方</span>
                 </div>
               </div>
 
-              <!-- Patient Name Line -->
+              <!-- Patient Row -->
               <div class="yakutai-patient-row">
-                <span class="patient-tag">患者氏名</span>
-                <strong class="patient-name">Arjun 様</strong>
-                <span class="patient-date">2026.10.26 調剤</span>
+                <span class="patient-tag">Patient Name (患者氏名)</span>
+                <strong class="patient-name">Arjun-san (様)</strong>
+                <span class="patient-date">Oct 26, 2026</span>
               </div>
 
-              <!-- Traditional Dosage Time Checkbox Grid (朝・昼・夕・寝る前) -->
+              <!-- Daily Dosage Time Checkbox Grid (朝・昼・夕・寝る前) -->
               <div class="yakutai-schedule-grid">
                 <div class="schedule-col done">
-                  <div class="col-kanji">朝</div>
-                  <div class="col-time">08:00</div>
+                  <span class="col-kanji">Morning (朝)</span>
+                  <span class="col-time">08:00 AM</span>
                   <div class="col-stamp">
-                    <span class="hanko-stamp-text">済</span>
+                    <span class="hanko-stamp-text">✓ 済</span>
                   </div>
-                  <span class="col-pill-name">ビタミンD</span>
+                  <span class="col-pill-name">Vitamin D3</span>
                 </div>
                 <div class="schedule-col inactive">
-                  <div class="col-kanji">昼</div>
-                  <div class="col-time">12:30</div>
+                  <span class="col-kanji">Noon (昼)</span>
+                  <span class="col-time">12:30 PM</span>
                   <div class="col-stamp">—</div>
-                  <span class="col-pill-name">なし</span>
+                  <span class="col-pill-name">None</span>
                 </div>
                 <div class="schedule-col pending active-slot" id="evening-slot">
-                  <div class="col-kanji">夕</div>
-                  <div class="col-time">20:30</div>
-                  <!-- The Ink Hanko Stamp will appear here upon clicking Take -->
+                  <span class="col-kanji">Evening (夕)</span>
+                  <span class="col-time">08:30 PM</span>
                   <div class="col-stamp stamp-target" id="evening-hanko-target">
-                    <span class="unmarked-ring">⭕</span>
+                    <span class="unmarked-ring">⭕ Scheduled</span>
                   </div>
-                  <span class="col-pill-name">マグネシウム</span>
+                  <span class="col-pill-name">Magnesium</span>
                 </div>
                 <div class="schedule-col inactive">
-                  <div class="col-kanji">就寝前</div>
-                  <div class="col-time">23:00</div>
+                  <span class="col-kanji">Bedtime (就寝前)</span>
+                  <span class="col-time">11:00 PM</span>
                   <div class="col-stamp">—</div>
-                  <span class="col-pill-name">なし</span>
+                  <span class="col-pill-name">None</span>
                 </div>
               </div>
 
-              <!-- Pharmacist Instruction Note -->
+              <!-- Instructions -->
               <div class="yakutai-instructions">
                 <span class="note-bullet">※</span>
-                <span class="instruction-text">水またはぬるま湯でお飲みください。夕食後30分以内に1包服用。 (Take with water after dinner).</span>
+                <span class="instruction-text">Take with water or lukewarm water (水またはぬるま湯) within 30 minutes after dinner.</span>
               </div>
 
-              <!-- Interactive Stamp Button -->
+              <!-- Stamp Action Button -->
               <div class="yakutai-action-row">
                 <button class="stamp-action-btn" id="stamp-pill-btn">
-                  <span class="btn-stamp-icon">🖃</span>
-                  <span id="stamp-btn-label">判子を押す (Take & Stamp Dose)</span>
+                  <svg class="ui-icon" width="16" height="16" stroke="#FFFFFF"><use href="#icon-stamp" /></svg>
+                  <span id="stamp-btn-label">Stamp & Mark as Taken (押印)</span>
                 </button>
               </div>
             </div>
 
             <!-- Japan OTC Equivalency Finder -->
             <h3 class="stationery-section-title">
-              <span>日本の一般医薬品案内</span>
-              <span class="jp-sub">Japanese OTC Equivalency Guide</span>
+              <span>Where to Find Your Medicines in Japan</span>
+              <span class="jp-sub">OTC Equivalents</span>
             </h3>
             <div class="stationery-card otc-stationery-card">
               <div class="otc-card-intro">
-                <span>日本のドラッグストアで購入可能な常備薬（処方箋不要）</span>
+                <span>Standard Western tablets and their trusted Japanese drugstore equivalents (No prescription required):</span>
               </div>
 
               <div class="otc-paper-list">
                 <div class="otc-paper-item">
                   <div class="otc-western">
-                    <span class="otc-badge-pill">外国名</span>
+                    <span class="otc-badge-pill">Western Name</span>
                     <strong>Paracetamol / Tylenol</strong>
-                    <span class="use-case">頭痛・解熱 (Headache & Fever)</span>
+                    <span class="use-case">Headache & Fever (頭痛・解熱)</span>
                   </div>
-                  <div class="otc-exchange-symbol">⇄</div>
+                  <div class="otc-exchange-symbol">➔</div>
                   <div class="otc-japanese">
-                    <span class="otc-badge-jp">日本製品</span>
-                    <strong>EVE A (イブA) / バファリン</strong>
-                    <span class="drug-class">指定第2類医薬品</span>
+                    <span class="otc-badge-jp">Japan Equivalent</span>
+                    <strong>EVE A or Bufferin</strong>
+                    <span class="drug-class">イブA / バファリン</span>
                   </div>
                 </div>
 
                 <div class="otc-paper-item">
                   <div class="otc-western">
-                    <span class="otc-badge-pill">外国名</span>
+                    <span class="otc-badge-pill">Western Name</span>
                     <strong>Ibuprofen (Advil/Motrin)</strong>
-                    <span class="use-case">鎮痛・消炎 (Pain & Inflammation)</span>
+                    <span class="use-case">Pain & Inflammation (鎮痛・消炎)</span>
                   </div>
-                  <div class="otc-exchange-symbol">⇄</div>
+                  <div class="otc-exchange-symbol">➔</div>
                   <div class="otc-japanese">
-                    <span class="otc-badge-jp">日本製品</span>
-                    <strong>EVE Quick DX (イブクイックDX)</strong>
-                    <span class="drug-class">速効性鎮痛薬</span>
+                    <span class="otc-badge-jp">Japan Equivalent</span>
+                    <strong>EVE Quick DX</strong>
+                    <span class="drug-class">イブクイックDX (Fast Acting)</span>
                   </div>
                 </div>
 
                 <div class="otc-paper-item">
                   <div class="otc-western">
-                    <span class="otc-badge-pill">外国名</span>
+                    <span class="otc-badge-pill">Western Name</span>
                     <strong>Cetirizine / Zyrtec</strong>
-                    <span class="use-case">花粉症・鼻炎 (Allergy / Hay Fever)</span>
+                    <span class="use-case">Allergies & Hay Fever (花粉症)</span>
                   </div>
-                  <div class="otc-exchange-symbol">⇄</div>
+                  <div class="otc-exchange-symbol">➔</div>
                   <div class="otc-japanese">
-                    <span class="otc-badge-jp">日本製品</span>
-                    <strong>アレグラFX (Allegra FX)</strong>
-                    <span class="drug-class">第2類医薬品</span>
+                    <span class="otc-badge-jp">Japan Equivalent</span>
+                    <strong>Allegra FX</strong>
+                    <span class="drug-class">アレグラFX (Non-drowsy)</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Traditional Pharmacy Chains -->
+            <!-- Major Pharmacy Chains -->
             <h3 class="stationery-section-title">
-              <span>近隣の主要薬局</span>
-              <span class="jp-sub">Verified Drugstore Chains</span>
+              <span>Drugstore Chains Near You</span>
+              <span class="jp-sub">ドラッグストア</span>
             </h3>
             <div class="pharmacy-ticket-list">
               <div class="pharmacy-ticket" onclick="locatePharmacy('Matsumoto Kiyoshi')">
-                <div class="pharmacy-monogram mk">マツキヨ</div>
+                <div class="pharmacy-monogram mk">MK</div>
                 <div class="pharmacy-info">
-                  <strong>マツモトキヨシ (Matsumoto Kiyoshi)</strong>
-                  <span>駅前立地多数 • 免税対応 • 処方箋受付</span>
+                  <strong>Matsumoto Kiyoshi (マツモトキヨシ)</strong>
+                  <span>Outside almost every major station • English signage • Tax-free</span>
                 </div>
-                <div class="ticket-arrow">案内 ➔</div>
+                <div class="ticket-arrow">
+                  <svg width="14" height="14"><use href="#icon-pin" /></svg>
+                  <span>Locate</span>
+                </div>
               </div>
 
               <div class="pharmacy-ticket" onclick="locatePharmacy('Sundrug')">
-                <div class="pharmacy-monogram sd">サンドラ</div>
+                <div class="pharmacy-monogram sd">SD</div>
                 <div class="pharmacy-info">
-                  <strong>サンドラッグ (Sundrug)</strong>
-                  <span>日用ビタミン・サプリメント高割引率</span>
+                  <strong>Sundrug (サンドラッグ)</strong>
+                  <span>High discounts on daily supplements and vitamins</span>
                 </div>
-                <div class="ticket-arrow">案内 ➔</div>
+                <div class="ticket-arrow">
+                  <svg width="14" height="14"><use href="#icon-pin" /></svg>
+                  <span>Locate</span>
+                </div>
               </div>
 
               <div class="pharmacy-ticket" onclick="locatePharmacy('Welcia')">
-                <div class="pharmacy-monogram wc">ウエル</div>
+                <div class="pharmacy-monogram wc">WC</div>
                 <div class="pharmacy-info">
-                  <strong>ウエルシア (Welcia)</strong>
-                  <span>24時間営業店舗多数 • 深夜薬対応</span>
+                  <strong>Welcia (ウエルシア)</strong>
+                  <span>Many 24-hour branches with late-night medicine counters</span>
                 </div>
-                <div class="ticket-arrow">案内 ➔</div>
+                <div class="ticket-arrow">
+                  <svg width="14" height="14"><use href="#icon-pin" /></svg>
+                  <span>Locate</span>
+                </div>
               </div>
             </div>
           </section>
 
           <!-- ==========================================
-               SCREEN 3: TRANSIT (昭和レトロ 硬券切符・山手線)
+               SCREEN 3: TRANSIT (Vintage Train Ticket & Yamanote Loop)
                ========================================== -->
           <section id="screen-transit" class="screen">
             <div class="stationery-topbar">
               <div>
-                <span class="seal-script-label">鉄道 commuter guide</span>
-                <h2 class="greeting-main">JR硬券切符・東京環状線</h2>
+                <span class="seal-script-label">Tokyo Commuter Guide</span>
+                <h2 class="greeting-main">JR Yamanote & Subway Guide</h2>
               </div>
               <div class="hanko-seal mini train">
                 <span>切符</span>
@@ -411,121 +464,131 @@
 
             <!-- VINTAGE JAPANESE RAILWAY TICKET STUB (硬券 - Kōken) -->
             <div class="koken-ticket" id="koken-ticket">
-              <!-- Punched notch marks on cardboard ticket edges -->
               <div class="koken-notch left"></div>
               <div class="koken-notch right"></div>
 
               <div class="koken-top-row">
-                <span class="koken-line">JR東日本 • 東海道本線／山手線</span>
-                <span class="koken-fare">¥ 210 区間</span>
+                <span class="koken-line">JR East • Yamanote Loop (山手線)</span>
+                <span class="koken-fare">¥ 210 Fare Zone</span>
               </div>
 
               <div class="koken-route-display">
                 <div class="koken-station">
-                  <span class="station-sub">SHIBUYA</span>
-                  <strong class="station-name">渋　谷</strong>
+                  <span class="station-sub">ORIGIN</span>
+                  <strong class="station-name">SHIBUYA (渋谷)</strong>
                 </div>
                 <div class="koken-direction-arrow">➔➔</div>
                 <div class="koken-station">
-                  <span class="station-sub">SHINJUKU</span>
-                  <strong class="station-name">新　宿</strong>
+                  <span class="station-sub">DESTINATION</span>
+                  <strong class="station-name">SHINJUKU (新宿)</strong>
                 </div>
               </div>
 
               <div class="koken-footer-row">
-                <span class="koken-serial">№ 4829 下車前途無効</span>
-                <span class="koken-date">26. -10. 26</span>
+                <span class="koken-serial">No. 4829 • Valid on Day of Issue</span>
+                <span class="koken-date">2026. 10. 26</span>
                 
-                <!-- Conductor's Red Punch Stamp -->
                 <div class="conductor-stamp">
-                  <span>入鋏済<br>渋谷駅</span>
+                  <span>INSPECTED<br>渋谷駅</span>
                 </div>
               </div>
             </div>
 
-            <!-- Yamanote Line Station Roll (路線図) -->
+            <!-- Yamanote Loop Station Strip -->
             <h3 class="stationery-section-title">
-              <span>山手線 環状駅一覧</span>
-              <span class="jp-sub">Yamanote Circular Line</span>
+              <span>Yamanote Circular Loop Stations</span>
+              <span class="jp-sub">JR山手線</span>
             </h3>
             <div class="stationery-card yamanote-strip-card">
               <div class="yamanote-scroll-track">
                 <div class="y-station active">
                   <span class="y-code">JY17</span>
-                  <strong class="y-kanji">新宿</strong>
-                  <span class="y-romaji">Shinjuku</span>
+                  <strong class="y-kanji">Shinjuku</strong>
+                  <span class="y-romaji">新宿</span>
                 </div>
                 <div class="y-connector"></div>
                 <div class="y-station">
                   <span class="y-code">JY19</span>
-                  <strong class="y-kanji">原宿</strong>
-                  <span class="y-romaji">Harajuku</span>
+                  <strong class="y-kanji">Harajuku</strong>
+                  <span class="y-romaji">原宿</span>
                 </div>
                 <div class="y-connector"></div>
                 <div class="y-station active-now">
                   <span class="y-code">JY20</span>
-                  <strong class="y-kanji">渋谷</strong>
-                  <span class="y-romaji">Shibuya</span>
+                  <strong class="y-kanji">Shibuya</strong>
+                  <span class="y-romaji">渋谷 (Here)</span>
                 </div>
                 <div class="y-connector"></div>
                 <div class="y-station">
                   <span class="y-code">JY21</span>
-                  <strong class="y-kanji">恵比寿</strong>
-                  <span class="y-romaji">Ebisu</span>
+                  <strong class="y-kanji">Ebisu</strong>
+                  <span class="y-romaji">恵比寿</span>
                 </div>
                 <div class="y-connector"></div>
                 <div class="y-station">
                   <span class="y-code">JY24</span>
-                  <strong class="y-kanji">品川</strong>
-                  <span class="y-romaji">Shinagawa</span>
+                  <strong class="y-kanji">Shinagawa</strong>
+                  <span class="y-romaji">品川</span>
                 </div>
                 <div class="y-connector"></div>
                 <div class="y-station">
                   <span class="y-code">JY01</span>
-                  <strong class="y-kanji">東京</strong>
-                  <span class="y-romaji">Tokyo</span>
+                  <strong class="y-kanji">Tokyo</strong>
+                  <span class="y-romaji">東京</span>
                 </div>
               </div>
             </div>
 
-            <!-- Major Station Exit Placards (出口木札) -->
+            <!-- Major Station Exit Placards -->
             <h3 class="stationery-section-title">
-              <span>改札口案内札</span>
-              <span class="jp-sub">Station Exit Guide</span>
+              <span>Critical Station Exits Cheat Sheet</span>
+              <span class="jp-sub">改札口案内</span>
             </h3>
             <div class="exit-wood-list">
               <div class="exit-wood-card">
-                <div class="wood-tag">渋谷駅</div>
+                <div class="wood-tag">Shibuya</div>
                 <div class="wood-content">
-                  <strong>ハチ公改札 (Hachiko Exit)</strong>
-                  <p>スクランブル交差点・ハチ公前広場・SHIBUYA 109へ直結。</p>
+                  <strong>Hachiko Exit (ハチ公改札)</strong>
+                  <p>Direct access to the famous Scramble Crossing, Hachiko statue, and SHIBUYA 109.</p>
                 </div>
               </div>
               <div class="exit-wood-card">
-                <div class="wood-tag">新宿駅</div>
+                <div class="wood-tag">Shinjuku</div>
                 <div class="wood-content">
-                  <strong>東口 vs 西口 (East vs West Exits)</strong>
-                  <p>東口は歌舞伎町・伊勢丹方面。西口は東京都庁・高層ビル街方面。</p>
+                  <strong>East Exit vs West Exit (東口 / 西口)</strong>
+                  <p>East Exit for Kabukicho & Isetan shopping; West Exit for Tokyo Metropolitan Gov. Towers.</p>
                 </div>
               </div>
               <div class="exit-wood-card">
-                <div class="wood-tag">東京駅</div>
+                <div class="wood-tag">Tokyo</div>
                 <div class="wood-content">
-                  <strong>丸の内口 vs 八重洲口 (Marunouchi vs Yaesu)</strong>
-                  <p>丸の内は皇居・レンガ駅舎。八重洲は新幹線乗り場・高速バスターミナル。</p>
+                  <strong>Marunouchi vs Yaesu (丸の内 / 八重洲)</strong>
+                  <p>Marunouchi for Imperial Palace; Yaesu for Shinkansen bullet train & airport buses.</p>
                 </div>
               </div>
+            </div>
+
+            <!-- Commuter Etiquette -->
+            <h3 class="stationery-section-title">
+              <span>Train Etiquette Tips</span>
+              <span class="jp-sub">Manner Mode</span>
+            </h3>
+            <div class="manner-grid">
+              <div class="manner-pill">📵 Phone on Manner Mode (マナーモード)</div>
+              <div class="manner-pill">🎒 Backpacks on front or overhead rack</div>
+              <div class="manner-pill">🔇 No voice phone calls inside train cars</div>
+              <div class="manner-pill">💳 Touch IC card firmly against gate sensor</div>
             </div>
           </section>
 
           <!-- ==========================================
-               SCREEN 4: RADAR (和風 羅針盤・地図)
+               SCREEN 4: RADAR (Brass Compass & Landmarks)
                ========================================== -->
           <section id="screen-map" class="screen">
             <div class="stationery-topbar">
               <div>
-                <span class="seal-script-label">完全局所羅針盤</span>
-                <h2 class="greeting-main">方位磁石・東京地標</h2>
+                <span class="seal-script-label">100% Offline Location Radar</span>
+                <h2 class="greeting-main">Tokyo Compass & Landmarks</h2>
               </div>
               <div class="hanko-seal mini">
                 <span>地図</span>
@@ -537,65 +600,77 @@
               <div class="compass-casing">
                 <div class="compass-dial">
                   <div class="compass-cross"></div>
-                  <!-- North / South / East / West in Kanji -->
-                  <span class="cardinal north">北</span>
-                  <span class="cardinal south">南</span>
-                  <span class="cardinal east">東</span>
-                  <span class="cardinal west">西</span>
+                  <!-- North / South / East / West -->
+                  <span class="cardinal north">N</span>
+                  <span class="cardinal south">S</span>
+                  <span class="cardinal east">E</span>
+                  <span class="cardinal west">W</span>
                   
                   <!-- Compass Needle -->
                   <div class="needle" id="compass-needle"></div>
 
-                  <!-- Blips -->
-                  <div class="blip fuji" title="Mt. Fuji (西 98km)">🏔️</div>
-                  <div class="blip tower" title="Tokyo Tower (南東 3.2km)">🗼</div>
-                  <div class="blip pharmacy" title="Matsumoto Kiyoshi (400m)">💊</div>
+                  <!-- Landmark Blips -->
+                  <div class="blip fuji" title="Mt. Fuji (West • 98 km)">
+                    <svg width="20" height="20" stroke="var(--sumi-ink)" fill="#FFFFFF"><use href="#icon-fuji" /></svg>
+                  </div>
+                  <div class="blip tower" title="Tokyo Tower (South-East • 3.2 km)">
+                    <svg width="20" height="20" stroke="var(--shu-vermilion)"><use href="#icon-tower" /></svg>
+                  </div>
+                  <div class="blip pharmacy" title="Matsumoto Kiyoshi Pharmacy (400m)">
+                    <svg width="18" height="18" stroke="var(--yamabuki-gold)" fill="#FEF3C7"><use href="#icon-pill" /></svg>
+                  </div>
                 </div>
               </div>
 
               <div class="compass-metrics">
                 <div class="metric-col">
-                  <span class="m-label">現在方位</span>
-                  <strong class="m-val">北東 045°</strong>
+                  <span class="m-label">Current Heading</span>
+                  <strong class="m-val">045° NE</strong>
                 </div>
                 <div class="metric-col">
-                  <span class="m-label">最寄薬局</span>
-                  <strong class="m-val highlight">400m (徒歩5分)</strong>
+                  <span class="m-label">Nearest Pharmacy</span>
+                  <strong class="m-val highlight">400m (5 min walk)</strong>
                 </div>
                 <div class="metric-col">
-                  <span class="m-label">GPS精度</span>
-                  <strong class="m-val">± 3m</strong>
+                  <span class="m-label">GPS Precision</span>
+                  <strong class="m-val">± 3m (Offline)</strong>
                 </div>
               </div>
             </div>
 
-            <!-- Verified Local Landmarks -->
+            <!-- Curated Landmarks -->
             <h3 class="stationery-section-title">
-              <span>確認済近隣地標</span>
-              <span class="jp-sub">Curated Offline Landmarks</span>
+              <span>Nearby Verified Landmarks</span>
+              <span class="jp-sub">近隣地標</span>
             </h3>
             <div class="landmark-stationery-list">
               <div class="lm-stationery-item">
-                <div class="lm-stamp">薬</div>
+                <div class="lm-stamp">
+                  <svg width="16" height="16"><use href="#icon-pill" /></svg>
+                </div>
                 <div class="lm-details">
-                  <strong>マツモトキヨシ 渋谷Part1店</strong>
-                  <span>ドラッグストア • 23時迄営業 • 免税対応</span>
+                  <strong>Matsumoto Kiyoshi (Shibuya Part 1)</strong>
+                  <span>Drugstore • Open until 23:00 • English speaking staff</span>
                 </div>
                 <span class="lm-badge">0.4 km</span>
               </div>
               <div class="lm-stationery-item">
-                <div class="lm-stamp red">宮</div>
+                <div class="lm-stamp red">
+                  <svg width="16" height="16"><use href="#icon-torii" /></svg>
+                </div>
                 <div class="lm-details">
-                  <strong>明治神宮 (Meiji Jingu Shrine)</strong>
-                  <span>原宿・代々木方面 • 重要文化財</span>
+                  <strong>Meiji Jingu Shrine (明治神宮)</strong>
+                  <span>Historic cultural forest shrine in Harajuku</span>
                 </div>
                 <span class="lm-badge">1.8 km</span>
               </div>
               <div class="lm-stationery-item">
-                <div class="lm-stamp gold">塔</div>
+                <div class="lm-stamp gold">
+                  <svg width="16" height="16"><use href="#icon-tower" /></svg>
+                </div>
                 <div class="lm-details">
-                  <strong>東京タワー (Tokyo Tower)</strong>
-                  <span>港区芝公園 • 332.9m ランドマーク</span>
+                  <strong>Tokyo Tower (東京タワー)</strong>
+                  <span>Minato City iconic 332.9m landmark</span>
                 </div>
                 <span class="lm-badge">3.2 km</span>
               </div>
@@ -603,24 +678,24 @@
           </section>
 
           <!-- ==========================================
-               SCREEN 5: AI CHAT (相棒・筆談室)
+               SCREEN 5: AI CHAT (Consultation)
                ========================================== -->
           <section id="screen-chat" class="screen">
             <div class="stationery-topbar">
               <div>
-                <span class="seal-script-label">人工知能相談室</span>
-                <h2 class="greeting-main">相棒・筆談</h2>
+                <span class="seal-script-label">Offline AI Companion</span>
+                <h2 class="greeting-main">AIBO Consultation</h2>
               </div>
-              <div class="paper-badge">二刀流 AI</div>
+              <div class="paper-badge">Dual-Engine AI</div>
             </div>
 
-            <!-- Chat Messages in Japanese Scroll Format -->
+            <!-- Chat Scroll Area -->
             <div class="chat-scroll-area" id="chat-log">
               <div class="chat-row aibo">
                 <div class="hanko-seal mini">相棒</div>
                 <div class="scroll-bubble">
-                  こんにちは Arjun様。相棒（AIBO）です。東京での生活、お薬の服用確認、電車乗り換え、市役所からの通知書の解読など、何でもお尋ねください。すべてお使いの端末内で暗号化保存されています。
-                  <div class="scroll-time">09:30 • 筆談済</div>
+                  Konnichiwa Arjun-san! I am AIBO, your Japanese daily companion. You can ask me anything in English or simple Japanese: finding tablets, understanding letters from city hall, or train routes. All your data stays 100% encrypted on your phone.
+                  <div class="scroll-time">09:30 • Verified</div>
                 </div>
               </div>
               <div class="chat-row user">
@@ -632,43 +707,47 @@
               <div class="chat-row aibo">
                 <div class="hanko-seal mini">相棒</div>
                 <div class="scroll-bubble">
-                  渋谷駅ハチ公口を出て徒歩2分の<strong>マツモトキヨシ</strong>が最寄りです。頭痛には<strong>イブクイックDX（EVE Quick DX）</strong>または<strong>バファリンプレミアム</strong>を薬局カウンターでお探しください。
-                  <div class="scroll-time">09:32 • 筆談済</div>
+                  Head out of the <strong>Hachiko Exit</strong> and walk 2 minutes to <strong>Matsumoto Kiyoshi</strong>. Ask for <strong>EVE Quick DX (イブクイックDX)</strong> or <strong>Bufferin Premium (バファリンプレミアム)</strong>. Both contain Ibuprofen and are available over-the-counter!
+                  <div class="scroll-time">09:32 • Verified</div>
                 </div>
               </div>
             </div>
 
-            <!-- Calligraphy Ink Input Bar -->
+            <!-- Input Bar -->
             <div class="ink-input-bar">
-              <button class="brush-mic-btn" id="voice-btn" title="Voice Input (STT)">🎙️</button>
-              <input type="text" id="chat-input" placeholder="日本語または英語でお尋ねください..." />
-              <button class="seal-send-btn" id="send-btn">印</button>
+              <button class="brush-mic-btn" id="voice-btn" title="Voice Input (STT)">
+                <svg width="16" height="16"><use href="#icon-mic" /></svg>
+              </button>
+              <input type="text" id="chat-input" placeholder="Ask AIBO in English or 日本語..." />
+              <button class="seal-send-btn" id="send-btn" title="Send Question">
+                <span>Send</span>
+              </button>
             </div>
           </section>
 
         </div>
 
-        <!-- In-App Traditional Washi Bottom Navigation Bar -->
+        <!-- Bottom Navigation Bar -->
         <nav class="stationery-bottom-nav">
           <button class="nav-tab active" onclick="switchTab('screen-home')" data-tab="screen-home">
-            <span class="nav-tab-kanji">本</span>
+            <svg class="nav-icon" width="20" height="20"><use href="#icon-home" /></svg>
             <span class="nav-tab-label">Home</span>
           </button>
           <button class="nav-tab" onclick="switchTab('screen-medication')" data-tab="screen-medication">
-            <span class="nav-tab-kanji">薬</span>
-            <span class="nav-tab-label">Pills</span>
+            <svg class="nav-icon" width="20" height="20"><use href="#icon-pill" /></svg>
+            <span class="nav-tab-label">Tablets</span>
           </button>
           <button class="nav-tab" onclick="switchTab('screen-transit')" data-tab="screen-transit">
-            <span class="nav-tab-kanji">鉄</span>
+            <svg class="nav-icon" width="20" height="20"><use href="#icon-train" /></svg>
             <span class="nav-tab-label">Transit</span>
           </button>
           <button class="nav-tab" onclick="switchTab('screen-map')" data-tab="screen-map">
-            <span class="nav-tab-kanji">図</span>
+            <svg class="nav-icon" width="20" height="20"><use href="#icon-compass" /></svg>
             <span class="nav-tab-label">Radar</span>
           </button>
           <button class="nav-tab" onclick="switchTab('screen-chat')" data-tab="screen-chat">
-            <span class="nav-tab-kanji">相</span>
-            <span class="nav-tab-label">Chat</span>
+            <svg class="nav-icon" width="20" height="20"><use href="#icon-chat" /></svg>
+            <span class="nav-tab-label">AI Chat</span>
           </button>
         </nav>
       </div>

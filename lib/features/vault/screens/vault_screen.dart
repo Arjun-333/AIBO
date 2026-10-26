@@ -58,7 +58,7 @@ class _VaultScreenState extends State<VaultScreen> {
         builder: (context, setDialogState) {
           return AlertDialog(
             backgroundColor: AppTheme.surfaceDark,
-            title: const Text('Store Encrypted Document'),
+            title: const Text('Store Encrypted Document', style: TextStyle(color: Colors.white)),
             content: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -157,7 +157,7 @@ class _VaultScreenState extends State<VaultScreen> {
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: AppTheme.surfaceDark,
-        title: Text(doc.title),
+        title: Text(doc.title, style: const TextStyle(color: Colors.white)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,

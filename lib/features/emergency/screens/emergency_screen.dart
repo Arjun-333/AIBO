@@ -429,7 +429,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> with SingleTickerProv
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: AppTheme.surfaceDark,
-        title: const Text('Edit Emergency Info'),
+        title: const Text('Edit Emergency Info', style: TextStyle(color: Colors.white)),
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,

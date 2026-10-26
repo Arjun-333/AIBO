@@ -134,7 +134,7 @@ class _MapScreenState extends State<MapScreen> {
                 const SizedBox(height: 14),
                 TextField(
                   controller: nameEnCtrl,
-                  style: const TextStyle(color: Colors.white),
+                  style: const TextStyle(color: AppTheme.inkBlack),
                   decoration: const InputDecoration(
                     labelText: 'Name (English)',
                     hintText: 'e.g. My Apartment / Local Ward Office',
@@ -143,7 +143,7 @@ class _MapScreenState extends State<MapScreen> {
                 const SizedBox(height: 10),
                 TextField(
                   controller: nameJaCtrl,
-                  style: const TextStyle(color: Colors.white),
+                  style: const TextStyle(color: AppTheme.inkBlack),
                   decoration: const InputDecoration(
                     labelText: 'Name (Japanese / Furigana)',
                     hintText: 'e.g. 自宅 (じたく) / 区役所',
@@ -156,7 +156,7 @@ class _MapScreenState extends State<MapScreen> {
                       child: TextField(
                         controller: latCtrl,
                         keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                        style: const TextStyle(color: Colors.white),
+                        style: const TextStyle(color: AppTheme.inkBlack),
                         decoration: const InputDecoration(labelText: 'Latitude (緯度)'),
                       ),
                     ),
@@ -165,7 +165,7 @@ class _MapScreenState extends State<MapScreen> {
                       child: TextField(
                         controller: lngCtrl,
                         keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                        style: const TextStyle(color: Colors.white),
+                        style: const TextStyle(color: AppTheme.inkBlack),
                         decoration: const InputDecoration(labelText: 'Longitude (経度)'),
                       ),
                     ),
@@ -174,7 +174,7 @@ class _MapScreenState extends State<MapScreen> {
                 const SizedBox(height: 10),
                 TextField(
                   controller: addressCtrl,
-                  style: const TextStyle(color: Colors.white),
+                  style: const TextStyle(color: AppTheme.inkBlack),
                   decoration: const InputDecoration(
                     labelText: 'Street Address (住所)',
                     hintText: 'e.g. Shinjuku-ku, Tokyo',
@@ -183,7 +183,7 @@ class _MapScreenState extends State<MapScreen> {
                 const SizedBox(height: 10),
                 TextField(
                   controller: notesCtrl,
-                  style: const TextStyle(color: Colors.white),
+                  style: const TextStyle(color: AppTheme.inkBlack),
                   decoration: const InputDecoration(
                     labelText: 'Landmarks / Navigation Notes',
                     hintText: 'Near Exit 4, next to 7-Eleven',

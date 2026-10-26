@@ -73,6 +73,23 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
   }
 
   Future<void> _deleteExpense(int id) async {
+    final shouldDelete = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Delete expense?'),
+        content: const Text('This entry will be removed from your local expense history.'),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel')),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            style: FilledButton.styleFrom(backgroundColor: AppTheme.accentRose),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+    if (shouldDelete != true) return;
+
     await DatabaseHelper.instance.deleteExpense(id);
     _loadExpenses();
     if (mounted) {
@@ -137,7 +154,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                 const SizedBox(height: 12),
                 TextField(
                   controller: noteCtrl,
-                  style: const TextStyle(color: Colors.white),
+                  style: const TextStyle(color: AppTheme.inkBlack),
                   decoration: const InputDecoration(
                     labelText: 'Description / Note',
                     hintText: 'e.g. 7-Eleven bento lunch + tea',

@@ -4,29 +4,41 @@ import 'package:flutter/material.dart';
 /// Inspired by "Muchi Neko" Concept Design:
 /// Color Palette: #111111, #333333, #777777, #BEB8AD, #E6E1D7, #F6F4EE
 class AppTheme {
-  // Core Washi Minimalist Palette
-  static const Color inkBlack = Color(0xFF111111);
-  static const Color charcoal = Color(0xFF333333);
-  static const Color mutedGrey = Color(0xFF777777);
+  // AIBO Core Warm Japanese Palette
+  static const Color washiCream = Color(0xFFFAF7EE);  // Main background (Warm ivory)
+  static const Color surfaceWhite = Color(0xFFFFFFFF); // Content surfaces (Soft white)
+  static const Color charcoal = Color(0xFF1E232A);    // Primary text (Charcoal)
+  static const Color secondaryText = Color(0xFF57534E); // Secondary metadata
+  static const Color mutedText = Color(0xFF78716C);    // Muted timestamps / hints
+  static const Color warmBorder = Color(0xFFEAE5D9);  // Subtle borders (Subtle craft)
+  static const Color surfaceHover = Color(0xFFF5F1E5); // Tap feedback surface
+
+  // Semantic Accents (Traditional Japanese Pigments)
+  static const Color matchaGreen = Color(0xFF2F5D44); // Success states & verified items
+  static const Color vermilionRed = Color(0xFFC84B31); // Traditional Inkan & emergency alerts
+  static const Color yamabukiGold = Color(0xFFD97706); // Attention & pending reminders
+  static const Color aizomeIndigo = Color(0xFF1E3A8A); // Transit & official links
+
+  // Backward compatibility aliases
+  static const Color inkBlack = charcoal;
   static const Color sandAccent = Color(0xFFBEB8AD);
-  static const Color warmBorder = Color(0xFFE6E1D7);
-  static const Color washiCream = Color(0xFFF6F4EE);
-
-  // Japanese Traditional Accent Touches
-  static const Color vermilionRed = Color(0xFFC84B31); // Traditional Inkan / Emergency red
-  static const Color matchaTeal = Color(0xFF2E6F68);   // Traditional deep green-teal
-  static const Color goldOchre = Color(0xFFD4A373);    // Subtle gold highlight
-
-  // Aliases for compatibility
-  static const Color primary = inkBlack;
-  static const Color primaryDark = Color(0xFF1A1A1A);
+  static const Color mutedGrey = mutedText;
+  static const Color matchaTeal = matchaGreen;
+  static const Color goldOchre = yamabukiGold;
+  static const Color primary = charcoal;
+  static const Color primaryDark = Color(0xFF14171C);
   static const Color accentRose = vermilionRed;
-  static const Color accentTeal = matchaTeal;
+  static const Color accentTeal = matchaGreen;
   static const Color backgroundDark = washiCream;
-  // Dark utility surfaces are used by maps, chat, planner, vault, and emergency
-  // detail views while the main dashboard remains light.
   static const Color surfaceDark = Color(0xFF1C1C1C);
   static const Color surfaceLightDark = Color(0xFF333333);
+
+  // Restrained Radius System
+  static const double radiusXs = 4.0;
+  static const double radiusSm = 8.0;
+  static const double radiusMd = 14.0;
+  static const double radiusLg = 20.0;
+  static const double radiusPill = 999.0;
 
   static ThemeData get darkTheme => washiTheme;
 
@@ -36,86 +48,85 @@ class AppTheme {
       brightness: Brightness.light,
       scaffoldBackgroundColor: washiCream,
       colorScheme: const ColorScheme.light(
-        primary: inkBlack,
-        secondary: matchaTeal,
+        primary: charcoal,
+        secondary: matchaGreen,
         error: vermilionRed,
-        surface: Colors.white,
-        onSurface: inkBlack,
+        surface: surfaceWhite,
+        onSurface: charcoal,
         outline: warmBorder,
       ),
       cardTheme: CardThemeData(
-        color: Colors.white,
+        color: surfaceWhite,
         elevation: 0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: warmBorder, width: 1.2),
+          borderRadius: BorderRadius.circular(radiusMd),
+          side: const BorderSide(color: warmBorder, width: 1.0),
         ),
       ),
       appBarTheme: const AppBarTheme(
         backgroundColor: washiCream,
         elevation: 0,
         centerTitle: true,
-        iconTheme: IconThemeData(color: inkBlack),
+        iconTheme: IconThemeData(color: charcoal),
         titleTextStyle: TextStyle(
-          color: inkBlack,
-          fontSize: 17,
+          color: charcoal,
+          fontSize: 18,
           fontWeight: FontWeight.w700,
-          letterSpacing: 1.2,
+          letterSpacing: -0.2,
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: inkBlack,
+          backgroundColor: charcoal,
           foregroundColor: washiCream,
           elevation: 0,
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(radiusSm),
           ),
           textStyle: const TextStyle(
             fontSize: 14,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 0.8,
+            fontWeight: FontWeight.w600,
           ),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          foregroundColor: inkBlack,
-          side: const BorderSide(color: inkBlack, width: 1.2),
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          foregroundColor: charcoal,
+          side: const BorderSide(color: warmBorder, width: 1.0),
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(radiusSm),
           ),
         ),
       ),
       chipTheme: ChipThemeData(
         backgroundColor: washiCream,
-        selectedColor: inkBlack,
+        selectedColor: charcoal,
         disabledColor: washiCream,
-        secondarySelectedColor: inkBlack,
-        labelStyle: const TextStyle(color: inkBlack, fontSize: 12),
+        secondarySelectedColor: charcoal,
+        labelStyle: const TextStyle(color: charcoal, fontSize: 12),
         secondaryLabelStyle: const TextStyle(color: washiCream, fontSize: 12),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-          side: const BorderSide(color: warmBorder, width: 1),
+          borderRadius: BorderRadius.circular(radiusPill),
+          side: const BorderSide(color: warmBorder, width: 1.0),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: Colors.white,
+        fillColor: surfaceWhite,
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: warmBorder, width: 1.2),
+          borderRadius: BorderRadius.circular(radiusSm),
+          borderSide: const BorderSide(color: warmBorder, width: 1.0),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: warmBorder, width: 1.2),
+          borderRadius: BorderRadius.circular(radiusSm),
+          borderSide: const BorderSide(color: warmBorder, width: 1.0),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: inkBlack, width: 1.8),
+          borderRadius: BorderRadius.circular(radiusSm),
+          borderSide: const BorderSide(color: charcoal, width: 1.5),
         ),
       ),
     );

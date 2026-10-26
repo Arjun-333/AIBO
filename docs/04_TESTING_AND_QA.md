@@ -2,7 +2,8 @@
 
 **Document status:** APPROVED — Phase 01 sign-off complete  
 **Last updated:** 2026-10-25  
-**Phase:** 01 — Foundation and Documentation
+**Phase:** 01 — Foundation and Documentation  
+**Companion audit document:** `docs/17_QUALITY_AND_RELIABILITY_AUDIT.md`
 
 ---
 

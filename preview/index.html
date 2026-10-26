@@ -724,13 +724,24 @@
           <section id="screen-chat" class="screen">
             <div class="stationery-topbar">
               <div>
-                <span class="seal-script-label">Offline AI Companion</span>
+                <span class="seal-script-label">Bilingual AI Companion • 相談</span>
                 <h2 class="greeting-main">AIBO Consultation</h2>
               </div>
               <div style="display: flex; align-items: center; gap: 8px;">
-                <div class="paper-badge">Dual-Engine AI</div>
+                <button class="paper-badge" onclick="openAiConfigModal()" style="cursor: pointer; border: 1px solid var(--border-subtle);" title="Configure AI Engine">
+                  ⚙️ AI Settings
+                </button>
                 <button class="text-link-action" onclick="clearChatAction()" style="font-size: 11px; padding: 2px 6px;">Clear History</button>
               </div>
+            </div>
+
+            <!-- Active AI Provider & Status Banner -->
+            <div class="ai-provider-banner" id="chat-provider-banner">
+              <div class="provider-pill" id="chat-active-provider-pill">
+                <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #34A853;"></span>
+                <span>Active AI: <strong id="chat-active-provider-name">Auto (Nemotron ➔ Gemini)</strong></span>
+              </div>
+              <button class="text-link-action" onclick="openAiConfigModal()">⚙️ Change Engine</button>
             </div>
 
             <!-- Dynamic Chat Scroll Area -->
@@ -1312,6 +1323,83 @@
             <div class="modal-footer">
               <button class="modal-secondary-btn" onclick="closeModal('budget-config-modal')">Cancel</button>
               <button class="modal-primary-btn" onclick="saveBudgetPlan()">Save Budget & Envelopes</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             AI PROVIDER & BYOK CONFIGURATION MODAL
+             ========================================== -->
+        <div class="app-modal-backdrop" id="ai-config-modal">
+          <div class="app-modal-sheet" style="max-height: 85vh; overflow-y: auto;">
+            <div class="modal-header-row">
+              <div class="modal-title-wrap">
+                <span class="modal-sub-label">Dual-Engine Intelligence</span>
+                <h3 class="modal-main-title">AI Engine & BYOK Settings</h3>
+              </div>
+              <button class="modal-close-btn" onclick="closeModal('ai-config-modal')">✕</button>
+            </div>
+            <div class="modal-body-content">
+              <!-- Provider Selector -->
+              <div class="config-field">
+                <label class="config-label">Active Intelligence Engine</label>
+                <select id="cfg-ai-provider" class="config-select" onchange="onAiProviderChanged()">
+                  <option value="auto">Auto-Select (Attempt NVIDIA Nemotron first, fallback to Gemini)</option>
+                  <option value="gemini">Google Gemini 2.5 Flash (Verified Live & Active)</option>
+                  <option value="nvidia">NVIDIA Nemotron 70B (BYOK / build.nvidia.com)</option>
+                  <option value="offline">On-Device Knowledge Engine (Offline Rulebook • ₹0)</option>
+                </select>
+                <span class="config-hint">Select whether to query cloud LLMs or remain strictly offline on device.</span>
+              </div>
+
+              <!-- Connection Test Banner / Status -->
+              <div id="ai-test-result-box" style="background: var(--bg-primary); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 10px; margin-bottom: 14px; font-size: 11px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <strong id="ai-test-status-text">Ready to test connection</strong>
+                  <button class="f-action-btn mini" onclick="testAiConnection()">⚡ Test Connection</button>
+                </div>
+                <div id="ai-test-detail-text" style="color: var(--text-secondary); margin-top: 4px; font-size: 10.5px;">
+                  Click to ping the selected AI provider and verify API response.
+                </div>
+              </div>
+
+              <!-- NVIDIA BYOK Configuration -->
+              <div id="nvidia-config-section" style="border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 12px; margin-bottom: 14px; background: rgba(118,185,0,0.03);">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                  <strong style="font-size: 12px; color: #558500;">NVIDIA NIM (Nemotron) Credentials</strong>
+                  <span style="font-size: 9.5px; background: rgba(118,185,0,0.15); color: #558500; padding: 2px 6px; border-radius: 3px; font-weight: 700;">build.nvidia.com</span>
+                </div>
+                <div class="config-field">
+                  <label class="config-label">NVIDIA API Key</label>
+                  <input type="password" id="cfg-nvidia-key" class="config-input" placeholder="nvapi-..." />
+                  <span class="config-hint">Requires Public API Endpoints or trial credits allocated on build.nvidia.com.</span>
+                </div>
+                <div class="config-field">
+                  <label class="config-label">NVIDIA Model Endpoint</label>
+                  <input type="text" id="cfg-nvidia-model" class="config-input" placeholder="nvidia/llama-3.1-nemotron-70b-instruct" />
+                </div>
+              </div>
+
+              <!-- Google Gemini Configuration -->
+              <div id="gemini-config-section" style="border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 12px; margin-bottom: 14px; background: rgba(26,115,232,0.03);">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                  <strong style="font-size: 12px; color: #1a73e8;">Google Gemini (Default Baseline)</strong>
+                  <span style="font-size: 9.5px; background: rgba(26,115,232,0.12); color: #1a73e8; padding: 2px 6px; border-radius: 3px; font-weight: 700;">AI Studio</span>
+                </div>
+                <div class="config-field">
+                  <label class="config-label">Gemini API Key</label>
+                  <input type="password" id="cfg-gemini-key" class="config-input" placeholder="AIzaSy..." />
+                  <span class="config-hint">Perpetual 1,500 free requests/day via Google AI Studio.</span>
+                </div>
+                <div class="config-field">
+                  <label class="config-label">Gemini Model</label>
+                  <input type="text" id="cfg-gemini-model" class="config-input" placeholder="gemini-2.5-flash" />
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="modal-secondary-btn" onclick="closeModal('ai-config-modal')">Cancel</button>
+              <button class="modal-primary-btn" onclick="saveAiConfig()">Save AI Settings</button>
             </div>
           </div>
         </div>

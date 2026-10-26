@@ -15,6 +15,7 @@ out/
 .env.*.local
 *.key
 *.pem
+preview/config.json
 
 # IDE and editor
 .vscode/

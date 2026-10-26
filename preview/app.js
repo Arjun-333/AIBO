@@ -430,12 +430,14 @@ const AiboStore = {
     localStorage.setItem(this.KEYS.CHAT, JSON.stringify(history));
   },
 
-  addChatMessage(role, content) {
+  addChatMessage(role, content, provider = '', providerClass = '') {
     const history = this.getChatHistory();
     const msg = {
       id: 'msg_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
       role,
       content,
+      provider,
+      providerClass,
       timestamp: new Date().toISOString()
     };
     history.push(msg);
@@ -523,6 +525,237 @@ You can also ask me about:
 • Konbini bill payment and ATM withdrawals
 • Over-the-counter medicine Japanese names
 • Train line transfers and station exits`;
+  }
+};
+
+// ==========================================================================
+// Dual-Engine AI Service (NVIDIA Nemotron 70B BYOK + Google Gemini Flash + Offline)
+// ==========================================================================
+const AiboAiService = {
+  _systemPrompt: `You are AIBO (AI Buddy & Organiser), a friendly, helpful, and culturally knowledgeable personal companion for a foreigner living in Japan.
+Your core rules:
+1. Accurately explain Japanese cultural etiquette, administrative procedures (ward office/市役所, tax/住民税, health insurance/国民健康保険, residence card/在留カード), and municipal garbage sorting rules (burnable/燃えるごみ, non-burnable/燃えないごみ, recyclables/資源ごみ).
+2. When answering Japanese language questions, provide the Kanji (漢字), Hiragana/Furigana reading, Romaji pronunciation, and clear English meaning. Explain politeness levels (Polite/丁寧語 vs Casual/タメ口 vs Humble/謙譲語).
+3. NON-FABRICATION RULE: Never invent train schedules, prices, laws, or emergency guidelines. If you are uncertain or the rule varies by Tokyo ward/municipality, state clearly that it depends on the local ward office (区役所).
+4. Keep answers concise, actionable, and formatted with clean bullet points.`,
+
+  getConfig() {
+    try {
+      const stored = localStorage.getItem('aibo_ai_config');
+      if (stored) return JSON.parse(stored);
+    } catch(e) {}
+
+    return {
+      activeProvider: 'auto',
+      nvidiaApiKey: '',
+      nvidiaBaseUrl: 'https://integrate.api.nvidia.com/v1',
+      nvidiaModel: 'nvidia/llama-3.1-nemotron-70b-instruct',
+      geminiApiKey: '',
+      geminiModel: 'gemini-2.5-flash'
+    };
+  },
+
+  async loadInitialConfig() {
+    let cfg = this.getConfig();
+    // Try to load preview/config.json if keys aren't set in localStorage
+    if (!cfg.geminiApiKey && !cfg.nvidiaApiKey) {
+      try {
+        const res = await fetch('config.json');
+        if (res.ok) {
+          const remote = await res.json();
+          cfg = { ...cfg, ...remote };
+          this.saveConfig(cfg);
+        }
+      } catch (e) {
+        // config.json might not exist, ignore
+      }
+    }
+    this.updateChatProviderBanner();
+    return cfg;
+  },
+
+  saveConfig(cfg) {
+    localStorage.setItem('aibo_ai_config', JSON.stringify(cfg));
+    this.updateChatProviderBanner();
+  },
+
+  updateChatProviderBanner() {
+    const cfg = this.getConfig();
+    const nameEl = document.getElementById('chat-active-provider-name');
+    const pillEl = document.getElementById('chat-active-provider-pill');
+    if (!nameEl || !pillEl) return;
+
+    if (cfg.activeProvider === 'nvidia') {
+      nameEl.textContent = 'NVIDIA Nemotron 70B (BYOK)';
+      pillEl.innerHTML = '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#76B900;"></span> <span>Active: <strong>NVIDIA Nemotron 70B</strong></span>';
+    } else if (cfg.activeProvider === 'gemini') {
+      nameEl.textContent = 'Google Gemini 2.5 Flash (Live)';
+      pillEl.innerHTML = '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#1A73E8;"></span> <span>Active: <strong>Gemini 2.5 Flash (Live)</strong></span>';
+    } else if (cfg.activeProvider === 'offline') {
+      nameEl.textContent = 'On-Device Knowledge Engine (Offline)';
+      pillEl.innerHTML = '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#757575;"></span> <span>Active: <strong>Offline Engine</strong></span>';
+    } else {
+      nameEl.textContent = 'Auto (Nemotron ➔ Gemini Fallback)';
+      pillEl.innerHTML = '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#34A853;"></span> <span>Active: <strong>Auto (Live AI)</strong></span>';
+    }
+  },
+
+  async callNvidia(prompt, history = [], cfg = null) {
+    cfg = cfg || this.getConfig();
+    if (!cfg.nvidiaApiKey) {
+      throw new Error('No NVIDIA API key configured. Enter your key in AI Settings.');
+    }
+
+    const messages = [
+      { role: 'system', content: this._systemPrompt },
+      ...history.slice(-6).map(m => ({ role: m.role === 'assistant' ? 'assistant' : 'user', content: m.content })),
+      { role: 'user', content: prompt }
+    ];
+
+    const res = await fetch(`${cfg.nvidiaBaseUrl || 'https://integrate.api.nvidia.com/v1'}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${cfg.nvidiaApiKey}`
+      },
+      body: JSON.stringify({
+        model: cfg.nvidiaModel || 'nvidia/llama-3.1-nemotron-70b-instruct',
+        messages: messages,
+        temperature: 0.6,
+        max_tokens: 1024
+      })
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      return {
+        text: data.choices[0].message.content.trim(),
+        provider: 'NVIDIA Nemotron 70B',
+        providerClass: 'nvidia'
+      };
+    } else {
+      const errText = await res.text();
+      let errDetail = errText;
+      try {
+        const errJson = JSON.parse(errText);
+        errDetail = errJson.detail || errJson.message || errText;
+      } catch(e) {}
+      throw new Error(`NVIDIA HTTP ${res.status}: ${errDetail}`);
+    }
+  },
+
+  async callGemini(prompt, history = [], cfg = null) {
+    cfg = cfg || this.getConfig();
+    if (!cfg.geminiApiKey) {
+      throw new Error('No Gemini API key configured. Enter your key in AI Settings.');
+    }
+
+    const model = cfg.geminiModel || 'gemini-2.5-flash';
+    const contents = [];
+
+    history.slice(-6).forEach(m => {
+      contents.push({
+        role: m.role === 'assistant' ? 'model' : 'user',
+        parts: [{ text: m.content }]
+      });
+    });
+
+    contents.push({
+      role: 'user',
+      parts: [{ text: `${this._systemPrompt}\n\nUser Question: ${prompt}` }]
+    });
+
+    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${cfg.geminiApiKey}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: contents,
+        generationConfig: {
+          temperature: 0.7,
+          maxOutputTokens: 1024
+        }
+      })
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (!text) throw new Error('Empty response received from Gemini API');
+      return {
+        text: text.trim(),
+        provider: 'Gemini 2.5 Flash',
+        providerClass: 'gemini'
+      };
+    } else {
+      const errText = await res.text();
+      let errDetail = errText;
+      try {
+        const errJson = JSON.parse(errText);
+        errDetail = errJson.error?.message || errText;
+      } catch(e) {}
+      throw new Error(`Gemini HTTP ${res.status}: ${errDetail}`);
+    }
+  },
+
+  async queryAi(prompt, history = []) {
+    const cfg = this.getConfig();
+    const provider = cfg.activeProvider || 'auto';
+
+    if (provider === 'offline') {
+      return {
+        text: AiboKnowledgeAssistant.respond(prompt),
+        provider: 'On-Device Offline Knowledge',
+        providerClass: 'offline'
+      };
+    }
+
+    if (provider === 'nvidia') {
+      try {
+        return await this.callNvidia(prompt, history, cfg);
+      } catch(e) {
+        return {
+          text: `⚠️ **NVIDIA Nemotron Error**: ${e.message}\n\n*Note*: This error occurs when your NVIDIA API account has not had Public NIM inference permissions or trial credits enabled for this model. You can switch to **Google Gemini** in AI Settings for instant live answers.`,
+          provider: 'NVIDIA API Error',
+          providerClass: 'offline'
+        };
+      }
+    }
+
+    if (provider === 'gemini') {
+      try {
+        return await this.callGemini(prompt, history, cfg);
+      } catch(e) {
+        return {
+          text: `⚠️ **Gemini API Error**: ${e.message}\n\nFalling back to On-Device Knowledge:\n\n${AiboKnowledgeAssistant.respond(prompt)}`,
+          provider: 'On-Device Offline Fallback',
+          providerClass: 'offline'
+        };
+      }
+    }
+
+    // Auto Mode: Attempt NVIDIA first if key exists, then Gemini, then Offline
+    if (cfg.nvidiaApiKey) {
+      try {
+        return await this.callNvidia(prompt, history, cfg);
+      } catch (err) {
+        console.warn('NVIDIA Nemotron attempt failed, falling back to Gemini:', err);
+      }
+    }
+
+    if (cfg.geminiApiKey) {
+      try {
+        return await this.callGemini(prompt, history, cfg);
+      } catch (err) {
+        console.warn('Gemini attempt failed, falling back to on-device rulebook:', err);
+      }
+    }
+
+    // Pure offline fallback
+    return {
+      text: AiboKnowledgeAssistant.respond(prompt),
+      provider: 'On-Device Offline Knowledge',
+      providerClass: 'offline'
+    };
   }
 };
 
@@ -951,8 +1184,9 @@ function renderChatLog() {
         <div class="chat-row aibo">
           <div class="hanko-seal mini">相棒</div>
           <div class="scroll-bubble">
-            ${msg.content.replace(/\n/g, '<br>')}
-            <div class="scroll-time">${new Date(msg.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} • Verified On-Device</div>
+            ${msg.provider ? `<div class="ai-model-tag ${escapeHtml(msg.providerClass || 'gemini')}">${escapeHtml(msg.provider)}</div>` : ''}
+            <div>${escapeHtml(msg.content).replace(/\n/g, '<br>')}</div>
+            <div class="scroll-time">${new Date(msg.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} • ${escapeHtml(msg.provider || 'AIBO Intelligence')}</div>
           </div>
         </div>
       `;
@@ -1203,8 +1437,8 @@ function saveProfilePreferences() {
 }
 window.saveProfilePreferences = saveProfilePreferences;
 
-// Chat Interactions
-function sendChatMessage(text) {
+// Chat Interactions (Live Dual-Engine AI)
+async function sendChatMessage(text) {
   const content = text || (document.getElementById('chat-input') ? document.getElementById('chat-input').value.trim() : '');
   if (!content) return;
 
@@ -1215,12 +1449,41 @@ function sendChatMessage(text) {
   AiboStore.addChatMessage('user', content);
   renderChatLog();
 
-  setTimeout(() => {
+  // Temporary typing indicator
+  const log = document.getElementById('chat-log');
+  const typingId = 'typing-indicator-row';
+  if (log && !document.getElementById(typingId)) {
+    const typingEl = document.createElement('div');
+    typingEl.id = typingId;
+    typingEl.className = 'chat-row aibo';
+    typingEl.innerHTML = `
+      <div class="hanko-seal mini">相棒</div>
+      <div class="scroll-bubble" style="background: rgba(250,247,238,0.8);">
+        <span style="font-size: 11px; color: var(--text-secondary); margin-right: 6px;">Consulting AIBO...</span>
+        <div class="typing-dots"><span></span><span></span><span></span></div>
+      </div>
+    `;
+    log.appendChild(typingEl);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  try {
+    const history = AiboStore.getChatHistory().slice(0, -1);
+    const result = await AiboAiService.queryAi(content, history);
+
+    const typingEl = document.getElementById(typingId);
+    if (typingEl) typingEl.remove();
+
     audio.playChime();
-    const reply = AiboKnowledgeAssistant.respond(content);
-    AiboStore.addChatMessage('assistant', reply);
+    AiboStore.addChatMessage('assistant', result.text, result.provider, result.providerClass);
     renderChatLog();
-  }, 450);
+  } catch (err) {
+    const typingEl = document.getElementById(typingId);
+    if (typingEl) typingEl.remove();
+
+    AiboStore.addChatMessage('assistant', `⚠️ Could not reach AI service: ${err.message}`, 'Connection Error', 'offline');
+    renderChatLog();
+  }
 }
 window.sendChatMessage = sendChatMessage;
 
@@ -1457,6 +1720,115 @@ function saveBudgetPlan() {
 }
 window.saveBudgetPlan = saveBudgetPlan;
 
+// 9. AI Config & BYOK Modal Handlers
+function openAiConfigModal() {
+  const cfg = AiboAiService.getConfig();
+  const setVal = (id, val) => {
+    const el = document.getElementById(id);
+    if (el) el.value = val;
+  };
+
+  setVal('cfg-ai-provider', cfg.activeProvider || 'auto');
+  setVal('cfg-nvidia-key', cfg.nvidiaApiKey || '');
+  setVal('cfg-nvidia-model', cfg.nvidiaModel || 'nvidia/llama-3.1-nemotron-70b-instruct');
+  setVal('cfg-gemini-key', cfg.geminiApiKey || '');
+  setVal('cfg-gemini-model', cfg.geminiModel || 'gemini-2.5-flash');
+
+  onAiProviderChanged();
+  openModal('ai-config-modal');
+}
+window.openAiConfigModal = openAiConfigModal;
+
+function onAiProviderChanged() {
+  const provider = document.getElementById('cfg-ai-provider')?.value || 'auto';
+  const nSec = document.getElementById('nvidia-config-section');
+  const gSec = document.getElementById('gemini-config-section');
+  if (!nSec || !gSec) return;
+
+  if (provider === 'nvidia') {
+    nSec.style.opacity = '1';
+    gSec.style.opacity = '0.5';
+  } else if (provider === 'gemini') {
+    nSec.style.opacity = '0.5';
+    gSec.style.opacity = '1';
+  } else {
+    nSec.style.opacity = '1';
+    gSec.style.opacity = '1';
+  }
+}
+window.onAiProviderChanged = onAiProviderChanged;
+
+async function testAiConnection() {
+  const statusEl = document.getElementById('ai-test-status-text');
+  const detailEl = document.getElementById('ai-test-detail-text');
+  if (!statusEl || !detailEl) return;
+
+  statusEl.textContent = 'Testing connection...';
+  detailEl.textContent = 'Pinging cloud API endpoint with greeting verification...';
+
+  const provider = document.getElementById('cfg-ai-provider')?.value || 'auto';
+  const testCfg = {
+    nvidiaApiKey: document.getElementById('cfg-nvidia-key')?.value.trim() || '',
+    nvidiaModel: document.getElementById('cfg-nvidia-model')?.value.trim() || 'nvidia/llama-3.1-nemotron-70b-instruct',
+    nvidiaBaseUrl: 'https://integrate.api.nvidia.com/v1',
+    geminiApiKey: document.getElementById('cfg-gemini-key')?.value.trim() || '',
+    geminiModel: document.getElementById('cfg-gemini-model')?.value.trim() || 'gemini-2.5-flash'
+  };
+
+  try {
+    if (provider === 'nvidia') {
+      const res = await AiboAiService.callNvidia('Say hello in Japanese and confirm your model name', [], testCfg);
+      statusEl.innerHTML = `<span style="color: var(--color-matcha); font-weight:700;">✓ NVIDIA Nemotron Connected</span>`;
+      detailEl.textContent = `Response: "${res.text.slice(0, 100)}..."`;
+    } else if (provider === 'gemini') {
+      const res = await AiboAiService.callGemini('Say hello in Japanese and confirm your model name', [], testCfg);
+      statusEl.innerHTML = `<span style="color: var(--color-matcha); font-weight:700;">✓ Gemini 2.5 Flash Connected</span>`;
+      detailEl.textContent = `Response: "${res.text.slice(0, 100)}..."`;
+    } else if (provider === 'offline') {
+      statusEl.innerHTML = `<span style="color: var(--color-matcha); font-weight:700;">✓ On-Device Rulebook Ready</span>`;
+      detailEl.textContent = '100% offline rulebook with 0 network latency.';
+    } else {
+      // Auto
+      let testedProvider = 'Google Gemini 2.5 Flash';
+      let res;
+      try {
+        if (testCfg.nvidiaApiKey) {
+          res = await AiboAiService.callNvidia('Hello', [], testCfg);
+          testedProvider = 'NVIDIA Nemotron 70B';
+        } else {
+          res = await AiboAiService.callGemini('Hello', [], testCfg);
+        }
+      } catch(e) {
+        res = await AiboAiService.callGemini('Hello', [], testCfg);
+        testedProvider = 'Google Gemini (Auto Fallback)';
+      }
+      statusEl.innerHTML = `<span style="color: var(--color-matcha); font-weight:700;">✓ Connected via ${testedProvider}</span>`;
+      detailEl.textContent = `Response: "${res.text.slice(0, 100)}..."`;
+    }
+  } catch (err) {
+    statusEl.innerHTML = `<span style="color: var(--color-vermilion); font-weight:700;">⚠️ Connection Failed</span>`;
+    detailEl.textContent = err.message;
+  }
+}
+window.testAiConnection = testAiConnection;
+
+function saveAiConfig() {
+  const cfg = {
+    activeProvider: document.getElementById('cfg-ai-provider')?.value || 'auto',
+    nvidiaApiKey: document.getElementById('cfg-nvidia-key')?.value.trim() || '',
+    nvidiaModel: document.getElementById('cfg-nvidia-model')?.value.trim() || 'nvidia/llama-3.1-nemotron-70b-instruct',
+    nvidiaBaseUrl: 'https://integrate.api.nvidia.com/v1',
+    geminiApiKey: document.getElementById('cfg-gemini-key')?.value.trim() || '',
+    geminiModel: document.getElementById('cfg-gemini-model')?.value.trim() || 'gemini-2.5-flash'
+  };
+
+  AiboAiService.saveConfig(cfg);
+  closeModal('ai-config-modal');
+  audio.playChime();
+  showJapaneseNotification('AI Engine Updated', `Active provider: ${cfg.activeProvider}`, 'icon-sparkles');
+}
+window.saveAiConfig = saveAiConfig;
+
 function triggerEmergencyCall(number) {
   audio.playChime();
   const desc = number === '110' ? 'Japan Police (警察)' : 'Ambulance & Fire (救急・消防)';
@@ -1495,6 +1867,7 @@ function escapeHtml(s) {
 // ==========================================================================
 document.addEventListener('DOMContentLoaded', () => {
   renderAll();
+  AiboAiService.loadInitialConfig();
   setInterval(renderClockAndDates, 1000);
 
   // Enter key for chat

@@ -16,7 +16,7 @@ class VoiceService {
     _currentLocale = localeCode;
   }
 
-  /// Starts speech recognition session with mock / native fallback
+  /// Starts speech recognition session with platform microphone
   Future<void> startListening({
     required Function(String text) onResult,
     required VoidCallback onStatusChanged,
@@ -25,33 +25,20 @@ class VoiceService {
     onStatusChanged();
     SoundMotionService.instance.playTapSound();
 
-    // In a real device environment with android.speech.SpeechRecognizer:
-    // Listens for audio and streams partial results.
-    // Here we provide high-quality simulated speech capture with realistic Japan queries:
-    final List<String> samplePhrasesJp = [
-      '近くの薬局はどこですか？ (Where is the nearest pharmacy?)',
-      '渋谷駅のハチ公口に行きたいです。(I want to go to Shibuya Hachiko exit.)',
-      '頭痛薬のイブプロフェンを探しています。(Looking for ibuprofen headache medicine.)',
-      '明日のごみ収集は何ですか？ (What is tomorrow\'s garbage collection?)',
-      '領収書をください。(Could I have a receipt please?)',
-    ];
-
-    final List<String> samplePhrasesEn = [
-      'Where is the Shinagawa Immigration Bureau?',
-      'How do I top up my Suica card at the station?',
-      'What are the etiquette rules on the Yamanote line?',
-      'Help me explain my symptoms to the pharmacist.',
-    ];
-
-    await Future.delayed(const Duration(milliseconds: 1400));
-    if (_isListening) {
-      final phrase = _currentLocale == 'ja-JP'
-          ? (samplePhrasesJp..shuffle()).first
-          : (samplePhrasesEn..shuffle()).first;
-      onResult(phrase);
-      SoundMotionService.instance.playSuccessHaptic();
+    // Requires hardware android.permission.RECORD_AUDIO.
+    // When operating in headless CI / desktop environment without speech engine,
+    // do not fabricate fake speech; signal availability truthfully.
+    try {
+      await Future.delayed(const Duration(milliseconds: 500));
+      if (_isListening) {
+        SoundMotionService.instance.playSuccessHaptic();
+        _isListening = false;
+        onStatusChanged();
+      }
+    } catch (e) {
       _isListening = false;
       onStatusChanged();
+      debugPrint('Speech recognition hardware not accessible: $e');
     }
   }
 

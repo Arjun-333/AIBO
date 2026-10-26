@@ -217,28 +217,9 @@
             </div>
 
             <div class="priority-action-stack">
-              <!-- Action Card 1: Next Medication Due (Immediate Action with Disclaimers) -->
-              <div class="priority-card med-card" id="home-med-card">
-                <div class="priority-card-indicator matcha"></div>
-                <div class="priority-card-main">
-                  <div class="priority-meta-row">
-                    <span class="priority-tag green">💊 Scheduled Dose Reminder</span>
-                    <span class="priority-time" id="home-med-time">Scheduled 08:30 PM</span>
-                  </div>
-                  <strong class="priority-card-title" id="home-med-title">Magnesium & Zinc (250mg)</strong>
-                  <p class="priority-card-desc" id="home-med-desc">1 tablet after dinner with water. Logged in your on-device Yakutai packet.</p>
-                  <div class="card-action-bar">
-                    <span class="medical-disclaimer-note">※ Personal reminder log only. Consult a doctor for medical guidance.</span>
-                    <button class="text-link-action" onclick="switchTab('screen-medication')">View Yakutai ➔</button>
-                  </div>
-                </div>
-                <div class="priority-card-action">
-                  <button class="quick-stamp-btn" id="home-quick-stamp-btn" onclick="quickStampMedication()" title="Log dose as taken">
-                    <svg width="15" height="15" stroke="currentColor"><use href="#icon-stamp" /></svg>
-                    <span id="home-stamp-label">Log Taken (済)</span>
-                  </button>
-                </div>
-              </div>
+            <div class="priority-action-stack">
+              <!-- Action Card 1: Next Medication Due (Dynamic Container) -->
+              <div id="home-med-card-wrapper"></div>
 
               <!-- Action Card 2: Today's Daily Yen & Spending -->
               <div class="priority-card finance-card">
@@ -246,21 +227,19 @@
                 <div class="priority-card-main">
                   <div class="priority-meta-row">
                     <span class="priority-tag gold">💴 Spending Today</span>
-                    <span class="priority-time">Remaining: ¥4,750</span>
+                    <span class="priority-time" id="home-remaining-display">Remaining: ¥8,000</span>
                   </div>
                   <div class="finance-amount-row">
-                    <strong class="finance-spent-num" id="home-spent-display">¥3,250</strong>
+                    <strong class="finance-spent-num" id="home-spent-display">¥0</strong>
                     <span class="finance-total-cap">spent today of ¥8,000 daily budget</span>
                   </div>
                   <!-- Clean Visual Budget Bar -->
                   <div class="finance-bar-track">
-                    <div class="finance-bar-fill" id="home-budget-bar" style="width: 40.6%;"></div>
+                    <div class="finance-bar-fill" id="home-budget-bar" style="width: 0%;"></div>
                   </div>
                   <div class="finance-footer-row">
-                    <div class="finance-category-pills">
-                      <span class="f-pill">🍜 Meals ¥1,800</span>
-                      <span class="f-pill">🚇 Metro ¥450</span>
-                      <span class="f-pill">☕ Coffee ¥1,000</span>
+                    <div class="finance-category-pills" id="home-categories-wrapper">
+                      <span class="f-pill empty">No spending recorded today</span>
                     </div>
                     <div class="finance-button-group">
                       <button class="f-action-btn" onclick="openExpenseModal()">+ Add Expense</button>
@@ -292,40 +271,13 @@
             <!-- DAILY FOCUS CHECKLIST -->
             <div class="section-lead-row">
               <h3 class="clean-section-title">Today's Focus & Reminders</h3>
-              <span class="task-progress-badge" id="task-progress-badge">1 of 3 Done</span>
-            </div>
-
-            <div class="daily-checklist-card">
-              <div class="task-item-row" onclick="toggleTask('task-1')">
-                <div class="task-checkbox" id="task-1-box">
-                  <svg class="check-icon" width="12" height="12"><use href="#icon-check" /></svg>
-                </div>
-                <div class="task-info">
-                  <strong class="task-title" id="task-1-title">Submit Residence Tax confirmation at Shibuya Ward Office</strong>
-                  <span class="task-sub">City Hall counter closes at 17:00 • Bring My Number Card</span>
-                </div>
-              </div>
-
-              <div class="task-item-row done" onclick="toggleTask('task-2')">
-                <div class="task-checkbox checked" id="task-2-box">
-                  <svg class="check-icon" width="12" height="12"><use href="#icon-check" /></svg>
-                </div>
-                <div class="task-info">
-                  <strong class="task-title completed" id="task-2-title">Morning Vitamin D3 dose (朝 08:00 AM)</strong>
-                  <span class="task-sub">Completed with breakfast • Hanko stamped</span>
-                </div>
-              </div>
-
-              <div class="task-item-row" onclick="toggleTask('task-3')">
-                <div class="task-checkbox" id="task-3-box">
-                  <svg class="check-icon" width="12" height="12"><use href="#icon-check" /></svg>
-                </div>
-                <div class="task-info">
-                  <strong class="task-title" id="task-3-title">7-Eleven foreign ATM cash withdrawal</strong>
-                  <span class="task-sub">Fee-free with international debit cards • 200m away</span>
-                </div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="task-progress-badge" id="task-progress-badge">0 Tasks</span>
+                <button class="f-action-btn mini" onclick="openTaskModal()" style="font-size: 11px; padding: 3px 9px;">+ Add Task</button>
               </div>
             </div>
+
+            <div class="daily-checklist-card" id="tasks-container"></div>
 
             <!-- AIBO SERVICES HUB (Categorized by Purpose with Uniform 32px Icons) -->
             <div class="section-lead-row">
@@ -417,57 +369,20 @@
                 </div>
               </div>
 
-              <!-- Patient Row -->
+              <!-- Patient Row (Dynamic) -->
               <div class="yakutai-patient-row">
                 <span class="patient-tag">Patient Name (患者氏名)</span>
-                <strong class="patient-name">Arjun-san (様)</strong>
-                <span class="patient-date">Oct 26, 2026</span>
+                <strong class="patient-name" id="yakutai-patient-name">User (様)</strong>
+                <span class="patient-date" id="yakutai-date-display">Today</span>
               </div>
 
-              <!-- Daily Dosage Time Checkbox Grid (朝・昼・夕・寝る前) -->
-              <div class="yakutai-schedule-grid">
-                <div class="schedule-col done">
-                  <span class="col-kanji">Morning (朝)</span>
-                  <span class="col-time">08:00 AM</span>
-                  <div class="col-stamp">
-                    <span class="hanko-stamp-text">✓ 済</span>
-                  </div>
-                  <span class="col-pill-name">Vitamin D3</span>
-                </div>
-                <div class="schedule-col inactive">
-                  <span class="col-kanji">Noon (昼)</span>
-                  <span class="col-time">12:30 PM</span>
-                  <div class="col-stamp">—</div>
-                  <span class="col-pill-name">None</span>
-                </div>
-                <div class="schedule-col pending active-slot" id="evening-slot">
-                  <span class="col-kanji">Evening (夕)</span>
-                  <span class="col-time">08:30 PM</span>
-                  <div class="col-stamp stamp-target" id="evening-hanko-target">
-                    <span class="unmarked-ring">⭕ Scheduled</span>
-                  </div>
-                  <span class="col-pill-name">Magnesium</span>
-                </div>
-                <div class="schedule-col inactive">
-                  <span class="col-kanji">Bedtime (就寝前)</span>
-                  <span class="col-time">11:00 PM</span>
-                  <div class="col-stamp">—</div>
-                  <span class="col-pill-name">None</span>
-                </div>
-              </div>
+              <!-- Daily Dosage Time Dynamic Grid -->
+              <div class="yakutai-schedule-grid" id="yakutai-schedule-grid"></div>
 
-              <!-- Instructions -->
-              <div class="yakutai-instructions">
-                <span class="note-bullet">※</span>
-                <span class="instruction-text">Take with water or lukewarm water (水またはぬるま湯) within 30 minutes after dinner.</span>
-              </div>
-
-              <!-- Stamp Action Button -->
-              <div class="yakutai-action-row">
-                <button class="stamp-action-btn" id="stamp-pill-btn">
-                  <svg class="ui-icon" width="16" height="16" stroke="#FFFFFF"><use href="#icon-stamp" /></svg>
-                  <span id="stamp-btn-label">Stamp & Mark as Taken (押印)</span>
-                </button>
+              <!-- Action Row -->
+              <div class="yakutai-action-row" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px;">
+                <span class="medical-disclaimer-note">※ Tap any scheduled slot to seal with Inkan (押印)</span>
+                <button class="f-action-btn mini" onclick="openMedModal()">+ Add Schedule</button>
               </div>
             </div>
 
@@ -802,38 +717,23 @@
           <!-- ==========================================
                SCREEN 5: AI CHAT (Consultation)
                ========================================== -->
+          <!-- ==========================================
+               SCREEN 5: AI CHAT (Consultation)
+               ========================================== -->
           <section id="screen-chat" class="screen">
             <div class="stationery-topbar">
               <div>
                 <span class="seal-script-label">Offline AI Companion</span>
                 <h2 class="greeting-main">AIBO Consultation</h2>
               </div>
-              <div class="paper-badge">Dual-Engine AI</div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <div class="paper-badge">Dual-Engine AI</div>
+                <button class="text-link-action" onclick="clearChatAction()" style="font-size: 11px; padding: 2px 6px;">Clear History</button>
+              </div>
             </div>
 
-            <!-- Chat Scroll Area -->
-            <div class="chat-scroll-area" id="chat-log">
-              <div class="chat-row aibo">
-                <div class="hanko-seal mini">相棒</div>
-                <div class="scroll-bubble">
-                  Konnichiwa Arjun-san! I am AIBO, your Japanese daily companion. You can ask me anything in English or simple Japanese: finding tablets, understanding letters from city hall, or train routes. All your data stays 100% encrypted on your phone.
-                  <div class="scroll-time">09:30 • Verified</div>
-                </div>
-              </div>
-              <div class="chat-row user">
-                <div class="scroll-bubble user">
-                  Where can I find headache tablets near Shibuya station?
-                  <div class="scroll-time">09:32</div>
-                </div>
-              </div>
-              <div class="chat-row aibo">
-                <div class="hanko-seal mini">相棒</div>
-                <div class="scroll-bubble">
-                  Head out of the <strong>Hachiko Exit</strong> and walk 2 minutes to <strong>Matsumoto Kiyoshi</strong>. Ask for <strong>EVE Quick DX (イブクイックDX)</strong> or <strong>Bufferin Premium (バファリンプレミアム)</strong>. Both contain Ibuprofen and are available over-the-counter!
-                  <div class="scroll-time">09:32 • Verified</div>
-                </div>
-              </div>
-            </div>
+            <!-- Dynamic Chat Scroll Area -->
+            <div class="chat-scroll-area" id="chat-log"></div>
 
             <!-- Input Bar -->
             <div class="ink-input-bar">
@@ -885,15 +785,22 @@
               <div class="ice-medical-card">
                 <div class="ice-row">
                   <span class="ice-label">Primary Holder</span>
-                  <strong class="ice-val">Arjun-san (Shibuya-ku, Tokyo)</strong>
+                  <strong class="ice-val" id="ice-holder-name">Primary User</strong>
                 </div>
                 <div class="ice-row">
                   <span class="ice-label">Blood Type & Allergies</span>
-                  <strong class="ice-val">Type O+ • No Penicillin Allergies</strong>
+                  <strong class="ice-val" id="ice-blood-allergies">Unknown</strong>
+                </div>
+                <div class="ice-row">
+                  <span class="ice-label">Emergency Contact</span>
+                  <span class="ice-val" id="ice-contact-info">Not configured</span>
                 </div>
                 <div class="ice-row">
                   <span class="ice-label">Emergency Script</span>
                   <span class="ice-val jp-text">「助けてください。英語の話せる人はいますか？」 (Tasukete kudasai. Eigo no hanaseru hito wa imasu ka?)</span>
+                </div>
+                <div style="margin-top: 10px; text-align: right;">
+                  <button class="text-link-action" onclick="openIceModal()">✎ Edit Emergency ICE Card</button>
                 </div>
               </div>
             </div>
@@ -907,16 +814,17 @@
               <div class="finance-tool-header">
                 <div>
                   <span class="f-tool-label">Today's Remaining Budget</span>
-                  <strong class="f-tool-val">¥4,750 <span class="f-tool-sub">left of ¥8,000</span></strong>
+                  <strong class="f-tool-val" id="tools-remaining-display">¥8,000 <span class="f-tool-sub">left of ¥8,000</span></strong>
                 </div>
                 <button class="tool-action-pill-btn" onclick="openExpensePrompt()">
                   <span>+ Add Expense</span>
                 </button>
               </div>
               <div class="finance-bar-track large">
-                <div class="finance-bar-fill" style="width: 40.6%;"></div>
+                <div class="finance-bar-fill" id="tools-budget-bar" style="width: 0%;"></div>
               </div>
-              <div class="atm-guide-banner">
+              <div id="tools-transactions-container"></div>
+              <div class="atm-guide-banner" style="margin-top: 14px;">
                 <span class="atm-icon">🏧</span>
                 <div class="atm-info">
                   <strong>Fee-Free Foreign Card ATMs:</strong>
@@ -931,36 +839,14 @@
               <span class="jp-sub">書類金庫</span>
             </h3>
             <div class="stationery-card vault-tool-card">
-              <div class="vault-status-pill">
-                <span class="vault-lock-icon">🔒</span>
-                <span>AES-256 Encrypted on Device • 0 KB Leaves Your Phone</span>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <div class="vault-status-pill">
+                  <span class="vault-lock-icon">🔒</span>
+                  <span>AES-256 Encrypted on Device • 0 KB Leaves Your Phone</span>
+                </div>
+                <button class="f-action-btn mini" onclick="openVaultModal()">+ Add Document</button>
               </div>
-              <div class="vault-items-list">
-                <div class="vault-item">
-                  <div class="vault-doc-badge">🪪</div>
-                  <div class="vault-doc-info">
-                    <strong>Residence Card (在留カード)</strong>
-                    <span>Verified • Valid until Nov 2028 • Period of Stay: Highly Skilled</span>
-                  </div>
-                  <span class="vault-state-tag green">Stored ✓</span>
-                </div>
-                <div class="vault-item">
-                  <div class="vault-doc-badge">📑</div>
-                  <div class="vault-doc-info">
-                    <strong>My Number Card (マイナンバー)</strong>
-                    <span>Encrypted PIN & scan verified</span>
-                  </div>
-                  <span class="vault-state-tag green">Stored ✓</span>
-                </div>
-                <div class="vault-item">
-                  <div class="vault-doc-badge">🏥</div>
-                  <div class="vault-doc-info">
-                    <strong>National Health Insurance (国民健康保険)</strong>
-                    <span>70% Medical Coverage in Tokyo</span>
-                  </div>
-                  <span class="vault-state-tag green">Stored ✓</span>
-                </div>
-              </div>
+              <div class="vault-items-list" id="vault-items-container"></div>
             </div>
 
             <!-- DAILY JAPANESE PHRASEBOOK -->
@@ -1171,6 +1057,151 @@
             <div class="modal-footer">
               <button class="modal-secondary-btn" onclick="closeModal('expense-modal')">Cancel</button>
               <button class="modal-primary-btn" onclick="submitNewExpense()">Add to Today's Spending</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             ADD TASK MODAL
+             ========================================== -->
+        <div class="app-modal-backdrop" id="task-modal">
+          <div class="app-modal-sheet">
+            <div class="modal-header-row">
+              <div class="modal-title-wrap">
+                <span class="modal-sub-label">Daily Agenda</span>
+                <h3 class="modal-main-title">Add Today's Task</h3>
+              </div>
+              <button class="modal-close-btn" onclick="closeModal('task-modal')">✕</button>
+            </div>
+            <div class="modal-body-content">
+              <div class="config-field">
+                <label class="config-label">Task Title</label>
+                <input type="text" id="task-title-input" class="config-input" placeholder="e.g. Pick up resident slip at Ward Office" />
+              </div>
+              <div class="config-field">
+                <label class="config-label">Notes / Location / Deadline (Optional)</label>
+                <input type="text" id="task-sub-input" class="config-input" placeholder="e.g. Bring My Number Card before 17:00" />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="modal-secondary-btn" onclick="closeModal('task-modal')">Cancel</button>
+              <button class="modal-primary-btn" onclick="submitNewTask()">Save to Checklist</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             ADD MEDICATION SCHEDULE MODAL
+             ========================================== -->
+        <div class="app-modal-backdrop" id="med-modal">
+          <div class="app-modal-sheet">
+            <div class="modal-header-row">
+              <div class="modal-title-wrap">
+                <span class="modal-sub-label">Prescription Packet</span>
+                <h3 class="modal-main-title">Add Tablet Schedule</h3>
+              </div>
+              <button class="modal-close-btn" onclick="closeModal('med-modal')">✕</button>
+            </div>
+            <div class="modal-body-content">
+              <div class="config-field">
+                <label class="config-label">Medicine / Supplement Name</label>
+                <input type="text" id="med-name-input" class="config-input" placeholder="e.g. Magnesium & Zinc, Loxonin S" />
+              </div>
+              <div class="config-field">
+                <label class="config-label">Dosage Quantity</label>
+                <input type="text" id="med-dose-input" class="config-input" placeholder="e.g. 1 tablet, 250mg, 1 packet" />
+              </div>
+              <div class="config-field">
+                <label class="config-label">Scheduled Time (e.g. 08:30 PM)</label>
+                <input type="text" id="med-time-input" class="config-input" placeholder="08:30 PM" value="08:30 PM" />
+              </div>
+              <div class="config-field">
+                <label class="config-label">Intake Instructions</label>
+                <input type="text" id="med-note-input" class="config-input" placeholder="e.g. Take with water after dinner" />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="modal-secondary-btn" onclick="closeModal('med-modal')">Cancel</button>
+              <button class="modal-primary-btn" onclick="submitNewMedication()">Record in Yakutai</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             ADD DOCUMENT VAULT MODAL
+             ========================================== -->
+        <div class="app-modal-backdrop" id="vault-modal">
+          <div class="app-modal-sheet">
+            <div class="modal-header-row">
+              <div class="modal-title-wrap">
+                <span class="modal-sub-label">Secure Vault</span>
+                <h3 class="modal-main-title">Store Important Document</h3>
+              </div>
+              <button class="modal-close-btn" onclick="closeModal('vault-modal')">✕</button>
+            </div>
+            <div class="modal-body-content">
+              <div class="config-field">
+                <label class="config-label">Document Name</label>
+                <input type="text" id="doc-title-input" class="config-input" placeholder="e.g. Residence Card (在留カード), Hokensho" />
+              </div>
+              <div class="config-field">
+                <label class="config-label">Category</label>
+                <select id="doc-category-select" class="config-select">
+                  <option value="Identification">🪪 Official ID & Immigration</option>
+                  <option value="Healthcare">🏥 Health Insurance (保険証)</option>
+                  <option value="Housing">🏠 Rental Lease & Utilities</option>
+                  <option value="Banking">💳 Japan Post / Bank Documents</option>
+                </select>
+              </div>
+              <div class="config-field">
+                <label class="config-label">Notes / Expiry Date</label>
+                <input type="text" id="doc-notes-input" class="config-input" placeholder="e.g. Valid until Nov 2028" />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="modal-secondary-btn" onclick="closeModal('vault-modal')">Cancel</button>
+              <button class="modal-primary-btn" onclick="submitNewDocument()">Encrypt & Store Locally</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             EDIT EMERGENCY ICE CARD MODAL
+             ========================================== -->
+        <div class="app-modal-backdrop" id="ice-modal">
+          <div class="app-modal-sheet">
+            <div class="modal-header-row">
+              <div class="modal-title-wrap">
+                <span class="modal-sub-label">Emergency Medical Profile</span>
+                <h3 class="modal-main-title">Edit ICE Medical Card</h3>
+              </div>
+              <button class="modal-close-btn" onclick="closeModal('ice-modal')">✕</button>
+            </div>
+            <div class="modal-body-content">
+              <div class="config-field">
+                <label class="config-label">Full Name & Ward</label>
+                <input type="text" id="ice-cfg-name" class="config-input" placeholder="e.g. Arjun (Shibuya-ku, Tokyo)" />
+              </div>
+              <div class="config-field">
+                <label class="config-label">Blood Type</label>
+                <input type="text" id="ice-cfg-blood" class="config-input" placeholder="e.g. O+, A+, B+, AB-" />
+              </div>
+              <div class="config-field">
+                <label class="config-label">Known Allergies / Medical Conditions</label>
+                <input type="text" id="ice-cfg-allergies" class="config-input" placeholder="e.g. None, or Penicillin, Asthmatic" />
+              </div>
+              <div class="config-field">
+                <label class="config-label">ICE Contact Name</label>
+                <input type="text" id="ice-cfg-contact-name" class="config-input" placeholder="e.g. Spouse / Emergency contact" />
+              </div>
+              <div class="config-field">
+                <label class="config-label">ICE Contact Phone</label>
+                <input type="tel" id="ice-cfg-contact-phone" class="config-input" placeholder="e.g. +81 90-XXXX-XXXX" />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="modal-secondary-btn" onclick="closeModal('ice-modal')">Cancel</button>
+              <button class="modal-primary-btn" onclick="saveIceCardSettings()">Save Emergency Profile</button>
             </div>
           </div>
         </div>

@@ -3267,3 +3267,37 @@ body.stationery-theme {
 .modal-secondary-btn:hover {
   background: #EAE3D4;
 }
+
+/* ==========================================================================
+   Dynamic UI Helpers: Mini Action Buttons & Prompt Pills
+   ========================================================================== */
+.f-action-btn.mini {
+  padding: 3px 8px;
+  font-size: 11px;
+}
+
+.f-pill.empty {
+  background: #FAF7EE;
+  color: var(--text-muted);
+  border: 1px dashed var(--border-subtle);
+  font-style: italic;
+}
+
+.chat-prompt-pill {
+  background: #FFFFFF;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  font-size: 12px;
+  text-align: left;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.chat-prompt-pill:hover {
+  background: var(--surface-hover);
+  border-color: var(--color-vermilion);
+  transform: translateX(2px);
+}

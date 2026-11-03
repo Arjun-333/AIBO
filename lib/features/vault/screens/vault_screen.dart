@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:file_picker/file_picker.dart';
 import '../../../core/database/database_helper.dart';
 import '../../../core/ocr/ocr_service.dart';
 import '../../../core/theme/app_theme.dart';
@@ -51,6 +52,8 @@ class _VaultScreenState extends State<VaultScreen> {
     final notesCtrl = TextEditingController();
     String docType = 'residence_card';
     bool isOcrProcessing = false;
+    Uint8List? selectedImageBytes;
+    String? selectedFileName;
 
     await showDialog(
       context: context,
@@ -82,6 +85,24 @@ class _VaultScreenState extends State<VaultScreen> {
                     },
                   ),
                   const SizedBox(height: 12),
+                  OutlinedButton.icon(
+                    onPressed: () async {
+                      final picked = await FilePicker.platform.pickFiles(
+                        type: FileType.image,
+                        withData: true,
+                      );
+                      final bytes = picked?.files.single.bytes;
+                      if (bytes != null && bytes.isNotEmpty) {
+                        setDialogState(() {
+                          selectedImageBytes = bytes;
+                          selectedFileName = picked!.files.single.name;
+                        });
+                      }
+                    },
+                    icon: const Icon(Icons.file_upload_outlined, size: 18),
+                    label: Text(selectedFileName == null ? 'Choose Document Image' : 'Selected: $selectedFileName'),
+                  ),
+                  const SizedBox(height: 8),
                   TextField(
                     controller: notesCtrl,
                     maxLines: 3,
@@ -93,11 +114,22 @@ class _VaultScreenState extends State<VaultScreen> {
                         ? null
                         : () async {
                             setDialogState(() => isOcrProcessing = true);
-                            // Simulate scanning document bytes locally
-                            final fakeBytes = Uint8List(100);
-                            final result = await OcrService.instance.processImageBytes(fakeBytes);
+                            if (selectedImageBytes == null) {
+                              setDialogState(() => isOcrProcessing = false);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Choose a document image before running OCR.')),
+                              );
+                              return;
+                            }
+                            final result = await OcrService.instance.processImageBytes(selectedImageBytes!);
                             setDialogState(() {
                               isOcrProcessing = false;
+                              if (!result.isAvailable) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(result.notice ?? 'OCR is currently unavailable.')),
+                                );
+                                return;
+                              }
                               final buffer = StringBuffer(notesCtrl.text);
                               if (result.detectedDates.isNotEmpty) {
                                 buffer.writeln('📅 Due/Expiry: ${result.detectedDates.join(", ")}');
@@ -124,11 +156,15 @@ class _VaultScreenState extends State<VaultScreen> {
               ElevatedButton(
                 onPressed: () async {
                   if (titleCtrl.text.trim().isNotEmpty) {
-                    // Encrypt file bytes locally
-                    final fakeImage = Uint8List.fromList(List.generate(256, (i) => i % 256));
+                    if (selectedImageBytes == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Choose a document image before saving.')),
+                      );
+                      return;
+                    }
                     final encFileName = await VaultService.instance.saveEncryptedDocument(
-                      imageBytes: fakeImage,
-                      originalFileName: '${titleCtrl.text.trim()}.jpg',
+                      imageBytes: selectedImageBytes!,
+                      originalFileName: selectedFileName ?? '${titleCtrl.text.trim()}.jpg',
                     );
 
                     final doc = DocumentRecord(

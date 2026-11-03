@@ -14,21 +14,27 @@ void main() {
       expect(voiceService.currentLocale, 'ja-JP');
     });
 
-    test('Voice recognition session captures spoken queries accurately', () async {
+    test('Unsupported voice environments do not fabricate a transcript', () async {
       String capturedResult = '';
       bool statusNotified = false;
+      String unavailableMessage = '';
 
-      await voiceService.startListening(
+      final started = await voiceService.startListening(
         onResult: (text) {
           capturedResult = text;
         },
         onStatusChanged: () {
           statusNotified = true;
         },
+        onUnavailable: (message) {
+          unavailableMessage = message;
+        },
       );
 
+      expect(started, false);
       expect(statusNotified, true);
-      expect(capturedResult.isNotEmpty, true);
+      expect(capturedResult, isEmpty);
+      expect(unavailableMessage.isNotEmpty, true);
       expect(voiceService.isListening, false);
     });
 

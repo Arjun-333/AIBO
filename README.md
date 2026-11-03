@@ -4,7 +4,8 @@
 
 ## Status
 
-🟡 **Phase 01: Foundation and Documentation** — In Progress
+🟡 **Post-v1.0 release reconciliation** — Roadmap phases are complete on paper; local
+Flutter/Android verification and a small set of explicitly deferred integrations remain.
 
 ## What is AIBO?
 

@@ -1,10 +1,16 @@
 # Project AIBO — Roadmap and Status
 
-**Document status:** APPROVED — All 12 Phases Complete & Signed Off  
+**Document status:** APPROVED — All 12 roadmap phases complete; release reconciliation pending
 **Last updated:** 2026-10-26  
-**Current phase:** Phase 12 — Stabilisation + Long-Term Maintenance (🎉 COMPLETE — v1.0.0 RELEASE READY)
+**Current phase:** Post-Phase 12 release reconciliation (verification and documentation cleanup)
 
 **Maintenance note (2026-10-26):** A post-release UX pass corrected light/dark contrast issues, simplified dashboard actions, added safer expense deletion, and improved preview keyboard accessibility. No new product scope or dependencies were added.
+
+**Release reconciliation note (2026-11-04):** The roadmap phases remain complete as a planning
+baseline, but the repository has not been independently verified in this workspace because the
+Flutter/Dart toolchain is unavailable. OCR camera integration, native speech-recognition wiring,
+regional map downloads, multi-device conflict resolution, and platform notification validation are
+explicitly deferred rather than represented as fully implemented.
 
 ---
 
@@ -617,7 +623,7 @@ Canonical register of decisions that remain open. The **Project Owner** is the d
 | **Question** | How should AIBO implement speech-to-text (STT) for English and Japanese voice input? |
 | **Decision owner** | Project Owner |
 | **Target phase** | Phase 08 |
-| **Status** | ⬜ Open |
+| **Status** | ✅ Resolved (ADR-007; Android adapter deferred) |
 
 #### Structured Comparison: Pros and Cons by Option
 

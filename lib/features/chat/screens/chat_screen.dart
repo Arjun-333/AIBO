@@ -266,6 +266,13 @@ class _ChatScreenState extends State<ChatScreen> {
                             });
                           },
                           onStatusChanged: () => setState(() {}),
+                          onUnavailable: (message) {
+                            if (mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(message)),
+                              );
+                            }
+                          },
                         );
                       }
                     },

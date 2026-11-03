@@ -119,8 +119,9 @@ Your core rules:
     required List<ChatMessage> conversationHistory,
     required String apiKey,
   }) async {
+    final geminiModel = dotenv.env['GEMINI_MODEL']?.trim() ?? 'gemini-2.5-flash';
     final url = Uri.parse(
-      'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=$apiKey',
+      'https://generativelanguage.googleapis.com/v1beta/models/$geminiModel:generateContent?key=$apiKey',
     );
 
     final contents = <Map<String, dynamic>>[];

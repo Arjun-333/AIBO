@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AIBO (相棒) — Japanese Stationery & Tactile Craft Edition</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&family=Outfit:wght@500;600;700;800&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="stationery-theme">
@@ -59,6 +59,25 @@
     <symbol id="icon-stamp" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
       <path d="M5 22h14" /><path d="M19.27 13.73A2.5 2.5 0 0 0 17.5 13h-11a2.5 2.5 0 0 0-1.77.73l-1.46 1.47A1.5 1.5 0 0 0 4.33 17H19.67a1.5 1.5 0 0 0 1.06-1.8l-1.46-1.47Z" /><path d="M12 13V2" />
     </symbol>
+    <symbol id="icon-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    </symbol>
+    <symbol id="icon-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" />
+      <rect x="14" y="14" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" />
+    </symbol>
+    <symbol id="icon-yen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 3l6 9 6-9" /><path d="M12 12v9" /><path d="M8 15h8" /><path d="M8 18h8" />
+    </symbol>
+    <symbol id="icon-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
+    </symbol>
+    <symbol id="icon-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+    </symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12" />
+    </symbol>
     <symbol id="icon-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
       <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" />
     </symbol>
@@ -107,52 +126,41 @@
         <!-- Floating Notification Toast -->
         <div id="toast-container" class="toast-container"></div>
 
-        <!-- Phone Status Bar -->
+        <!-- Phone Simulator Header Bar (Clean, non-competing) -->
         <div class="status-bar">
-          <span class="status-time" id="status-clock">01:02</span>
-          <div class="status-icons">
-            <span class="network-badge">5G</span>
-            <span class="battery-text">98%</span>
-          </div>
+          <span class="status-time" id="status-clock">13:20</span>
+          <span class="status-os-note">Tokyo Local Time (JST)</span>
         </div>
 
         <!-- Scrollable Screens Container -->
         <div class="screens-container">
 
           <!-- ==========================================
-               SCREEN 1: HOME (Dashboard)
+               SCREEN 1: HOME (Action & Priority Dashboard)
                ========================================== -->
           <section id="screen-home" class="screen active">
-            <!-- User Greeting Topbar -->
+            <!-- User Greeting & Environmental Status (Configurable) -->
             <div class="user-greeting-row">
-              <div>
-                <span class="greeting-subtitle">おかえりなさい (Welcome back)</span>
-                <h2 class="greeting-heading">Arjun-san <span class="wave-hand">👋</span></h2>
+              <div class="greeting-clickable-group" onclick="openProfileModal()" title="Click to customize name, greeting style, or location">
+                <span class="greeting-subtitle" id="greeting-city-weather">Shibuya, Tokyo • 18°C ☀️ • Oct 26</span>
+                <h2 class="greeting-heading">
+                  <span id="greeting-name-display">Arjun-san</span>
+                  <span class="edit-pill-badge">✎ Edit Profile</span>
+                </h2>
               </div>
-              <div class="offline-status-badge">
+              <button class="offline-status-badge" onclick="openOfflineModal()" title="View what is available offline vs online">
                 <div class="torii-badge-icon">
-                  <svg width="15" height="15" stroke="var(--shu-vermilion)"><use href="#icon-torii" /></svg>
+                  <svg width="14" height="14" stroke="var(--shu-vermilion)"><use href="#icon-torii" /></svg>
                 </div>
-                <span class="offline-pill-text"><span class="green-dot"></span> 100% Offline</span>
-              </div>
+                <span class="offline-pill-text"><span class="green-dot"></span> Offline-Ready ⓘ</span>
+              </button>
             </div>
 
-            <!-- Muchi Neko Artisan Companion Card -->
-            <div class="muchi-companion-card" id="cat-card">
-              <!-- Scene: Night sky, red lantern, yellow moon, speech bubble, muchi neko sitting on roof -->
-              <div class="cat-scene-wrapper" onclick="triggerMuchiJump()">
-                <div class="scene-lantern">
-                  <svg width="22" height="22" stroke="var(--shu-vermilion)"><use href="#icon-lantern" /></svg>
-                </div>
-                <div class="scene-moon"></div>
-
-                <!-- Speech Bubble -->
-                <div class="cat-quote-bubble" id="cat-bubble">
-                  <span id="cat-quote">Purrr... 6.8 kg of pure Tokyo fluff! ✨</span>
-                </div>
-
-                <!-- Muchi Neko Mascot -->
-                <div class="muchi-cat-figure" id="muchi-cat" title="Tap Muchi Neko to interact!">
+            <!-- REFINED MUCHI NEKO COMPANION (Balanced, Non-blocking, 1-Line Dynamic States) -->
+            <div class="companion-banner" id="companion-banner">
+              <div class="companion-visual-col" onclick="triggerMuchiJump()" title="Tap Muchi Neko to interact!">
+                <!-- Compact Mascot Figure -->
+                <div class="companion-cat-figure" id="muchi-cat">
                   <div class="cat-ears-wrap">
                     <div class="m-ear left"></div>
                     <div class="m-ear right"></div>
@@ -172,97 +180,164 @@
                     </div>
                   </div>
                 </div>
-
-                <!-- Rooftop Tiles -->
-                <div class="scene-kawara-roof"></div>
+                <!-- Kawara Rooftop Base -->
+                <div class="companion-roof-base"></div>
               </div>
 
-              <!-- Card Body -->
-              <div class="muchi-card-body">
-                <div class="muchi-title-row">
-                  <strong class="muchi-name">むちねこ (Muchi Neko)</strong>
-                  <span class="muchi-role">Tokyo Rooftop Guardian</span>
+              <div class="companion-content-col">
+                <div class="companion-header-meta">
+                  <strong class="companion-cat-name">むちねこ (Muchi Neko)</strong>
+                  <!-- Functional Routine Metric instead of fictional weight -->
+                  <span class="companion-squish-tag" id="routine-status-tag">Routine: 2/3 Done (67%)</span>
+                  <span class="mascot-lore-tag">Mascot</span>
+                  <button class="companion-toggle-btn" id="companion-toggle-btn" onclick="toggleMuchiCompact()" title="Toggle compact view">
+                    <span id="compact-toggle-text">— Compact</span>
+                  </button>
                 </div>
 
-                <div class="gauge-info-row">
-                  <span class="gauge-title">Mochi Roundness Gauge</span>
-                  <strong class="gauge-metric" id="weight-display">6.8 kg • むちむち (Super Squishy)</strong>
+                <!-- Speech Bubble (Short, 1-Line, Non-dominating) -->
+                <div class="companion-speech-bubble" id="cat-bubble">
+                  <span id="cat-quote">"Evening Magnesium dose scheduled at 8:30 PM."</span>
                 </div>
 
-                <div class="gauge-progress-track">
-                  <div class="gauge-progress-fill" style="width: 86%;"></div>
-                </div>
-
-                <button class="muchi-purr-btn" id="muchi-pet-btn" onclick="triggerMuchiJump()">
-                  <span>✨ Tap Muchi Neko to hear him purr and jump!</span>
-                </button>
-              </div>
-            </div>
-
-            <!-- Today in Tokyo Card -->
-            <div class="today-overview-card">
-              <div class="today-header-row">
-                <div class="today-title">
-                  <span class="clipboard-icon">📋</span>
-                  <span>Today in Tokyo • 本日の予定</span>
-                </div>
-                <span class="today-tag-chip">Today</span>
-              </div>
-              <div class="today-metrics-grid">
-                <div class="metric-pill-item" onclick="switchTab('screen-medication')">
-                  <strong class="metric-big-val" id="pill-summary-count">1 Pending</strong>
-                  <span class="metric-sub-label">💊 Tablet Dose</span>
-                </div>
-                <div class="metric-pill-item" onclick="switchTab('screen-transit')">
-                  <strong class="metric-big-val">Yamanote</strong>
-                  <span class="metric-sub-label">🚇 Transit Loop</span>
-                </div>
-                <div class="metric-pill-item">
-                  <strong class="metric-big-val">¥3,250</strong>
-                  <span class="metric-sub-label">💴 Daily Spent</span>
+                <!-- State Controller Pills -->
+                <div class="companion-state-chips" role="group" aria-label="Mascot dynamic states">
+                  <button class="state-chip active" id="chip-greeting" onclick="setMuchiState('greeting')">Greeting</button>
+                  <button class="state-chip" id="chip-idle" onclick="setMuchiState('idle')">Tokyo Life</button>
+                  <button class="state-chip" id="chip-celebrate" onclick="setMuchiState('celebrate')">Goal Done</button>
+                  <button class="state-chip" id="chip-rest" onclick="setMuchiState('rest')">Resting</button>
                 </div>
               </div>
             </div>
 
-            <!-- Essential Japan Toolbelt (2x2 Grid) -->
-            <div class="toolbelt-section">
-              <h3 class="toolbelt-heading">Essential Japan Toolbelt • 便利ツール</h3>
-              <div class="toolbelt-grid">
-                <!-- Tablet Reminder -->
-                <div class="toolbelt-card" onclick="switchTab('screen-medication')">
-                  <div class="tool-icon-box pill-box">💊</div>
-                  <div class="tool-text-content">
-                    <strong class="tool-title">Tablet Reminder</strong>
-                    <span class="tool-desc">Dose alerts & OTC Guide</span>
-                  </div>
-                </div>
+            <!-- PRIORITY ACTION CENTER (Upcoming Tasks, Overdue, Spending, Next Route) -->
+            <div class="section-lead-row">
+              <h3 class="clean-section-title">Priority Actions & Today's Schedule</h3>
+              <span class="live-context-chip" id="local-date-chip">Today • Oct 26</span>
+            </div>
 
-                <!-- Tokyo Transit -->
-                <div class="toolbelt-card" onclick="switchTab('screen-transit')">
-                  <div class="tool-icon-box transit-box">🚇</div>
-                  <div class="tool-text-content">
-                    <strong class="tool-title">Tokyo Transit</strong>
-                    <span class="tool-desc">Yamanote & Exit Guide</span>
-                  </div>
-                </div>
+            <div class="priority-action-stack">
+            <div class="priority-action-stack">
+              <!-- Action Card 1: Next Medication Due (Dynamic Container) -->
+              <div id="home-med-card-wrapper"></div>
 
-                <!-- Radar Compass -->
-                <div class="toolbelt-card" onclick="switchTab('screen-map')">
-                  <div class="tool-icon-box radar-box">🧭</div>
-                  <div class="tool-text-content">
-                    <strong class="tool-title">Radar Compass</strong>
-                    <span class="tool-desc">Drugstore & Clinic Locator</span>
+              <!-- Action Card 2: Today's Daily Yen & Spending -->
+              <div class="priority-card finance-card">
+                <div class="priority-card-indicator amber"></div>
+                <div class="priority-card-main">
+                  <div class="priority-meta-row">
+                    <span class="priority-tag gold">💴 Spending Today</span>
+                    <span class="priority-time" id="home-remaining-display">Remaining: ¥8,000</span>
+                  </div>
+                  <div class="finance-amount-row">
+                    <strong class="finance-spent-num" id="home-spent-display">¥0</strong>
+                    <span class="finance-total-cap">spent today of ¥8,000 daily budget</span>
+                  </div>
+                  <!-- Clean Visual Budget Bar -->
+                  <div class="finance-bar-track">
+                    <div class="finance-bar-fill" id="home-budget-bar" style="width: 0%;"></div>
+                  </div>
+                  <div class="finance-footer-row">
+                    <div class="finance-category-pills" id="home-categories-wrapper">
+                      <span class="f-pill empty">No spending recorded today</span>
+                    </div>
+                    <div class="finance-button-group">
+                      <button class="f-action-btn" onclick="openExpenseModal()">+ Add Expense</button>
+                      <button class="f-action-btn secondary" onclick="openBudgetModal()">⚙️ Budget & Bills</button>
+                      <button class="f-action-link" onclick="switchTab('screen-tools')">Full Budget ➔</button>
+                    </div>
                   </div>
                 </div>
+              </div>
 
-                <!-- AI Chat -->
-                <div class="toolbelt-card" onclick="switchTab('screen-chat')">
-                  <div class="tool-icon-box chat-box">💬</div>
-                  <div class="tool-text-content">
-                    <strong class="tool-title">AI Chat</strong>
-                    <span class="tool-desc">Offline-first Assistant</span>
+              <!-- Action Card 3: Saved Commute & Transit Alert -->
+              <div class="priority-card transit-card" onclick="switchTab('screen-transit')">
+                <div class="priority-card-indicator indigo"></div>
+                <div class="priority-card-main">
+                  <div class="priority-meta-row">
+                    <span class="priority-tag indigo">🚇 Saved Route • JR Yamanote Line</span>
+                    <span class="priority-time cached-badge">Offline Schedule (Cached 08:00 AM)</span>
                   </div>
+                  <div class="transit-route-row">
+                    <strong>Shibuya (渋谷)</strong>
+                    <span class="route-arrow">➔➔</span>
+                    <strong>Shinjuku (新宿)</strong>
+                  </div>
+                  <p class="priority-card-desc">Scheduled loop departure every 3-4 mins from Platform 2 (7 min journey).</p>
+                  <span class="transit-disclaimer-note">※ Standard schedule shown. Real-time delay alerts require an active network.</span>
                 </div>
+              </div>
+            </div>
+
+            <!-- DAILY FOCUS CHECKLIST -->
+            <div class="section-lead-row">
+              <h3 class="clean-section-title">Today's Focus & Reminders</h3>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="task-progress-badge" id="task-progress-badge">0 Tasks</span>
+                <button class="f-action-btn mini" onclick="openTaskModal()" style="font-size: 11px; padding: 3px 9px;">+ Add Task</button>
+              </div>
+            </div>
+
+            <div class="daily-checklist-card" id="tasks-container"></div>
+
+            <!-- AIBO SERVICES HUB (Categorized by Purpose with Uniform 32px Icons) -->
+            <div class="section-lead-row">
+              <h3 class="clean-section-title">AIBO Suite Services (便利帳)</h3>
+              <span class="hub-count-tag">Grouped by Purpose</span>
+            </div>
+
+            <div class="service-hub-grid">
+              <!-- Health & Daily -->
+              <div class="service-hub-card" onclick="switchTab('screen-medication')">
+                <div class="hub-icon-pill med">💊</div>
+                <strong>Prescriptions & OTC</strong>
+                <span>Yakutai dose log & drugstores</span>
+              </div>
+
+              <!-- Transit & Navigation -->
+              <div class="service-hub-card" onclick="switchTab('screen-transit')">
+                <div class="hub-icon-pill transit">🚇</div>
+                <strong>Yamanote & Exits</strong>
+                <span>Loop schedule & exit placards</span>
+              </div>
+
+              <!-- Finances & Legal -->
+              <div class="service-hub-card" onclick="switchTab('screen-tools')">
+                <div class="hub-icon-pill budget">💴</div>
+                <strong>Yen Budget & ATM</strong>
+                <span>Daily spending & ATM guide</span>
+              </div>
+
+              <div class="service-hub-card" onclick="switchTab('screen-tools')">
+                <div class="hub-icon-pill vault">📁</div>
+                <strong>Document Vault</strong>
+                <span>Encrypted My Number & cards</span>
+              </div>
+
+              <!-- Safety & Language -->
+              <div class="service-hub-card" onclick="switchTab('screen-tools')">
+                <div class="hub-icon-pill sos">🚨</div>
+                <strong>Emergency SOS</strong>
+                <span>110 / 119 & Medical ICE card</span>
+              </div>
+
+              <div class="service-hub-card" onclick="switchTab('screen-tools')">
+                <div class="hub-icon-pill lang">🗣️</div>
+                <strong>Daily Phrasebook</strong>
+                <span>Essential survival Japanese</span>
+              </div>
+
+              <!-- Hardware Tools -->
+              <div class="service-hub-card" onclick="switchTab('screen-map')">
+                <div class="hub-icon-pill radar">🧭</div>
+                <strong>Radar Compass</strong>
+                <span>Hardware compass & landmarks</span>
+              </div>
+
+              <div class="service-hub-card" onclick="switchTab('screen-chat')">
+                <div class="hub-icon-pill chat">💬</div>
+                <strong>AI Consultation</strong>
+                <span>On-device Japanese assistant</span>
               </div>
             </div>
           </section>
@@ -295,57 +370,20 @@
                 </div>
               </div>
 
-              <!-- Patient Row -->
+              <!-- Patient Row (Dynamic) -->
               <div class="yakutai-patient-row">
                 <span class="patient-tag">Patient Name (患者氏名)</span>
-                <strong class="patient-name">Arjun-san (様)</strong>
-                <span class="patient-date">Oct 26, 2026</span>
+                <strong class="patient-name" id="yakutai-patient-name">User (様)</strong>
+                <span class="patient-date" id="yakutai-date-display">Today</span>
               </div>
 
-              <!-- Daily Dosage Time Checkbox Grid (朝・昼・夕・寝る前) -->
-              <div class="yakutai-schedule-grid">
-                <div class="schedule-col done">
-                  <span class="col-kanji">Morning (朝)</span>
-                  <span class="col-time">08:00 AM</span>
-                  <div class="col-stamp">
-                    <span class="hanko-stamp-text">✓ 済</span>
-                  </div>
-                  <span class="col-pill-name">Vitamin D3</span>
-                </div>
-                <div class="schedule-col inactive">
-                  <span class="col-kanji">Noon (昼)</span>
-                  <span class="col-time">12:30 PM</span>
-                  <div class="col-stamp">—</div>
-                  <span class="col-pill-name">None</span>
-                </div>
-                <div class="schedule-col pending active-slot" id="evening-slot">
-                  <span class="col-kanji">Evening (夕)</span>
-                  <span class="col-time">08:30 PM</span>
-                  <div class="col-stamp stamp-target" id="evening-hanko-target">
-                    <span class="unmarked-ring">⭕ Scheduled</span>
-                  </div>
-                  <span class="col-pill-name">Magnesium</span>
-                </div>
-                <div class="schedule-col inactive">
-                  <span class="col-kanji">Bedtime (就寝前)</span>
-                  <span class="col-time">11:00 PM</span>
-                  <div class="col-stamp">—</div>
-                  <span class="col-pill-name">None</span>
-                </div>
-              </div>
+              <!-- Daily Dosage Time Dynamic Grid -->
+              <div class="yakutai-schedule-grid" id="yakutai-schedule-grid"></div>
 
-              <!-- Instructions -->
-              <div class="yakutai-instructions">
-                <span class="note-bullet">※</span>
-                <span class="instruction-text">Take with water or lukewarm water (水またはぬるま湯) within 30 minutes after dinner.</span>
-              </div>
-
-              <!-- Stamp Action Button -->
-              <div class="yakutai-action-row">
-                <button class="stamp-action-btn" id="stamp-pill-btn">
-                  <svg class="ui-icon" width="16" height="16" stroke="#FFFFFF"><use href="#icon-stamp" /></svg>
-                  <span id="stamp-btn-label">Stamp & Mark as Taken (押印)</span>
-                </button>
+              <!-- Action Row -->
+              <div class="yakutai-action-row" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px;">
+                <span class="medical-disclaimer-note">※ Tap any scheduled slot to seal with Inkan (押印)</span>
+                <button class="f-action-btn mini" onclick="openMedModal()">+ Add Schedule</button>
               </div>
             </div>
 
@@ -680,38 +718,34 @@
           <!-- ==========================================
                SCREEN 5: AI CHAT (Consultation)
                ========================================== -->
+          <!-- ==========================================
+               SCREEN 5: AI CHAT (Consultation)
+               ========================================== -->
           <section id="screen-chat" class="screen">
             <div class="stationery-topbar">
               <div>
-                <span class="seal-script-label">Offline AI Companion</span>
+                <span class="seal-script-label">Bilingual AI Companion • 相談</span>
                 <h2 class="greeting-main">AIBO Consultation</h2>
               </div>
-              <div class="paper-badge">Dual-Engine AI</div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <button class="paper-badge" onclick="openAiConfigModal()" style="cursor: pointer; border: 1px solid var(--border-subtle);" title="Configure AI Engine">
+                  ⚙️ AI Settings
+                </button>
+                <button class="text-link-action" onclick="clearChatAction()" style="font-size: 11px; padding: 2px 6px;">Clear History</button>
+              </div>
             </div>
 
-            <!-- Chat Scroll Area -->
-            <div class="chat-scroll-area" id="chat-log">
-              <div class="chat-row aibo">
-                <div class="hanko-seal mini">相棒</div>
-                <div class="scroll-bubble">
-                  Konnichiwa Arjun-san! I am AIBO, your Japanese daily companion. You can ask me anything in English or simple Japanese: finding tablets, understanding letters from city hall, or train routes. All your data stays 100% encrypted on your phone.
-                  <div class="scroll-time">09:30 • Verified</div>
-                </div>
+            <!-- Active AI Provider & Status Banner -->
+            <div class="ai-provider-banner" id="chat-provider-banner">
+              <div class="provider-pill" id="chat-active-provider-pill">
+                <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #34A853;"></span>
+                <span>Active AI: <strong id="chat-active-provider-name">Auto (Nemotron ➔ Gemini)</strong></span>
               </div>
-              <div class="chat-row user">
-                <div class="scroll-bubble user">
-                  Where can I find headache tablets near Shibuya station?
-                  <div class="scroll-time">09:32</div>
-                </div>
-              </div>
-              <div class="chat-row aibo">
-                <div class="hanko-seal mini">相棒</div>
-                <div class="scroll-bubble">
-                  Head out of the <strong>Hachiko Exit</strong> and walk 2 minutes to <strong>Matsumoto Kiyoshi</strong>. Ask for <strong>EVE Quick DX (イブクイックDX)</strong> or <strong>Bufferin Premium (バファリンプレミアム)</strong>. Both contain Ibuprofen and are available over-the-counter!
-                  <div class="scroll-time">09:32 • Verified</div>
-                </div>
-              </div>
+              <button class="text-link-action" onclick="openAiConfigModal()">⚙️ Change Engine</button>
             </div>
+
+            <!-- Dynamic Chat Scroll Area -->
+            <div class="chat-scroll-area" id="chat-log"></div>
 
             <!-- Input Bar -->
             <div class="ink-input-bar">
@@ -725,9 +759,180 @@
             </div>
           </section>
 
+          <!-- ==========================================
+               SCREEN 6: TOOLS & SOS (Comprehensive Service Suite)
+               ========================================== -->
+          <section id="screen-tools" class="screen">
+            <div class="stationery-topbar">
+              <div>
+                <span class="seal-script-label">Comprehensive Offline Hub</span>
+                <h2 class="greeting-main">Tools, Finances & SOS</h2>
+              </div>
+              <div class="hanko-seal mini emergency">
+                <span>便利</span>
+              </div>
+            </div>
+
+            <!-- EMERGENCY & RESCUE SECTION (110 / 119 & ICE) -->
+            <div class="emergency-banner-box">
+              <div class="emergency-header-row">
+                <div class="emergency-badge-title">
+                  <svg width="16" height="16" stroke="currentColor"><use href="#icon-alert" /></svg>
+                  <strong>Emergency SOS Contacts (緊急通報)</strong>
+                </div>
+                <span class="ice-pill">ICE Medical</span>
+              </div>
+
+              <div class="emergency-actions-row">
+                <button class="emergency-call-btn red" onclick="triggerEmergencyCall('110')">
+                  <span class="call-num">110</span>
+                  <span class="call-desc">Police (警察) • Crime / Accident</span>
+                </button>
+                <button class="emergency-call-btn orange" onclick="triggerEmergencyCall('119')">
+                  <span class="call-num">119</span>
+                  <span class="call-desc">Ambulance / Fire (救急・消防)</span>
+                </button>
+              </div>
+
+              <div class="ice-medical-card">
+                <div class="ice-row">
+                  <span class="ice-label">Primary Holder</span>
+                  <strong class="ice-val" id="ice-holder-name">Primary User</strong>
+                </div>
+                <div class="ice-row">
+                  <span class="ice-label">Blood Type & Allergies</span>
+                  <strong class="ice-val" id="ice-blood-allergies">Unknown</strong>
+                </div>
+                <div class="ice-row">
+                  <span class="ice-label">Emergency Contact</span>
+                  <span class="ice-val" id="ice-contact-info">Not configured</span>
+                </div>
+                <div class="ice-row">
+                  <span class="ice-label">Emergency Script</span>
+                  <span class="ice-val jp-text">「助けてください。英語の話せる人はいますか？」 (Tasukete kudasai. Eigo no hanaseru hito wa imasu ka?)</span>
+                </div>
+                <div style="margin-top: 10px; text-align: right;">
+                  <button class="text-link-action" onclick="openIceModal()">✎ Edit Emergency ICE Card</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- FINANCES & DAILY YEN SECTION -->
+            <h3 class="stationery-section-title">
+              <span>Daily Yen & Expense Tracker</span>
+              <span class="jp-sub">家計簿</span>
+            </h3>
+            <div class="stationery-card finance-tool-card">
+              <div class="finance-tool-header">
+                <div>
+                  <span class="f-tool-label">Today's Remaining Budget</span>
+                  <strong class="f-tool-val" id="tools-remaining-display">¥8,000 <span class="f-tool-sub">left of ¥8,000</span></strong>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                  <button class="tool-action-pill-btn secondary" onclick="openBudgetModal()">
+                    <span>⚙️ Budget & Bills</span>
+                  </button>
+                  <button class="tool-action-pill-btn" onclick="openExpensePrompt()">
+                    <span>+ Add Expense</span>
+                  </button>
+                </div>
+              </div>
+              <div class="finance-bar-track large">
+                <div class="finance-bar-fill" id="tools-budget-bar" style="width: 0%;"></div>
+              </div>
+
+              <!-- Monthly Budget & Japan Bill Overview -->
+              <div class="monthly-overview-card" id="tools-monthly-overview"></div>
+
+              <div class="bill-envelopes-section">
+                <div class="bill-envelopes-header">
+                  <div>
+                    <h4 class="bill-envelopes-title">Japan Living Bill Envelopes (生活費・固定費)</h4>
+                    <span class="bill-envelopes-sub">Allocated targets vs current monthly spend</span>
+                  </div>
+                  <button class="text-link-action" onclick="openBudgetModal()">✎ Adjust Allocations</button>
+                </div>
+                <div class="bill-envelopes-grid" id="tools-bill-envelopes"></div>
+              </div>
+
+              <div id="tools-transactions-container"></div>
+              <div class="atm-guide-banner" style="margin-top: 14px;">
+                <span class="atm-icon">🏧</span>
+                <div class="atm-info">
+                  <strong>Fee-Free Foreign Card ATMs:</strong>
+                  <span>7-Eleven (Seven Bank) & Japan Post Bank accept foreign Visa/Mastercard without conversion surcharges.</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- DOCUMENT VAULT (SECURE OFFLINE STORAGE) -->
+            <h3 class="stationery-section-title">
+              <span>Document Vault & Verification</span>
+              <span class="jp-sub">書類金庫</span>
+            </h3>
+            <div class="stationery-card vault-tool-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <div class="vault-status-pill">
+                  <span class="vault-lock-icon">🔒</span>
+                  <span>AES-256 Encrypted on Device • 0 KB Leaves Your Phone</span>
+                </div>
+                <button class="f-action-btn mini" onclick="openVaultModal()">+ Add Document</button>
+              </div>
+              <div class="vault-items-list" id="vault-items-container"></div>
+            </div>
+
+            <!-- DAILY JAPANESE PHRASEBOOK -->
+            <h3 class="stationery-section-title">
+              <span>Essential Tokyo Daily Phrases</span>
+              <span class="jp-sub">日常会話</span>
+            </h3>
+            <div class="phrasebook-list">
+              <div class="phrase-card">
+                <div class="phrase-header">
+                  <span class="phrase-tag">Shopping & Dining</span>
+                  <span class="phrase-romaji">Kore wa ikura desu ka?</span>
+                </div>
+                <strong class="phrase-jp">これはい polarization / これはおいくらですか？</strong>
+                <span class="phrase-en">"How much is this?"</span>
+              </div>
+              <div class="phrase-card">
+                <div class="phrase-header">
+                  <span class="phrase-tag">Assistance</span>
+                  <span class="phrase-romaji">Eigo no dekiru kata wa imasu ka?</span>
+                </div>
+                <strong class="phrase-jp">英語のできる方はいますか？</strong>
+                <span class="phrase-en">"Does anyone speak English?"</span>
+              </div>
+              <div class="phrase-card">
+                <div class="phrase-header">
+                  <span class="phrase-tag">Restaurant</span>
+                  <span class="phrase-romaji">Kaikei o onegaishimasu</span>
+                </div>
+                <strong class="phrase-jp">お会計をお願いします。</strong>
+                <span class="phrase-en">"Could I have the check, please?"</span>
+              </div>
+            </div>
+
+            <!-- RADAR COMPASS SHORTCUT -->
+            <h3 class="stationery-section-title">
+              <span>Offline Radar Navigation</span>
+              <span class="jp-sub">コンパス</span>
+            </h3>
+            <div class="stationery-card radar-shortcut-card" onclick="switchTab('screen-map')">
+              <div class="radar-short-content">
+                <strong>Tokyo Radar Compass & Landmarks</strong>
+                <span>100% offline compass, GPS precision, and verified pharmacies</span>
+              </div>
+              <button class="open-radar-btn">
+                <svg width="14" height="14" stroke="currentColor"><use href="#icon-compass" /></svg>
+                <span>Open Radar</span>
+              </button>
+            </div>
+          </section>
+
         </div>
 
-        <!-- Bottom Navigation Bar -->
+        <!-- Bottom Navigation Bar (5 Core Accessible Tabs) -->
         <nav class="stationery-bottom-nav">
           <button class="nav-tab active" onclick="switchTab('screen-home')" data-tab="screen-home">
             <svg class="nav-icon" width="20" height="20"><use href="#icon-home" /></svg>
@@ -741,15 +946,463 @@
             <svg class="nav-icon" width="20" height="20"><use href="#icon-train" /></svg>
             <span class="nav-tab-label">Transit</span>
           </button>
-          <button class="nav-tab" onclick="switchTab('screen-map')" data-tab="screen-map">
-            <svg class="nav-icon" width="20" height="20"><use href="#icon-compass" /></svg>
-            <span class="nav-tab-label">Radar</span>
-          </button>
           <button class="nav-tab" onclick="switchTab('screen-chat')" data-tab="screen-chat">
             <svg class="nav-icon" width="20" height="20"><use href="#icon-chat" /></svg>
-            <span class="nav-tab-label">AI Chat</span>
+            <span class="nav-tab-label">Assistant</span>
+          </button>
+          <button class="nav-tab" onclick="switchTab('screen-tools')" data-tab="screen-tools">
+            <svg class="nav-icon" width="20" height="20"><use href="#icon-grid" /></svg>
+            <span class="nav-tab-label">Tools & SOS</span>
           </button>
         </nav>
+
+        <!-- ==========================================
+             OFFLINE CAPABILITY TRANSPARENCY MODAL
+             ========================================== -->
+        <div class="app-modal-backdrop" id="offline-modal">
+          <div class="app-modal-sheet">
+            <div class="modal-header-row">
+              <div class="modal-title-wrap">
+                <span class="modal-sub-label">Offline Capability Transparency</span>
+                <h3 class="modal-main-title">What Works 100% Offline?</h3>
+              </div>
+              <button class="modal-close-btn" onclick="closeModal('offline-modal')">✕</button>
+            </div>
+            <div class="modal-body-content">
+              <p class="modal-explainer-text">AIBO is built on a strict privacy-first model. Here is the honest breakdown of our offline capabilities vs online services:</p>
+
+              <div class="transparency-item green-box">
+                <div class="t-badge green">🟢 100% On-Device (Zero Bytes Sent)</div>
+                <strong>Document Vault, Medication Reminders & Daily Budget</strong>
+                <span>Your Residence Card, My Number Card, Dose schedule, and yen logs are stored in AES-256 local encrypted SQLite storage on your phone. Nothing is uploaded to cloud servers.</span>
+              </div>
+
+              <div class="transparency-item amber-box">
+                <div class="t-badge amber">🟡 Offline-Cached Static Schedules</div>
+                <strong>Yamanote Loop Timetables & Station Exits</strong>
+                <span>All station stops, exit placards, and standard loop schedules are cached locally on device (Last updated: Today 08:00 AM).</span>
+              </div>
+
+              <div class="transparency-item red-box">
+                <div class="t-badge red">🔴 Requires Active Internet Connection</div>
+                <strong>Live Delay Alerts & Real-Time Sync</strong>
+                <span>Live delay notifications, platform emergency track updates, and cloud-assisted translation fallback require cellular or Wi-Fi data.</span>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="modal-primary-btn" onclick="closeModal('offline-modal')">Understood (了解)</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             PROFILE & GREETING CUSTOMIZER MODAL
+             ========================================== -->
+        <div class="app-modal-backdrop" id="profile-modal">
+          <div class="app-modal-sheet">
+            <div class="modal-header-row">
+              <div class="modal-title-wrap">
+                <span class="modal-sub-label">Profile Preferences</span>
+                <h3 class="modal-main-title">Configure Greeting & City</h3>
+              </div>
+              <button class="modal-close-btn" onclick="closeModal('profile-modal')">✕</button>
+            </div>
+            <div class="modal-body-content">
+              <div class="config-field">
+                <label class="config-label">Display Name</label>
+                <input type="text" id="cfg-name-input" class="config-input" value="Arjun" placeholder="Your name..." />
+              </div>
+
+              <div class="config-field">
+                <label class="config-label">Honorific / Title</label>
+                <select id="cfg-honorific-select" class="config-select">
+                  <option value="-san" selected>-san (さん) • Polite Standard</option>
+                  <option value="-kun">-kun (くん) • Friendly / Casual</option>
+                  <option value="-sama">-sama (様) • Formal Honorific</option>
+                  <option value="">None • First Name Only</option>
+                </select>
+              </div>
+
+              <div class="config-field">
+                <label class="config-label">Greeting Language Style</label>
+                <select id="cfg-style-select" class="config-select">
+                  <option value="bilingual" selected>Bilingual (おかえりなさい / Welcome back)</option>
+                  <option value="english">English Only (Welcome back)</option>
+                  <option value="japanese">Japanese Only (お帰りなさい)</option>
+                  <option value="casual">Casual (Yaa / やあ)</option>
+                </select>
+              </div>
+
+              <div class="config-field">
+                <label class="config-label">Configured City & Ward</label>
+                <select id="cfg-city-select" class="config-select">
+                  <option value="Shibuya, Tokyo" selected>Shibuya, Tokyo (渋谷区)</option>
+                  <option value="Shinjuku, Tokyo">Shinjuku, Tokyo (新宿区)</option>
+                  <option value="Minato, Tokyo">Minato, Tokyo (港区)</option>
+                  <option value="Chuo, Osaka">Chuo-ku, Osaka (大阪市中央区)</option>
+                  <option value="Kyoto">Nakagyo-ku, Kyoto (京都市)</option>
+                  <option value="Yokohama">Nishi-ku, Yokohama (横浜市)</option>
+                </select>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="modal-secondary-btn" onclick="closeModal('profile-modal')">Cancel</button>
+              <button class="modal-primary-btn" onclick="saveProfilePreferences()">Save & Update Greeting</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             QUICK EXPENSE MODAL
+             ========================================== -->
+        <div class="app-modal-backdrop" id="expense-modal">
+          <div class="app-modal-sheet">
+            <div class="modal-header-row">
+              <div class="modal-title-wrap">
+                <span class="modal-sub-label">Daily Yen Expense</span>
+                <h3 class="modal-main-title">Log Today's Spending</h3>
+              </div>
+              <button class="modal-close-btn" onclick="closeModal('expense-modal')">✕</button>
+            </div>
+            <div class="modal-body-content">
+              <div class="config-field">
+                <label class="config-label">Amount (¥ Yen)</label>
+                <input type="number" id="exp-amount-input" class="config-input large-num" placeholder="e.g. 850" min="10" step="10" />
+              </div>
+
+              <div class="config-field">
+                <label class="config-label">Category</label>
+                <select id="exp-category-select" class="config-select">
+                  <option value="🍜 Dining Out (外食)">🍜 Dining Out (外食)</option>
+                  <option value="🛒 Groceries (食費)">🛒 Groceries & Konbini (食費)</option>
+                  <option value="🚇 Transit / Suica (交通費)">🚇 Transit / Suica (交通費)</option>
+                  <option value="☕ Cafe & Snacks (カフェ)">☕ Cafe & Snacks (カフェ)</option>
+                  <option value="🏠 Rent (家賃)">🏠 Rent & Maintenance (家賃・共益費)</option>
+                  <option value="⚡ Electricity (電気代)">⚡ Electricity (電気代 - TEPCO/Tokyo Gas)</option>
+                  <option value="🔥 Gas (ガス代)">🔥 Gas (ガス代 - Tokyo Gas)</option>
+                  <option value="💧 Water (水道代)">💧 Water (水道代 - Bureau of Waterworks)</option>
+                  <option value="📶 Mobile & Internet (通信費)">📶 Mobile & Wi-Fi (通信費 - Docomo/SoftBank)</option>
+                  <option value="🏥 Health / Pension (保険・年金)">🏥 Health & Pension (国民健康保険・年金)</option>
+                  <option value="💊 Pharmacy (薬局)">💊 Medicine & Drugstore (薬局)</option>
+                  <option value="🛍️ Sundries & Daily Living (生活費)">🛍️ Sundries & Daily Living (生活費・日用品)</option>
+                </select>
+              </div>
+
+              <div class="config-field">
+                <label class="config-label">Note / Location (Optional)</label>
+                <input type="text" id="exp-note-input" class="config-input" placeholder="e.g. Lawson Shibuya" />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="modal-secondary-btn" onclick="closeModal('expense-modal')">Cancel</button>
+              <button class="modal-primary-btn" onclick="submitNewExpense()">Add to Today's Spending</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             ADD TASK MODAL
+             ========================================== -->
+        <div class="app-modal-backdrop" id="task-modal">
+          <div class="app-modal-sheet">
+            <div class="modal-header-row">
+              <div class="modal-title-wrap">
+                <span class="modal-sub-label">Daily Agenda</span>
+                <h3 class="modal-main-title">Add Today's Task</h3>
+              </div>
+              <button class="modal-close-btn" onclick="closeModal('task-modal')">✕</button>
+            </div>
+            <div class="modal-body-content">
+              <div class="config-field">
+                <label class="config-label">Task Title</label>
+                <input type="text" id="task-title-input" class="config-input" placeholder="e.g. Pick up resident slip at Ward Office" />
+              </div>
+              <div class="config-field">
+                <label class="config-label">Notes / Location / Deadline (Optional)</label>
+                <input type="text" id="task-sub-input" class="config-input" placeholder="e.g. Bring My Number Card before 17:00" />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="modal-secondary-btn" onclick="closeModal('task-modal')">Cancel</button>
+              <button class="modal-primary-btn" onclick="submitNewTask()">Save to Checklist</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             ADD MEDICATION SCHEDULE MODAL
+             ========================================== -->
+        <div class="app-modal-backdrop" id="med-modal">
+          <div class="app-modal-sheet">
+            <div class="modal-header-row">
+              <div class="modal-title-wrap">
+                <span class="modal-sub-label">Prescription Packet</span>
+                <h3 class="modal-main-title">Add Tablet Schedule</h3>
+              </div>
+              <button class="modal-close-btn" onclick="closeModal('med-modal')">✕</button>
+            </div>
+            <div class="modal-body-content">
+              <div class="config-field">
+                <label class="config-label">Medicine / Supplement Name</label>
+                <input type="text" id="med-name-input" class="config-input" placeholder="e.g. Magnesium & Zinc, Loxonin S" />
+              </div>
+              <div class="config-field">
+                <label class="config-label">Dosage Quantity</label>
+                <input type="text" id="med-dose-input" class="config-input" placeholder="e.g. 1 tablet, 250mg, 1 packet" />
+              </div>
+              <div class="config-field">
+                <label class="config-label">Scheduled Time (e.g. 08:30 PM)</label>
+                <input type="text" id="med-time-input" class="config-input" placeholder="08:30 PM" value="08:30 PM" />
+              </div>
+              <div class="config-field">
+                <label class="config-label">Intake Instructions</label>
+                <input type="text" id="med-note-input" class="config-input" placeholder="e.g. Take with water after dinner" />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="modal-secondary-btn" onclick="closeModal('med-modal')">Cancel</button>
+              <button class="modal-primary-btn" onclick="submitNewMedication()">Record in Yakutai</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             ADD DOCUMENT VAULT MODAL
+             ========================================== -->
+        <div class="app-modal-backdrop" id="vault-modal">
+          <div class="app-modal-sheet">
+            <div class="modal-header-row">
+              <div class="modal-title-wrap">
+                <span class="modal-sub-label">Secure Vault</span>
+                <h3 class="modal-main-title">Store Important Document</h3>
+              </div>
+              <button class="modal-close-btn" onclick="closeModal('vault-modal')">✕</button>
+            </div>
+            <div class="modal-body-content">
+              <div class="config-field">
+                <label class="config-label">Document Name</label>
+                <input type="text" id="doc-title-input" class="config-input" placeholder="e.g. Residence Card (在留カード), Hokensho" />
+              </div>
+              <div class="config-field">
+                <label class="config-label">Category</label>
+                <select id="doc-category-select" class="config-select">
+                  <option value="Identification">🪪 Official ID & Immigration</option>
+                  <option value="Healthcare">🏥 Health Insurance (保険証)</option>
+                  <option value="Housing">🏠 Rental Lease & Utilities</option>
+                  <option value="Banking">💳 Japan Post / Bank Documents</option>
+                </select>
+              </div>
+              <div class="config-field">
+                <label class="config-label">Notes / Expiry Date</label>
+                <input type="text" id="doc-notes-input" class="config-input" placeholder="e.g. Valid until Nov 2028" />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="modal-secondary-btn" onclick="closeModal('vault-modal')">Cancel</button>
+              <button class="modal-primary-btn" onclick="submitNewDocument()">Encrypt & Store Locally</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             EDIT EMERGENCY ICE CARD MODAL
+             ========================================== -->
+        <div class="app-modal-backdrop" id="ice-modal">
+          <div class="app-modal-sheet">
+            <div class="modal-header-row">
+              <div class="modal-title-wrap">
+                <span class="modal-sub-label">Emergency Medical Profile</span>
+                <h3 class="modal-main-title">Edit ICE Medical Card</h3>
+              </div>
+              <button class="modal-close-btn" onclick="closeModal('ice-modal')">✕</button>
+            </div>
+            <div class="modal-body-content">
+              <div class="config-field">
+                <label class="config-label">Full Name & Ward</label>
+                <input type="text" id="ice-cfg-name" class="config-input" placeholder="e.g. Arjun (Shibuya-ku, Tokyo)" />
+              </div>
+              <div class="config-field">
+                <label class="config-label">Blood Type</label>
+                <input type="text" id="ice-cfg-blood" class="config-input" placeholder="e.g. O+, A+, B+, AB-" />
+              </div>
+              <div class="config-field">
+                <label class="config-label">Known Allergies / Medical Conditions</label>
+                <input type="text" id="ice-cfg-allergies" class="config-input" placeholder="e.g. None, or Penicillin, Asthmatic" />
+              </div>
+              <div class="config-field">
+                <label class="config-label">ICE Contact Name</label>
+                <input type="text" id="ice-cfg-contact-name" class="config-input" placeholder="e.g. Spouse / Emergency contact" />
+              </div>
+              <div class="config-field">
+                <label class="config-label">ICE Contact Phone</label>
+                <input type="tel" id="ice-cfg-contact-phone" class="config-input" placeholder="e.g. +81 90-XXXX-XXXX" />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="modal-secondary-btn" onclick="closeModal('ice-modal')">Cancel</button>
+              <button class="modal-primary-btn" onclick="saveIceCardSettings()">Save Emergency Profile</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             MONTHLY BUDGET & JAPAN BILL ENVELOPES MODAL
+             ========================================== -->
+        <div class="app-modal-backdrop" id="budget-config-modal">
+          <div class="app-modal-sheet" style="max-height: 85vh; overflow-y: auto;">
+            <div class="modal-header-row">
+              <div class="modal-title-wrap">
+                <span class="modal-sub-label">Household Accounting • 家計簿</span>
+                <h3 class="modal-main-title">Monthly Budget & Bill Envelopes</h3>
+              </div>
+              <button class="modal-close-btn" onclick="closeModal('budget-config-modal')">✕</button>
+            </div>
+            <div class="modal-body-content">
+              <!-- Total Monthly Budget Field -->
+              <div class="config-field">
+                <label class="config-label">Total Monthly Budget (月額総予算)</label>
+                <div style="position: relative;">
+                  <span style="position: absolute; left: 14px; top: 12px; font-weight: 700; color: var(--text-secondary); font-size: 16px;">¥</span>
+                  <input type="number" id="cfg-monthly-total" class="config-input large-num" style="padding-left: 32px;" placeholder="240000" step="1000" oninput="recalculateBudgetPreview()" />
+                </div>
+                <span class="config-hint">Your complete income target or monthly spending ceiling in Japan.</span>
+              </div>
+
+              <!-- Live Balance Summary Banner -->
+              <div id="budget-calc-preview" style="background: var(--bg-primary); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 12px; margin-bottom: 16px;">
+                <!-- Populated dynamically via recalculateBudgetPreview() -->
+              </div>
+
+              <!-- Japan Bill Categories Sub-allocation -->
+              <h4 style="font-size: 13px; font-weight: 700; color: var(--color-charcoal); margin: 12px 0 6px 0; text-transform: uppercase; letter-spacing: 0.05em;">
+                Fixed Bills & Living Envelopes (固定費・変動費)
+              </h4>
+              <p style="font-size: 11px; color: var(--text-secondary); margin-bottom: 12px;">
+                Allocate envelope caps for common Tokyo bills (furikomi rent, utility slips, health insurance & commuter pass).
+              </p>
+
+              <div class="budget-grid-inputs">
+                <div class="config-field">
+                  <label class="config-label">🏠 Rent & Fee (家賃・共益費)</label>
+                  <input type="number" id="cfg-env-rent" class="config-input" step="500" oninput="recalculateBudgetPreview()" />
+                </div>
+                <div class="config-field">
+                  <label class="config-label">⚡ Electricity (電気代 - TEPCO)</label>
+                  <input type="number" id="cfg-env-elec" class="config-input" step="100" oninput="recalculateBudgetPreview()" />
+                </div>
+                <div class="config-field">
+                  <label class="config-label">🔥 Gas (ガス代 - Tokyo Gas)</label>
+                  <input type="number" id="cfg-env-gas" class="config-input" step="100" oninput="recalculateBudgetPreview()" />
+                </div>
+                <div class="config-field">
+                  <label class="config-label">💧 Water (水道代 - 2-Month Bill)</label>
+                  <input type="number" id="cfg-env-water" class="config-input" step="100" oninput="recalculateBudgetPreview()" />
+                </div>
+                <div class="config-field">
+                  <label class="config-label">📶 Mobile & Fiber (通信費)</label>
+                  <input type="number" id="cfg-env-net" class="config-input" step="100" oninput="recalculateBudgetPreview()" />
+                </div>
+                <div class="config-field">
+                  <label class="config-label">🏥 Health & Pension (国保・年金)</label>
+                  <input type="number" id="cfg-env-ins" class="config-input" step="100" oninput="recalculateBudgetPreview()" />
+                </div>
+                <div class="config-field">
+                  <label class="config-label">🛒 Groceries (食費・スーパー)</label>
+                  <input type="number" id="cfg-env-food" class="config-input" step="500" oninput="recalculateBudgetPreview()" />
+                </div>
+                <div class="config-field">
+                  <label class="config-label">🚇 Transit & Suica (交通費・定期)</label>
+                  <input type="number" id="cfg-env-train" class="config-input" step="500" oninput="recalculateBudgetPreview()" />
+                </div>
+                <div class="config-field" style="grid-column: span 2;">
+                  <label class="config-label">🛍️ Daily Living & Dining Out (生活費・外食)</label>
+                  <input type="number" id="cfg-env-disc" class="config-input" step="500" oninput="recalculateBudgetPreview()" />
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="modal-secondary-btn" onclick="closeModal('budget-config-modal')">Cancel</button>
+              <button class="modal-primary-btn" onclick="saveBudgetPlan()">Save Budget & Envelopes</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             AI PROVIDER & BYOK CONFIGURATION MODAL
+             ========================================== -->
+        <div class="app-modal-backdrop" id="ai-config-modal">
+          <div class="app-modal-sheet" style="max-height: 85vh; overflow-y: auto;">
+            <div class="modal-header-row">
+              <div class="modal-title-wrap">
+                <span class="modal-sub-label">Dual-Engine Intelligence</span>
+                <h3 class="modal-main-title">AI Engine & BYOK Settings</h3>
+              </div>
+              <button class="modal-close-btn" onclick="closeModal('ai-config-modal')">✕</button>
+            </div>
+            <div class="modal-body-content">
+              <!-- Provider Selector -->
+              <div class="config-field">
+                <label class="config-label">Active Intelligence Engine</label>
+                <select id="cfg-ai-provider" class="config-select" onchange="onAiProviderChanged()">
+                  <option value="auto">Auto-Select (Attempt NVIDIA Nemotron first, fallback to Gemini)</option>
+                  <option value="gemini">Google Gemini 2.5 Flash (Verified Live & Active)</option>
+                  <option value="nvidia">NVIDIA Nemotron 70B (BYOK / build.nvidia.com)</option>
+                  <option value="offline">On-Device Knowledge Engine (Offline Rulebook • ₹0)</option>
+                </select>
+                <span class="config-hint">Select whether to query cloud LLMs or remain strictly offline on device.</span>
+              </div>
+
+              <!-- Connection Test Banner / Status -->
+              <div id="ai-test-result-box" style="background: var(--bg-primary); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 10px; margin-bottom: 14px; font-size: 11px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <strong id="ai-test-status-text">Ready to test connection</strong>
+                  <button class="f-action-btn mini" onclick="testAiConnection()">⚡ Test Connection</button>
+                </div>
+                <div id="ai-test-detail-text" style="color: var(--text-secondary); margin-top: 4px; font-size: 10.5px;">
+                  Click to ping the selected AI provider and verify API response.
+                </div>
+              </div>
+
+              <!-- NVIDIA BYOK Configuration -->
+              <div id="nvidia-config-section" style="border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 12px; margin-bottom: 14px; background: rgba(118,185,0,0.03);">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                  <strong style="font-size: 12px; color: #558500;">NVIDIA NIM (Nemotron) Credentials</strong>
+                  <span style="font-size: 9.5px; background: rgba(118,185,0,0.15); color: #558500; padding: 2px 6px; border-radius: 3px; font-weight: 700;">build.nvidia.com</span>
+                </div>
+                <div class="config-field">
+                  <label class="config-label">NVIDIA API Key</label>
+                  <input type="password" id="cfg-nvidia-key" class="config-input" placeholder="nvapi-..." />
+                  <span class="config-hint">Requires Public API Endpoints or trial credits allocated on build.nvidia.com.</span>
+                </div>
+                <div class="config-field">
+                  <label class="config-label">NVIDIA Model Endpoint</label>
+                  <input type="text" id="cfg-nvidia-model" class="config-input" placeholder="nvidia/llama-3.1-nemotron-70b-instruct" />
+                </div>
+              </div>
+
+              <!-- Google Gemini Configuration -->
+              <div id="gemini-config-section" style="border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 12px; margin-bottom: 14px; background: rgba(26,115,232,0.03);">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                  <strong style="font-size: 12px; color: #1a73e8;">Google Gemini (Default Baseline)</strong>
+                  <span style="font-size: 9.5px; background: rgba(26,115,232,0.12); color: #1a73e8; padding: 2px 6px; border-radius: 3px; font-weight: 700;">AI Studio</span>
+                </div>
+                <div class="config-field">
+                  <label class="config-label">Gemini API Key</label>
+                  <input type="password" id="cfg-gemini-key" class="config-input" placeholder="AIzaSy..." />
+                  <span class="config-hint">Perpetual 1,500 free requests/day via Google AI Studio.</span>
+                </div>
+                <div class="config-field">
+                  <label class="config-label">Gemini Model</label>
+                  <input type="text" id="cfg-gemini-model" class="config-input" placeholder="gemini-2.5-flash" />
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="modal-secondary-btn" onclick="closeModal('ai-config-modal')">Cancel</button>
+              <button class="modal-primary-btn" onclick="saveAiConfig()">Save AI Settings</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </main>

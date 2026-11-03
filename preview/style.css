@@ -4,40 +4,62 @@
    ========================================================================== */
 
 :root {
-  /* Rich Vibrant Japanese Craft Pigments */
-  --shu-vermilion: #E53924;      /* 朱色 (Vibrant Sacred Torii & Shrine Red) */
-  --shu-vermilion-deep: #C52212; /* 深朱 (Deep Vermilion) */
-  --shu-vermilion-soft: #FDEEEB; /* 朱淡 (Soft Vermilion Tint) */
+  /* ==========================================================================
+     AIBO Design System Tokens: Warm Japanese Lifestyle Aesthetic
+     ========================================================================== */
+  /* Core Foundation */
+  --bg-main: #FAF7EE;            /* Warm ivory (Main background) */
+  --surface-card: #FFFFFF;       /* Soft white (Content surfaces) */
+  --text-primary: #1E232A;       /* Charcoal (Primary readable text) */
+  --text-secondary: #57534E;     /* Muted ink stone (Secondary metadata) */
+  --text-muted: #78716C;         /* Subtle hints and timestamps */
+  --border-subtle: #EAE5D9;      /* Subtle craft border (1px gentle separation) */
+  --surface-hover: #F5F1E5;      /* Subtle active tap highlight */
+
+  /* Semantic Japanese Pigment Accents */
+  --color-matcha: #2F5D44;       /* 抹茶 (Muted green - Success & verified states) */
+  --matcha-green: var(--color-matcha);
+  --matcha-soft: #E8F5E9;
+  
+  --color-vermilion: #C84B31;    /* 朱色 (Sacred Torii & Inkan stamp alert) */
+  --shu-vermilion: var(--color-vermilion);
+  --shu-vermilion-soft: #FDEEEB;
   --shu-border: #F87171;
 
-  --matcha-green: #2E7D32;       /* 抹茶 (Vibrant Bamboo & Tea Green) */
-  --matcha-bright: #388E3C;      /* 鮮緑 (Bright Green) */
-  --matcha-soft: #E8F5E9;        /* 抹茶淡 (Soft Matcha Tint) */
+  --color-amber: #D97706;        /* 山吹色 (Rich Amber - Attention & scheduled) */
+  --yamabuki-gold: var(--color-amber);
+  --yamabuki-soft: #FEF3C7;
 
-  --yamabuki-gold: #F59E0B;      /* 山吹色 (Rich Amber Gold) */
-  --yamabuki-deep: #D97706;      /* 深山吹 (Deep Amber) */
-  --yamabuki-soft: #FEF3C7;      /* 山吹淡 (Soft Amber Glow) */
+  --color-indigo: #1E3A8A;       /* 藍染 (Indigo - Transit lines & official guides) */
+  --aizome-indigo: var(--color-indigo);
+  --aizome-soft: #EEF2FF;
 
-  --aizome-indigo: #1E3A8A;      /* 藍染 (Vibrant Royal Indigo) */
-  --aizome-soft: #EEF2FF;        /* 藍淡 (Soft Indigo Tint) */
-
-  --sumi-ink: #1C1917;           /* 墨色 (Deep Calligraphy Ink Black) */
-  --sumi-muted: #57534E;         /* 鈍色 (Muted Ink Stone) */
-  --sumi-subtle: #78716C;
-  
-  --torinoko-washi: #FAF7EE;     /* 鳥の子紙 (Warm Washi Parchment) */
-  --washi-surface: #FFFFFF;      /* Clean Paper Surface */
-  --washi-border: #E8E2D5;       /* Warm Craft Border */
+  --sumi-ink: var(--text-primary);
+  --sumi-muted: var(--text-secondary);
+  --sumi-subtle: var(--text-muted);
+  --torinoko-washi: var(--bg-main);
+  --washi-surface: var(--surface-card);
+  --washi-border: var(--border-subtle);
   --craft-border-strong: #D5CEBF;
 
   /* Typography Stack */
-  --font-main: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-jp: 'Zen Maru Gothic', sans-serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Outfit', sans-serif;
+  --font-jp: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif;
   --font-seal: 'Zen Maru Gothic', sans-serif;
+  --font-main: var(--font-sans);
 
-  --shadow-sm: 0 2px 6px rgba(28, 25, 23, 0.05);
-  --shadow-card: 0 6px 16px -2px rgba(28, 25, 23, 0.08), 0 0 0 1px rgba(28, 25, 23, 0.06);
-  --shadow-tactile: 0 4px 0 var(--craft-border-strong), 0 6px 12px rgba(28, 25, 23, 0.06);
+  /* Restrained Corner-Radius System */
+  --radius-xs: 4px;     /* Micro tags & inkan stamps */
+  --radius-sm: 8px;     /* Buttons, inputs, list items */
+  --radius-md: 14px;    /* Cards, containers, dialogs */
+  --radius-lg: 20px;    /* Bottom sheets, companion banner */
+  --radius-pill: 999px; /* Status chips, pill badges */
+
+  /* Elevation Shadows */
+  --shadow-sm: 0 1px 3px rgba(30, 35, 42, 0.04), 0 1px 2px rgba(30, 35, 42, 0.02);
+  --shadow-card: 0 4px 12px -2px rgba(30, 35, 42, 0.05), 0 0 0 1px rgba(30, 35, 42, 0.04);
+  --shadow-tactile: 0 2px 0 var(--border-subtle), 0 4px 8px rgba(30, 35, 42, 0.04);
 }
 
 * {
@@ -50,7 +72,7 @@
 body.stationery-theme {
   font-family: var(--font-main);
   background-color: #171614;
-  color: var(--sumi-ink);
+  color: var(--text-primary);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -59,11 +81,192 @@ body.stationery-theme {
   overflow-x: hidden;
 }
 
+/* ==========================================================================
+   Design System: Typography Scale & Tabular Numerals
+   ========================================================================== */
+.display-title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.screen-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.card-heading {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--text-primary);
+}
+
+.section-label {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.body-copy {
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--text-primary);
+}
+
+.caption-text {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+
+/* Tabular Numerals for Jitter-Free Financial Ledgers & Timestamps */
+.tabular-nums,
+.yen-amount,
+.priority-title span,
+.device-time,
+.routine-gauge-pct,
+.routine-progress-fill,
+.stationery-device-header span,
+.finance-badge,
+.hub-count-tag,
+.task-progress-badge,
+.transparency-pill {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* ==========================================================================
+   Design System: Standardized Component States
+   ========================================================================== */
+/* 1. Loading State (Calm Warm Ivory Skeleton Pulse) */
+.state-loading {
+  position: relative;
+  overflow: hidden;
+  background-color: #EDE8DE !important;
+  color: transparent !important;
+  border-color: #E2DDD2 !important;
+  pointer-events: none;
+}
+.state-loading::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  animation: skeletonPulse 1.6s infinite ease-in-out;
+}
+@keyframes skeletonPulse {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* 2. Empty State */
+.state-empty-box {
+  background: var(--surface-card);
+  border: 1px dashed var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 32px 20px;
+  text-align: center;
+  color: var(--text-secondary);
+}
+.state-empty-icon {
+  margin-bottom: 12px;
+  color: var(--text-muted);
+}
+.state-empty-title {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+.state-empty-desc {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  max-width: 280px;
+  margin: 0 auto 16px;
+}
+
+/* 3. Error State */
+.state-error-banner {
+  background: var(--shu-vermilion-soft);
+  border: 1px solid var(--shu-border);
+  color: var(--color-vermilion);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 4. Success State */
+.state-success-pill {
+  background: var(--matcha-soft);
+  color: var(--color-matcha);
+  border: 1px solid rgba(47, 93, 68, 0.2);
+  border-radius: var(--radius-pill);
+  padding: 3px 9px;
+  font-size: 11px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* 5. Disabled State */
+.state-disabled,
+:disabled {
+  opacity: 0.45 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
+
+/* 6. Offline State */
+.state-offline-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #F1ECE1;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  padding: 3px 9px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* 7. Syncing State */
+.state-syncing-icon {
+  animation: spinSync 1.4s linear infinite;
+}
+@keyframes spinSync {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 /* Subtle Washi Texture Overlay */
 .washi-texture-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background-image: radial-gradient(rgba(217, 56, 30, 0.03) 1px, transparent 0);
+  background-image: radial-gradient(rgba(200, 75, 49, 0.025) 1px, transparent 0);
   background-size: 24px 24px;
   pointer-events: none;
   z-index: 1;
@@ -498,6 +701,7 @@ body.stationery-theme {
    ========================================================================== */
 
 /* User Greeting Topbar */
+/* User Greeting Topbar (Interactive Profile) */
 .user-greeting-row {
   display: flex;
   justify-content: space-between;
@@ -505,28 +709,69 @@ body.stationery-theme {
   margin-bottom: 14px;
 }
 
+.greeting-clickable-group {
+  cursor: pointer;
+  padding: 4px 6px;
+  margin-left: -6px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.greeting-clickable-group:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
 .greeting-subtitle {
-  font-size: 11.5px;
+  font-size: 11px;
   color: var(--sumi-muted);
   display: block;
 }
 
 .greeting-heading {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 800;
   color: var(--sumi-ink);
   letter-spacing: -0.3px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.edit-pill-badge {
+  font-size: 9.5px;
+  font-weight: 600;
+  color: var(--sumi-muted);
+  background: #EAE4D7;
+  padding: 2px 6px;
+  border-radius: 10px;
+  letter-spacing: 0;
+  vertical-align: middle;
+}
+
+.greeting-clickable-group:hover .edit-pill-badge {
+  background: var(--shu-vermilion-soft);
+  color: var(--shu-vermilion);
 }
 
 .offline-status-badge {
   display: flex;
   align-items: center;
   gap: 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  border-radius: 20px;
+  transition: transform 0.15s ease;
+}
+
+.offline-status-badge:hover {
+  transform: translateY(-1px);
 }
 
 .torii-badge-icon {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   background: #FDF2F0;
   border: 1px solid rgba(229, 57, 36, 0.2);
@@ -536,16 +781,16 @@ body.stationery-theme {
 }
 
 .offline-pill-text {
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 600;
   color: var(--matcha-green);
   background: var(--matcha-soft);
   border: 1px solid rgba(46, 125, 50, 0.25);
-  padding: 4px 10px;
-  border-radius: 20px;
+  padding: 3px 8px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
 }
 
 .green-dot {
@@ -556,95 +801,175 @@ body.stationery-theme {
   box-shadow: 0 0 4px var(--matcha-green);
 }
 
-/* Muchi Neko Companion Card */
-.muchi-companion-card {
-  background: #FFFDF9;
-  border: 1.2px solid #E6E1D7;
-  border-radius: 18px;
-  box-shadow: 0 4px 14px rgba(28, 25, 23, 0.05);
-  margin-bottom: 16px;
-  overflow: hidden;
+.mascot-lore-tag {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--sumi-muted);
+  background: #EDE8DE;
+  padding: 1px 5px;
+  border-radius: 4px;
 }
 
-.cat-scene-wrapper {
-  height: 145px;
-  background: linear-gradient(180deg, #F9F6F0 0%, #EFE8DC 100%);
-  position: relative;
-  overflow: hidden;
-  border-bottom: 1px solid #E6E1D7;
-  cursor: pointer;
+.card-action-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 6px;
+  gap: 8px;
 }
 
-.scene-lantern {
-  position: absolute;
-  top: 10px;
-  left: 18px;
+.medical-disclaimer-note,
+.transit-disclaimer-note {
+  font-size: 9.5px;
+  color: #8C8275;
+  line-height: 1.3;
+  display: block;
+  margin-top: 4px;
 }
 
-.scene-moon {
-  position: absolute;
-  top: 14px;
-  right: 22px;
-  width: 30px;
-  height: 30px;
-  background: #FCE7A6;
-  border-radius: 50%;
-  box-shadow: 0 0 16px rgba(252, 231, 166, 0.85);
-}
-
-.cat-quote-bubble {
-  position: absolute;
-  top: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #FFFFFF;
-  border: 1.5px solid #1C1917;
-  border-radius: 14px;
-  padding: 6px 14px;
-  font-size: 11px;
+.text-link-action {
+  background: transparent;
+  border: none;
+  font-size: 10.5px;
   font-weight: 700;
-  color: #1C1917;
+  color: var(--shu-vermilion);
+  cursor: pointer;
   white-space: nowrap;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  z-index: 10;
 }
 
-.cat-quote-bubble::after {
-  content: '';
-  position: absolute;
-  bottom: -6px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0; height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: 6px solid #1C1917;
+.text-link-action:hover {
+  text-decoration: underline;
 }
 
-.muchi-cat-figure {
-  position: absolute;
-  bottom: 4px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 78px;
-  height: 68px;
+.cached-badge {
+  font-size: 9.5px;
+  font-weight: 600;
+  color: var(--sumi-muted);
+  background: #F3EFE6;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.finance-footer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 6px;
+  gap: 6px;
+}
+
+.finance-button-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.f-action-btn {
+  background: var(--shu-vermilion-soft);
+  color: var(--shu-vermilion);
+  border: 1px solid rgba(229, 57, 36, 0.25);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 10.5px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.f-action-btn:hover {
+  background: var(--shu-vermilion);
+  color: #FFFFFF;
+}
+
+.f-action-link {
+  background: transparent;
+  border: none;
+  color: var(--sumi-muted);
+  font-size: 10.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.f-action-link:hover {
+  color: var(--sumi-ink);
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   Refined Muchi Neko Companion Banner (Compact, Balanced, Purposeful)
+   ========================================================================== */
+.companion-banner {
+  background: #FFFFFF;
+  border: 1px solid var(--washi-border);
+  border-radius: 14px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+  padding: 10px 12px;
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+.companion-banner.compact-mode {
+  padding: 6px 12px;
+}
+
+.companion-banner.compact-mode .companion-speech-bubble,
+.companion-banner.compact-mode .companion-state-chips {
+  display: none !important;
+}
+
+.companion-banner.compact-mode .companion-visual-col {
+  width: 38px;
+  height: 38px;
+}
+
+.companion-visual-col {
+  width: 58px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.companion-cat-figure {
+  width: 52px;
+  height: 48px;
+  position: relative;
   transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  z-index: 5;
+  animation: catBreathe 3.5s ease-in-out infinite;
 }
 
-.muchi-cat-figure.jump {
-  transform: translateX(-50%) translateY(-22px) scale(1.1);
+@media (prefers-reduced-motion: reduce) {
+  .companion-cat-figure {
+    animation: none !important;
+  }
+}
+
+@keyframes catBreathe {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+.companion-cat-figure.jump {
+  transform: translateY(-12px) scale(1.08) !important;
 }
 
 .cat-round-face {
-  width: 70px;
-  height: 58px;
+  width: 50px;
+  height: 42px;
   background: #FAF7F0;
   border: 2px solid #1C1917;
   border-radius: 50% 50% 46% 46%;
   position: absolute;
   bottom: 0;
-  left: 4px;
+  left: 1px;
 }
 
 .cat-ears-wrap {
@@ -655,23 +980,23 @@ body.stationery-theme {
 
 .m-ear {
   width: 0; height: 0;
-  border-left: 9px solid transparent;
-  border-right: 9px solid transparent;
-  border-bottom: 16px solid #1C1917;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 12px solid #1C1917;
   position: absolute;
 }
 
-.m-ear.left { left: 8px; transform: rotate(-16deg); }
-.m-ear.right { right: 8px; transform: rotate(16deg); }
+.m-ear.left { left: 4px; transform: rotate(-16deg); }
+.m-ear.right { right: 4px; transform: rotate(16deg); }
 
 .cat-eyes-row {
   display: flex;
   justify-content: space-between;
-  padding: 15px 16px 0;
+  padding: 10px 12px 0;
 }
 
 .m-eye {
-  width: 5px; height: 5px;
+  width: 4px; height: 4px;
   background: #1C1917;
   border-radius: 50%;
 }
@@ -679,29 +1004,29 @@ body.stationery-theme {
 .cat-cheeks-row {
   display: flex;
   justify-content: space-between;
-  padding: 2px 14px 0;
+  padding: 2px 10px 0;
 }
 
 .m-cheek {
-  width: 7px; height: 4px;
+  width: 6px; height: 3px;
   background: #FFB3BA;
   border-radius: 50%;
 }
 
 .cat-mouth-w {
   text-align: center;
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 800;
   color: #1C1917;
-  margin-top: -6px;
+  margin-top: -5px;
 }
 
 .cat-bell-collar {
-  width: 38px;
-  height: 6px;
+  width: 28px;
+  height: 4.5px;
   background: var(--shu-vermilion);
-  border-radius: 3px;
-  margin: 4px auto 0;
+  border-radius: 2px;
+  margin: 3px auto 0;
   position: relative;
 }
 
@@ -710,258 +1035,808 @@ body.stationery-theme {
   top: -4px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 11px;
+  font-size: 9px;
 }
 
-.scene-kawara-roof {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 22px;
-  background: #2D2824;
-  border-top: 2px solid #1C1917;
-  background-image: repeating-linear-gradient(90deg, #1C1917 0px, #1C1917 14px, #3A3530 14px, #3A3530 18px);
-}
-
-.muchi-card-body {
-  padding: 12px 14px;
-}
-
-.muchi-title-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 8px;
-}
-
-.muchi-name {
-  font-size: 14.5px;
-  font-weight: 800;
-  color: #1C1917;
-}
-
-.muchi-role {
-  font-size: 11px;
-  color: #777777;
-  font-weight: 500;
-}
-
-.gauge-info-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 5px;
-}
-
-.gauge-title {
-  font-size: 10.5px;
-  color: #777777;
-  font-weight: 600;
-}
-
-.gauge-metric {
-  font-size: 11px;
-  font-weight: 800;
-  color: var(--shu-vermilion);
-}
-
-.gauge-progress-track {
+.companion-roof-base {
   width: 100%;
-  height: 6px;
-  background: #EAE5DB;
-  border-radius: 3px;
-  overflow: hidden;
-  margin-bottom: 12px;
+  height: 8px;
+  background: #2E2925;
+  border-top: 1.5px solid #1C1917;
+  border-radius: 2px;
+  margin-top: 2px;
+  background-image: repeating-linear-gradient(90deg, #1C1917 0px, #1C1917 8px, #3D3732 8px, #3D3732 11px);
 }
 
-.gauge-progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #E53924 0%, #F59E0B 100%);
-  border-radius: 3px;
-}
-
-.muchi-purr-btn {
-  width: 100%;
-  background: #F6F4EE;
-  border: 1px solid #E6E1D7;
-  border-radius: 20px;
-  padding: 8px 12px;
-  font-family: inherit;
-  font-size: 11.5px;
-  font-weight: 700;
-  color: #57534E;
-  cursor: pointer;
-  transition: all 0.2s ease;
+.companion-content-col {
+  flex: 1;
+  min-width: 0;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
 }
 
-.muchi-purr-btn:hover {
-  background: #EFEBDD;
-  transform: translateY(-1px);
-}
-
-.muchi-purr-btn:active {
-  transform: translateY(1px);
-}
-
-/* Today in Tokyo Card */
-.today-overview-card {
-  background: #FFFFFF;
-  border: 1.2px solid #E6E1D7;
-  border-radius: 16px;
-  padding: 14px;
-  box-shadow: 0 3px 10px rgba(28, 25, 23, 0.04);
-  margin-bottom: 16px;
-}
-
-.today-header-row {
+.companion-header-meta {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.today-title {
-  display: flex;
-  align-items: center;
   gap: 6px;
-  font-size: 13.5px;
-  font-weight: 800;
-  color: #1C1917;
+  margin-bottom: 4px;
 }
 
-.today-tag-chip {
-  font-size: 10.5px;
+.companion-cat-name {
+  font-family: var(--font-display);
+  font-size: 13px;
   font-weight: 700;
+  color: var(--sumi-ink);
+}
+
+.companion-squish-tag {
+  font-size: 9.5px;
+  font-weight: 600;
   color: var(--shu-vermilion);
   background: var(--shu-vermilion-soft);
-  border: 1px solid rgba(229, 57, 36, 0.2);
-  padding: 2px 8px;
-  border-radius: 12px;
+  padding: 1px 6px;
+  border-radius: 4px;
 }
 
-.today-metrics-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-}
-
-.metric-pill-item {
-  background: #FAF7EE;
-  border: 1px solid #E6E1D7;
-  border-radius: 10px;
-  padding: 9px 6px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.metric-pill-item:hover {
-  border-color: var(--shu-vermilion);
-  transform: translateY(-1px);
-}
-
-.metric-pill-item:focus-visible,
-.toolbelt-card:focus-visible,
-.pharmacy-ticket:focus-visible,
-.koken-ticket:focus-visible,
-.cat-scene-wrapper:focus-visible,
-.nav-tab:focus-visible,
-.paper-btn:focus-visible,
-button:focus-visible,
-input:focus-visible {
-  outline: 3px solid var(--yamabuki-gold);
-  outline-offset: 2px;
-}
-
-.metric-big-val {
-  font-size: 13.5px;
-  font-weight: 800;
-  color: #1C1917;
-  display: block;
-  margin-bottom: 2px;
-}
-
-.metric-sub-label {
+.companion-toggle-btn {
+  background: transparent;
+  border: none;
   font-size: 10px;
-  color: #777777;
   font-weight: 600;
-  display: block;
-}
-
-/* Essential Japan Toolbelt */
-.toolbelt-section {
-  margin-bottom: 20px;
-}
-
-.toolbelt-heading {
-  font-size: 13.5px;
-  font-weight: 800;
-  color: #1C1917;
-  margin-bottom: 10px;
-}
-
-.toolbelt-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-}
-
-.toolbelt-card {
-  background: #FFFFFF;
-  border: 1.2px solid #E6E1D7;
-  border-radius: 14px;
-  padding: 12px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  color: var(--sumi-muted);
   cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 6px rgba(28, 25, 23, 0.03);
+  padding: 2px 4px;
+  margin-left: auto;
+  border-radius: 3px;
 }
 
-.toolbelt-card:hover {
-  border-color: var(--shu-vermilion);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(28, 25, 23, 0.06);
+.companion-toggle-btn:hover {
+  color: var(--sumi-ink);
+  background: #F4EFE6;
 }
 
-.tool-icon-box {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
+.companion-speech-bubble {
+  background: #FAF7EE;
+  border: 1px solid #E5DFD1;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--sumi-ink);
+  margin-bottom: 6px;
+  position: relative;
+}
+
+.companion-speech-bubble::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: -5px;
+  width: 0; height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-right: 5px solid #FAF7EE;
+}
+
+.companion-state-chips {
   display: flex;
+  gap: 4px;
+  overflow-x: auto;
+}
+
+.state-chip {
+  background: #F4EFE6;
+  border: 1px solid #E2DBCB;
+  border-radius: 12px;
+  padding: 2px 7px;
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--sumi-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.state-chip:hover {
+  background: #EDE6D8;
+  color: var(--sumi-ink);
+}
+
+.state-chip.active {
+  background: var(--sumi-ink);
+  color: #FAF7EE;
+  border-color: var(--sumi-ink);
+}
+
+/* ==========================================================================
+   Section Lead Titles (Clean, Uncluttered Spacing)
+   ========================================================================== */
+.section-lead-row {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: 18px;
+  margin: 18px 0 8px;
+  padding: 0 2px;
+}
+
+.clean-section-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--sumi-ink);
+  letter-spacing: -0.1px;
+}
+
+.live-context-chip,
+.task-progress-badge,
+.hub-count-tag {
+  font-size: 9.5px;
+  font-weight: 600;
+  color: var(--sumi-muted);
+  background: #EDE8DE;
+  padding: 1.5px 7px;
+  border-radius: 10px;
+}
+
+/* ==========================================================================
+   Priority Action Stack (Action-Oriented Cards)
+   ========================================================================== */
+.priority-action-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.priority-card {
+  background: #FFFFFF;
+  border: 1px solid var(--washi-border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  overflow: hidden;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  cursor: pointer;
+}
+
+.priority-card:hover {
+  transform: translateY(-1.5px);
+  border-color: var(--craft-border-strong);
+  box-shadow: 0 4px 12px rgba(28, 25, 23, 0.06);
+}
+
+.priority-card-indicator {
+  width: 4px;
   flex-shrink: 0;
 }
 
-.tool-icon-box.pill-box { background: #FDEEEB; border: 1px solid rgba(229, 57, 36, 0.2); }
-.tool-icon-box.transit-box { background: #E8F5E9; border: 1px solid rgba(46, 125, 50, 0.2); }
-.tool-icon-box.radar-box { background: #FEF3C7; border: 1px solid rgba(245, 158, 11, 0.25); }
-.tool-icon-box.chat-box { background: #EEF2FF; border: 1px solid rgba(30, 58, 138, 0.2); }
+.priority-card-indicator.matcha { background: var(--matcha-green); }
+.priority-card-indicator.amber { background: var(--yamabuki-gold); }
+.priority-card-indicator.indigo { background: var(--aizome-indigo); }
 
-.tool-text-content {
-  overflow: hidden;
+.priority-card-main {
+  padding: 11px 13px;
+  flex: 1;
+  min-width: 0;
 }
 
-.tool-title {
-  font-size: 12.5px;
-  font-weight: 800;
-  color: #1C1917;
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+.priority-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
 }
 
-.tool-desc {
+.priority-tag {
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.priority-tag.green { color: var(--matcha-green); }
+.priority-tag.gold { color: #B45309; }
+.priority-tag.indigo { color: var(--aizome-indigo); }
+
+.priority-time {
   font-size: 10px;
-  color: #777777;
+  font-weight: 600;
+  color: var(--sumi-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.priority-time.green-text {
+  color: var(--matcha-green);
+  font-weight: 700;
+}
+
+.priority-card-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--sumi-ink);
   display: block;
+  line-height: 1.3;
+}
+
+.priority-card-desc {
+  font-size: 11px;
+  color: var(--sumi-muted);
+  line-height: 1.35;
+  margin-top: 3px;
+}
+
+.priority-card-action {
+  display: flex;
+  align-items: center;
+  padding-right: 12px;
+}
+
+.quick-stamp-btn {
+  background: var(--shu-vermilion);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  padding: 7px 11px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s ease;
   white-space: nowrap;
-  text-overflow: ellipsis;
+}
+
+.quick-stamp-btn:hover {
+  background: var(--shu-vermilion-deep);
+  transform: translateY(-1px);
+}
+
+.quick-stamp-btn:disabled {
+  background: #87A381;
+  opacity: 0.75;
+  cursor: default;
+  transform: none;
+}
+
+/* Finance specifics */
+.finance-amount-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin: 3px 0 6px;
+}
+
+.finance-spent-num {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--sumi-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.finance-total-cap {
+  font-size: 10.5px;
+  color: var(--sumi-muted);
+}
+
+.finance-bar-track {
+  width: 100%;
+  height: 5px;
+  background: #EAE4D6;
+  border-radius: 2.5px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.finance-bar-track.large {
+  height: 7px;
+  margin: 10px 0;
+}
+
+.finance-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #F59E0B 0%, #E53924 100%);
+  border-radius: 2.5px;
+}
+
+.finance-category-pills {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.f-pill {
+  font-size: 9.5px;
+  font-weight: 600;
+  color: var(--sumi-muted);
+  background: #FAF7EE;
+  border: 1px solid #EAE3D4;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+/* Transit specifics */
+.transit-route-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 2px 0 3px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--sumi-ink);
+}
+
+.route-arrow {
+  color: #80C342;
+  font-size: 12px;
+}
+
+/* ==========================================================================
+   Daily Focus Checklist (Clean, Interactive)
+   ========================================================================== */
+.daily-checklist-card {
+  background: #FFFFFF;
+  border: 1px solid var(--washi-border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  padding: 6px 12px;
+}
+
+.task-item-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px dashed #EDE7DA;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.task-item-row:last-child {
+  border-bottom: none;
+}
+
+.task-checkbox {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid #C4BCAC;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+  transition: all 0.2s ease;
+  color: transparent;
+}
+
+.task-item-row.done .task-checkbox,
+.task-checkbox.checked {
+  background: var(--matcha-green);
+  border-color: var(--matcha-green);
+  color: #FFFFFF;
+}
+
+.task-info {
+  flex: 1;
+}
+
+.task-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--sumi-ink);
+  line-height: 1.35;
+  display: block;
+}
+
+.task-title.completed {
+  text-decoration: line-through;
+  color: var(--sumi-muted);
+}
+
+.task-sub {
+  font-size: 10px;
+  color: var(--sumi-muted);
+  line-height: 1.3;
+  margin-top: 2px;
+  display: block;
+}
+
+/* ==========================================================================
+   AIBO Suite Services Hub (8 Core Tools, Clean Non-Boxy Cards)
+   ========================================================================== */
+.service-hub-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.service-hub-card {
+  background: #FFFFFF;
+  border: 1px solid var(--washi-border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  box-shadow: var(--shadow-sm);
+}
+
+.service-hub-card:hover {
+  transform: translateY(-1.5px);
+  border-color: var(--shu-border);
+  box-shadow: 0 4px 10px rgba(28, 25, 23, 0.06);
+}
+
+.hub-icon-pill {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  margin-bottom: 4px;
+  background: #FAF7EE;
+  border: 1px solid #EAE3D4;
+}
+
+.service-hub-card strong {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--sumi-ink);
+}
+
+.service-hub-card span {
+  font-size: 10px;
+  color: var(--sumi-muted);
+  line-height: 1.3;
+}
+
+/* ==========================================================================
+   Tools & SOS Screen (Comprehensive Offline Hub)
+   ========================================================================== */
+.emergency-banner-box {
+  background: #FFFBF9;
+  border: 1.5px solid var(--shu-border);
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 16px;
+  box-shadow: 0 3px 10px rgba(229, 57, 36, 0.08);
+}
+
+.emergency-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.emergency-badge-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--shu-vermilion);
+  font-size: 12.5px;
+}
+
+.ice-pill {
+  font-size: 9.5px;
+  font-weight: 800;
+  color: #FFFFFF;
+  background: var(--shu-vermilion);
+  padding: 1.5px 7px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+.emergency-actions-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.emergency-call-btn {
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.emergency-call-btn.red {
+  background: linear-gradient(135deg, #E53924 0%, #C52212 100%);
+}
+
+.emergency-call-btn.orange {
+  background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
+}
+
+.emergency-call-btn:hover {
+  transform: translateY(-1.5px);
+}
+
+.emergency-call-btn .call-num {
+  font-size: 18px;
+  font-weight: 900;
+  font-family: var(--font-display);
+}
+
+.emergency-call-btn .call-desc {
+  font-size: 9.5px;
+  opacity: 0.95;
+  text-align: center;
+}
+
+.ice-medical-card {
+  background: #FFFFFF;
+  border: 1px solid #F8D7DA;
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.ice-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  border-bottom: 1px dashed #F1E5E5;
+  font-size: 10.5px;
+}
+
+.ice-row:last-child {
+  border-bottom: none;
+}
+
+.ice-label {
+  color: var(--sumi-muted);
+}
+
+.ice-val {
+  color: var(--sumi-ink);
+  font-weight: 600;
+  text-align: right;
+}
+
+.ice-val.jp-text {
+  font-family: var(--font-jp);
+  font-size: 10px;
+  color: var(--shu-vermilion);
+}
+
+/* Finance tool specifics */
+.finance-tool-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.f-tool-label {
+  font-size: 10.5px;
+  color: var(--sumi-muted);
+  display: block;
+}
+
+.f-tool-val {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--sumi-ink);
+}
+
+.f-tool-sub {
+  font-size: 11px;
+  color: var(--sumi-muted);
+  font-weight: 500;
+}
+
+.tool-action-pill-btn {
+  background: var(--shu-vermilion-soft);
+  color: var(--shu-vermilion);
+  border: 1px solid rgba(229, 57, 36, 0.25);
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tool-action-pill-btn:hover {
+  background: var(--shu-vermilion);
+  color: #FFFFFF;
+}
+
+.atm-guide-banner {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  background: #FAF7EE;
+  border: 1px solid #EAE3D4;
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin-top: 10px;
+}
+
+.atm-icon {
+  font-size: 16px;
+  margin-top: 1px;
+}
+
+.atm-info strong {
+  font-size: 11.5px;
+  color: var(--sumi-ink);
+  display: block;
+}
+
+.atm-info span {
+  font-size: 10px;
+  color: var(--sumi-muted);
+  line-height: 1.35;
+}
+
+/* Vault tool specifics */
+.vault-status-pill {
+  background: #ECFDF5;
+  border: 1px solid #A7F3D0;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #065F46;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.vault-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.vault-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--washi-border);
+}
+
+.vault-item:last-child {
+  border-bottom: none;
+}
+
+.vault-doc-badge {
+  font-size: 18px;
+}
+
+.vault-doc-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.vault-doc-info strong {
+  font-size: 12px;
+  color: var(--sumi-ink);
+  display: block;
+}
+
+.vault-doc-info span {
+  font-size: 10px;
+  color: var(--sumi-muted);
+}
+
+.vault-state-tag.green {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--matcha-green);
+  background: var(--matcha-soft);
+  border: 1px solid rgba(46, 125, 50, 0.2);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* Phrasebook list */
+.phrasebook-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.phrase-card {
+  background: #FFFFFF;
+  border: 1px solid var(--washi-border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.phrase-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+
+.phrase-tag {
+  font-size: 8.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #2563EB;
+  background: #EFF6FF;
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+.phrase-romaji {
+  font-size: 10px;
+  font-style: italic;
+  color: var(--sumi-muted);
+}
+
+.phrase-jp {
+  font-family: var(--font-jp);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--sumi-ink);
+}
+
+.phrase-en {
+  font-size: 11px;
+  color: var(--sumi-muted);
+}
+
+/* Radar shortcut card */
+.radar-shortcut-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.radar-shortcut-card:hover {
+  border-color: var(--shu-border);
+  transform: translateY(-1px);
+}
+
+.radar-short-content strong {
+  font-size: 12.5px;
+  color: var(--sumi-ink);
+  display: block;
+}
+
+.radar-short-content span {
+  font-size: 10px;
+  color: var(--sumi-muted);
+}
+
+.open-radar-btn {
+  background: var(--sumi-ink);
+  color: #FAF7EE;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
 }
 
 /* ==========================================================================
@@ -1141,111 +2016,290 @@ input:focus-visible {
   background: #C42F17;
 }
 
-/* Clean OTC List */
-.clean-otc-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.clean-otc-item {
-  background: #F8F5EE;
-  border: 1px solid var(--washi-border);
-  border-radius: 6px;
-  padding: 9px 12px;
+/* ==========================================================================
+   Stationery Section Titles & Common Cards
+   ========================================================================== */
+.stationery-section-title {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-}
-
-.badge-sub {
-  font-size: 9.5px;
-  color: var(--sumi-muted);
-  display: block;
-}
-
-.clean-otc-item strong {
-  font-size: 12.5px;
-  color: var(--sumi-ink);
-}
-
-.otc-arrow {
-  color: var(--yamabuki-gold);
+  font-size: 13.5px;
   font-weight: 800;
-  font-size: 14px;
+  color: var(--sumi-ink);
+  letter-spacing: -0.2px;
+  margin: 18px 0 10px 0;
+  padding-left: 8px;
+  border-left: 3.5px solid var(--shu-vermilion);
 }
 
-.otc-result {
-  text-align: right;
+.stationery-section-title span:first-child {
+  flex: 1;
 }
 
-.badge-jp {
-  font-size: 9.5px;
+.stationery-section-title .jp-sub {
+  font-family: var(--font-jp);
+  font-size: 10px;
+  font-weight: 700;
   color: var(--shu-vermilion);
-  font-weight: 600;
-  display: block;
+  background: var(--shu-vermilion-soft);
+  border: 1px solid rgba(229, 57, 36, 0.25);
+  padding: 1.5px 7px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
-/* Pharmacy Store Cards */
-.pharmacy-clean-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.pharmacy-card-item {
+.stationery-card {
   background: #FFFFFF;
   border: 1px solid var(--washi-border);
-  border-radius: 8px;
-  padding: 11px 12px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 14px;
   box-shadow: var(--shadow-sm);
+  position: relative;
 }
 
-.store-badge-box {
-  width: 34px;
-  height: 34px;
-  border-radius: 6px;
+/* ==========================================================================
+   OTC Medicine Equivalency Finder
+   ========================================================================== */
+.otc-stationery-card {
+  background: #FFFFFF;
+  border: 1px solid var(--washi-border);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.otc-card-intro {
+  background: #FBF8F1;
+  border-left: 3px solid var(--yamabuki-gold);
+  padding: 8px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  color: var(--sumi-muted);
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+.otc-paper-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.otc-paper-item {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 10px;
+  background: #FAF7EE;
+  border: 1px solid #EAE2D2;
+  border-radius: 10px;
+  padding: 10px 12px;
+  position: relative;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 3px rgba(28, 25, 23, 0.04);
+}
+
+.otc-paper-item:hover {
+  transform: translateY(-1.5px);
+  background: #FFFFFF;
+  border-color: var(--shu-border);
+  box-shadow: 0 4px 12px rgba(28, 25, 23, 0.08);
+}
+
+.otc-western {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.otc-badge-pill {
+  font-size: 8.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #1D4ED8;
+  background: rgba(37, 99, 235, 0.08);
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  padding: 1px 6px;
+  border-radius: 3px;
+  width: fit-content;
+  display: inline-block;
+  margin-bottom: 2px;
+}
+
+.otc-western strong {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--sumi-ink);
+  line-height: 1.25;
+}
+
+.otc-western .use-case {
+  font-size: 10px;
+  color: var(--sumi-muted);
+  line-height: 1.3;
+}
+
+.otc-exchange-symbol {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #FEF3C7;
+  border: 1.5px solid #F59E0B;
+  color: #B45309;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 900;
   flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(245, 158, 11, 0.2);
 }
 
-.store-badge-box.mk { color: #B45309; background: #FEF3C7; border: 1px solid #FBBF24; }
-.store-badge-box.sd { color: #DC2626; background: #FEE2E2; border: 1px solid #F87171; }
-.store-badge-box.wc { color: #047857; background: #D1FAE5; border: 1px solid #34D399; }
+.otc-japanese {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-end;
+  text-align: right;
+  min-width: 0;
+}
 
-.store-info {
+.otc-badge-jp {
+  font-size: 8.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--matcha-green);
+  background: var(--matcha-soft);
+  border: 1px solid rgba(46, 125, 50, 0.25);
+  padding: 1px 6px;
+  border-radius: 3px;
+  width: fit-content;
+  display: inline-block;
+  margin-bottom: 2px;
+}
+
+.otc-japanese strong {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--sumi-ink);
+  line-height: 1.25;
+}
+
+.otc-japanese .drug-class {
+  font-family: var(--font-jp);
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--shu-vermilion);
+  line-height: 1.3;
+}
+
+/* ==========================================================================
+   Major Pharmacy Ticket Cards
+   ========================================================================== */
+.pharmacy-ticket-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.pharmacy-ticket {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #FFFFFF;
+  border: 1px solid var(--washi-border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+}
+
+.pharmacy-ticket:hover {
+  transform: translateY(-1.5px);
+  border-color: var(--shu-border);
+  box-shadow: 0 4px 12px rgba(28, 25, 23, 0.08);
+}
+
+.pharmacy-monogram {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 13px;
+  flex-shrink: 0;
+  letter-spacing: -0.5px;
+}
+
+.pharmacy-monogram.mk {
+  background: #FEF3C7;
+  color: #92400E;
+  border: 1.5px solid #F59E0B;
+}
+
+.pharmacy-monogram.sd {
+  background: #FEE2E2;
+  color: #991B1B;
+  border: 1.5px solid #EF4444;
+}
+
+.pharmacy-monogram.wc {
+  background: #D1FAE5;
+  color: #065F46;
+  border: 1.5px solid #10B981;
+}
+
+.pharmacy-info {
   flex: 1;
+  min-width: 0;
 }
 
-.store-info strong {
+.pharmacy-info strong {
   font-size: 12.5px;
+  font-weight: 800;
   color: var(--sumi-ink);
   display: block;
+  line-height: 1.3;
 }
 
-.store-info span {
-  font-size: 10.5px;
+.pharmacy-info span {
+  font-size: 10px;
   color: var(--sumi-muted);
+  display: block;
+  line-height: 1.35;
+  margin-top: 2px;
 }
 
-.store-locate-btn {
-  background: transparent;
-  border: 1px solid var(--shu-vermilion);
+.ticket-arrow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--shu-vermilion-soft);
   color: var(--shu-vermilion);
-  padding: 5px 9px;
-  border-radius: 4px;
-  font-size: 11px;
+  border: 1px solid rgba(229, 57, 36, 0.2);
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-size: 10.5px;
   font-weight: 700;
-  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.pharmacy-ticket:hover .ticket-arrow {
+  background: var(--shu-vermilion);
+  color: #FFFFFF;
+  border-color: var(--shu-vermilion);
 }
 
 /* ==========================================================================
@@ -1309,109 +2363,221 @@ input:focus-visible {
   transform: rotate(-6deg);
 }
 
-.loop-station-track {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  overflow-x: auto;
-  padding: 4px 0;
+/* ==========================================================================
+   Yamanote Circular Loop Strip
+   ========================================================================== */
+.yamanote-strip-card {
+  padding: 12px 14px;
+  background: #FAF8F2;
+  border: 1px solid #EAE3D5;
+  border-radius: 12px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-sm);
 }
 
-.loop-node {
+.yamanote-scroll-track {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 8px 4px;
+  scrollbar-width: thin;
+  scrollbar-color: #80C342 #EAE3D5;
+}
+
+.yamanote-scroll-track::-webkit-scrollbar {
+  height: 4px;
+}
+
+.yamanote-scroll-track::-webkit-scrollbar-track {
+  background: #EAE3D5;
+  border-radius: 2px;
+}
+
+.yamanote-scroll-track::-webkit-scrollbar-thumb {
+  background: #80C342;
+  border-radius: 2px;
+}
+
+.y-station {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2px;
   text-align: center;
+  min-width: 60px;
+  padding: 6px 6px;
+  border-radius: 8px;
+  background: #FFFFFF;
+  border: 1px solid #E5DFD3;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  cursor: default;
 }
 
-.loop-code {
+.y-station:hover {
+  transform: translateY(-2px);
+  border-color: #80C342;
+  box-shadow: 0 3px 8px rgba(128, 195, 66, 0.2);
+}
+
+.y-code {
   font-size: 8px;
-  font-weight: 800;
-  color: #80C342;
-  background: rgba(128, 195, 66, 0.15);
-  padding: 1px 4px;
-  border-radius: 2px;
-}
-
-.loop-node strong {
-  font-size: 11px;
-  color: var(--sumi-ink);
-}
-
-.loop-node.current strong {
-  color: #80C342;
-  font-weight: 800;
-}
-
-.exit-item-card {
-  padding: 8px 0;
-  border-bottom: 1px dashed var(--washi-border);
-}
-
-.exit-item-card:last-child {
-  border-bottom: none;
-}
-
-.exit-badge {
-  font-size: 9.5px;
-  font-weight: 700;
-  color: var(--shu-vermilion);
-  background: var(--shu-vermilion-soft);
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  color: #2D5810;
+  background: #E8F5D8;
+  border: 1px solid #A2D674;
   padding: 1px 5px;
   border-radius: 3px;
-  display: inline-block;
-  margin-bottom: 2px;
 }
 
-.exit-item-card strong {
-  font-size: 12.5px;
-  color: var(--sumi-ink);
-  display: block;
-}
-
-.exit-item-card p {
-  font-size: 11px;
-  color: var(--sumi-muted);
-  margin-top: 2px;
-  line-height: 1.35;
-}
-
-.manner-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.manner-row {
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
-}
-
-.manner-num {
-  width: 20px;
-  height: 20px;
-  background: #EAE4D7;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 10px;
+.y-kanji {
+  font-size: 11.5px;
   font-weight: 800;
   color: var(--sumi-ink);
+  line-height: 1.2;
+}
+
+.y-romaji {
+  font-family: var(--font-jp);
+  font-size: 9.5px;
+  color: var(--sumi-muted);
+  font-weight: 600;
+}
+
+.y-connector {
+  width: 14px;
+  height: 3px;
+  background: #80C342; /* JR Yamanote vibrant green */
+  border-radius: 1.5px;
   flex-shrink: 0;
 }
 
-.manner-row strong {
-  font-size: 12px;
-  color: var(--sumi-ink);
-  display: block;
+.y-station.active-now {
+  background: #FEF3C7;
+  border: 1.5px solid #F59E0B;
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
+  transform: scale(1.05);
 }
 
-.manner-row p {
-  font-size: 10.5px;
+.y-station.active-now .y-kanji {
+  color: #B45309;
+}
+
+.y-station.active-now .y-romaji {
+  color: var(--shu-vermilion);
+  font-weight: 800;
+}
+
+/* ==========================================================================
+   Station Exits Cheat Sheet (Wood Placard Style)
+   ========================================================================== */
+.exit-wood-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.exit-wood-card {
+  display: flex;
+  gap: 0;
+  align-items: stretch;
+  background: #FFFFFF;
+  border: 1px solid var(--washi-border);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.exit-wood-card:hover {
+  border-color: var(--craft-border-strong);
+  transform: translateY(-1.5px);
+  box-shadow: 0 4px 12px rgba(28, 25, 23, 0.08);
+}
+
+.wood-tag {
+  background: #2C2622; /* Traditional Sumi-stained wood tag */
+  color: #FAF7EE;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  min-width: 76px;
+  text-align: center;
+  border-right: 2.5px solid #D97706; /* Gold lacquer inlay */
+  flex-shrink: 0;
+}
+
+.wood-content {
+  padding: 10px 14px;
+  flex: 1;
+}
+
+.wood-content strong {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--sumi-ink);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  line-height: 1.3;
+  margin-bottom: 3px;
+}
+
+.wood-content strong::before {
+  content: "出口";
+  font-size: 8.5px;
+  font-weight: 900;
+  color: #1C1917;
+  background: #FBBF24; /* Tokyo JR/Metro Yellow Exit Sign */
+  padding: 1px 4px;
+  border-radius: 2px;
+  display: inline-block;
+  line-height: 1.2;
+}
+
+.wood-content p {
+  font-size: 11px;
   color: var(--sumi-muted);
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* ==========================================================================
+   Train Etiquette (Manner Mode)
+   ========================================================================== */
+.manner-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.manner-pill {
+  background: #FAF8F2;
+  border: 1px dashed #D5CEBF;
+  border-radius: 8px;
+  padding: 9px 10px;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--sumi-ink);
+  line-height: 1.35;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.manner-pill:hover {
+  background: #FFFFFF;
+  border-style: solid;
+  border-color: var(--shu-vermilion);
+  transform: translateY(-1px);
 }
 
 /* ==========================================================================
@@ -1516,38 +2682,91 @@ input:focus-visible {
   color: var(--shu-vermilion);
 }
 
-.landmark-clean-item {
+/* ==========================================================================
+   Nearby Verified Landmarks (Tactile Washi & Seals)
+   ========================================================================== */
+.landmark-stationery-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.lm-stationery-item {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 8px 0;
-  border-bottom: 1px dashed var(--washi-border);
+  background: #FFFFFF;
+  border: 1px solid var(--washi-border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
 }
 
-.landmark-clean-item:last-child {
-  border-bottom: none;
+.lm-stationery-item:hover {
+  transform: translateY(-1.5px);
+  border-color: var(--shu-border);
+  box-shadow: 0 4px 12px rgba(28, 25, 23, 0.08);
 }
 
-.lm-info {
+.lm-stamp {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--yamabuki-soft);
+  border: 1.5px solid #F59E0B;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #B45309;
+}
+
+.lm-stamp.red {
+  background: var(--shu-vermilion-soft);
+  border-color: var(--shu-vermilion);
+  color: var(--shu-vermilion);
+}
+
+.lm-stamp.gold {
+  background: #FEF3C7;
+  border-color: #D97706;
+  color: #D97706;
+}
+
+.lm-details {
   flex: 1;
+  min-width: 0;
 }
 
-.lm-info strong {
-  font-size: 12px;
+.lm-details strong {
+  font-size: 12.5px;
+  font-weight: 800;
   color: var(--sumi-ink);
   display: block;
+  line-height: 1.3;
 }
 
-.lm-info span {
-  font-size: 10.5px;
+.lm-details span {
+  font-size: 10px;
   color: var(--sumi-muted);
+  display: block;
+  line-height: 1.35;
+  margin-top: 2px;
 }
 
-.lm-dist {
+.lm-badge {
   font-size: 10.5px;
+  font-weight: 800;
   font-family: monospace;
-  font-weight: 700;
   color: var(--shu-vermilion);
+  background: var(--shu-vermilion-soft);
+  border: 1px solid rgba(229, 57, 36, 0.2);
+  padding: 3px 8px;
+  border-radius: 12px;
+  flex-shrink: 0;
 }
 
 /* ==========================================================================
@@ -1838,4 +3057,407 @@ input:focus-visible {
   color: var(--sumi-muted);
   display: block;
   line-height: 1.3;
+}
+
+/* ==========================================================================
+   Interactive Modals & Configuration Sheets
+   ========================================================================== */
+.app-modal-backdrop {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(28, 25, 23, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 300;
+  display: flex;
+  align-items: flex-end;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.app-modal-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.app-modal-sheet {
+  width: 100%;
+  max-height: 85%;
+  background: #FFFFFF;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  padding: 18px 18px 24px;
+  overflow-y: auto;
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.2);
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.app-modal-backdrop.open .app-modal-sheet {
+  transform: translateY(0);
+}
+
+.modal-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+  border-bottom: 1px solid #EFEAE0;
+  padding-bottom: 10px;
+}
+
+.modal-sub-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--shu-vermilion);
+  letter-spacing: 0.5px;
+  display: block;
+}
+
+.modal-main-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--sumi-ink);
+  margin-top: 2px;
+}
+
+.modal-close-btn {
+  background: #F4EFE6;
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 12px;
+  color: var(--sumi-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.modal-close-btn:hover {
+  background: var(--sumi-ink);
+  color: #FFFFFF;
+}
+
+.modal-explainer-text {
+  font-size: 11.5px;
+  color: var(--sumi-muted);
+  line-height: 1.45;
+  margin-bottom: 14px;
+}
+
+.transparency-item {
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.transparency-item.green-box { background: #ECFDF5; border: 1px solid #A7F3D0; }
+.transparency-item.amber-box { background: #FFFBEB; border: 1px solid #FDE68A; }
+.transparency-item.red-box { background: #FEF2F2; border: 1px solid #FECACA; }
+
+.t-badge {
+  font-size: 9.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  width: fit-content;
+  border-radius: 3px;
+  padding: 1px 5px;
+  margin-bottom: 2px;
+}
+
+.t-badge.green { color: #065F46; background: #D1FAE5; }
+.t-badge.amber { color: #92400E; background: #FEF3C7; }
+.t-badge.red { color: #991B1B; background: #FEE2E2; }
+
+.transparency-item strong {
+  font-size: 12px;
+  color: var(--sumi-ink);
+}
+
+.transparency-item span {
+  font-size: 10.5px;
+  color: var(--sumi-muted);
+  line-height: 1.4;
+}
+
+/* Config fields */
+.config-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.config-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--sumi-ink);
+}
+
+.config-input,
+.config-select {
+  background: #FAF7EE;
+  border: 1px solid #D5CEBF;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-family: inherit;
+  font-size: 12.5px;
+  color: var(--sumi-ink);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.config-input:focus,
+.config-select:focus {
+  border-color: var(--shu-vermilion);
+  background: #FFFFFF;
+}
+
+.config-input.large-num {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #EFEAE0;
+}
+
+.modal-primary-btn {
+  background: var(--shu-vermilion);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.modal-primary-btn:hover {
+  background: var(--shu-vermilion-deep);
+}
+
+.modal-secondary-btn {
+  background: #F4EFE6;
+  color: var(--sumi-ink);
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.modal-secondary-btn:hover {
+  background: #EAE3D4;
+}
+
+/* ==========================================================================
+   Dynamic UI Helpers: Mini Action Buttons & Prompt Pills
+   ========================================================================== */
+.f-action-btn.mini {
+  padding: 3px 8px;
+  font-size: 11px;
+}
+
+.f-pill.empty {
+  background: #FAF7EE;
+  color: var(--text-muted);
+  border: 1px dashed var(--border-subtle);
+  font-style: italic;
+}
+
+.chat-prompt-pill {
+  background: #FFFFFF;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  font-size: 12px;
+  text-align: left;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.chat-prompt-pill:hover {
+  background: var(--surface-hover);
+  border-color: var(--color-vermilion);
+  transform: translateX(2px);
+}
+
+.f-action-btn.secondary {
+  background: #FAF7EE;
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+}
+.f-action-btn.secondary:hover {
+  background: var(--surface-hover);
+  border-color: var(--text-primary);
+}
+
+/* ==========================================================================
+   Japan Living Bills & Monthly Budget Envelopes
+   ========================================================================== */
+.monthly-overview-card {
+  background: #FAF7EE;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.monthly-overview-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.monthly-overview-stat .stat-lbl {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+.monthly-overview-stat .stat-num {
+  font-size: 16px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+}
+
+.bill-envelopes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+}
+.envelope-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: all 0.15s ease;
+}
+.envelope-card:hover {
+  border-color: var(--color-matcha);
+  background: #FCFAF5;
+}
+.envelope-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+}
+.envelope-title-row strong {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.envelope-bar-track {
+  width: 100%;
+  height: 4px;
+  background: #EDE8DE;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.envelope-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: var(--color-matcha);
+  transition: width 0.3s ease;
+}
+.envelope-values {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10.5px;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.budget-grid-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+/* AI Provider Header & Status */
+.ai-provider-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  margin-bottom: 12px;
+  font-size: 11px;
+}
+.provider-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.ai-model-tag {
+  display: inline-block;
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 5px;
+  border-radius: 3px;
+  background: rgba(47, 93, 68, 0.12);
+  color: var(--color-matcha);
+  margin-bottom: 4px;
+}
+.ai-model-tag.nvidia {
+  background: rgba(118, 185, 0, 0.15);
+  color: #558500;
+}
+.ai-model-tag.gemini {
+  background: rgba(26, 115, 232, 0.12);
+  color: #1a73e8;
+}
+.ai-model-tag.offline {
+  background: rgba(100, 110, 120, 0.12);
+  color: var(--text-secondary);
+}
+.typing-dots {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px 8px;
+}
+.typing-dots span {
+  width: 5px;
+  height: 5px;
+  background: var(--text-secondary);
+  border-radius: 50%;
+  animation: typingBounce 1.2s infinite ease-in-out;
+}
+.typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingBounce {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+  40% { transform: translateY(-4px); opacity: 1; }
 }

@@ -129,6 +129,25 @@ If these rules conflict with each other, flag the conflict and ask the owner for
 
 ---
 
+## 10. Measurable Definition of Done (DoD)
+
+When working on UI, feature enhancements, or bug fixes, work must satisfy the **Measurable Definition of Done**:
+
+1. **Clear Primary Purpose**: Every screen must have a distinct, focused primary objective without identity confusion.
+2. **Defined & Tested Controls**: Every visible button, tab, card, or form control must execute a defined, tested handler rather than being an inert mock.
+3. **Shared Design System**: Typography, line spacing, palette tokens, icons, and components must adhere to `docs/16_DESIGN_SYSTEM.md`.
+4. **No Decorative Occlusion**: No critical data (dosage times, yen amounts, status labels) may be covered, clipped, or obscured by mascot illustrations or floating elements.
+5. **No Redundant Clutter**: Screens must prioritize whitespace and content hierarchy over repeated boxed borders and duplicate cards.
+6. **Truthful States**: Offline capability indicators, cached timetable timestamps, and API failure states must be truthful. Never fabricate live data.
+7. **Requirement Preservation**: Existing project constraints (₹0 operating cost, <200 MB install size, zero analytics) must be preserved unless an explicit change is approved.
+8. **Incremental Verification**: Each major UI or feature change must be visually and functionally verified before moving to the next.
+9. **Structured Reporting**: Every completion report must clearly categorize work into:
+   - Completed Fixes
+   - Newly Implemented Features
+   - Unresolved Work & Boundaries
+
+---
+
 ## Approval
 
-- [x] Project owner has reviewed and approved these agent rules.
+- [x] Project owner has reviewed and approved these agent rules and Definition of Done.

@@ -5,6 +5,7 @@ import '../../../core/database/database_helper.dart';
 import '../../../core/theme/app_theme.dart';
 import '../models/saved_location.dart';
 import '../services/map_service.dart';
+import 'map_downloads_screen.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -372,6 +373,14 @@ class _MapScreenState extends State<MapScreen> {
       appBar: AppBar(
         title: const Text('Offline Maps & Navigation'),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.download_for_offline_outlined, color: AppTheme.primary),
+            tooltip: 'Download Offline Map Packs',
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const MapDownloadsScreen()),
+            ),
+          ),
           IconButton(
             icon: const Icon(Icons.my_location, color: AppTheme.accentTeal),
             tooltip: 'Set Reference Coordinate',

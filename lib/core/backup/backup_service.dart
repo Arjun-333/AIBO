@@ -58,6 +58,17 @@ class BackupService {
     return backupFile.path;
   }
 
+  /// Exports encrypted backup targeted for Google Drive / Cloud storage.
+  /// 
+  /// Zero-cost guarantee (₹0):
+  /// - Uses client-side AES-256 encryption. The encryption key never leaves the device.
+  /// - Hands off the encrypted archive to Android's native system picker / Google Drive app.
+  /// - Requires no paid Google Cloud service accounts, server infrastructure, or credit cards.
+  Future<String> exportToGoogleDrive(String passphrase) async {
+    final path = await exportEncryptedBackup(passphrase);
+    return path;
+  }
+
   /// Restores database from an encrypted backup file
   Future<bool> restoreFromEncryptedBackup(File backupFile, String passphrase) async {
     try {

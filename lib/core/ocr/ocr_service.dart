@@ -1,16 +1,25 @@
+import 'dart:io';
 import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
+import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as p;
 
 class OcrResult {
   final String rawText;
   final List<String> detectedDates;
   final List<String> detectedAmounts;
   final List<String> detectedKeywords;
+  final bool isAvailable;
+  final String? notice;
 
   const OcrResult({
     required this.rawText,
     this.detectedDates = const [],
     this.detectedAmounts = const [],
     this.detectedKeywords = const [],
+    this.isAvailable = true,
+    this.notice,
   });
 }
 
@@ -18,61 +27,126 @@ class OcrService {
   static final OcrService instance = OcrService._init();
   OcrService._init();
 
-  /// Analyzes image bytes on-device using regex heuristics and OCR pattern matching
+  // ML Kit recognizer supporting Japanese (Kanji, Hiragana, Katakana) + Latin
+  final _recognizer = TextRecognizer(script: TextRecognitionScript.japanese);
+
+  /// Processes image bytes through ML Kit on-device Japanese OCR.
+  ///
+  /// All processing happens 100% locally — images are never sent to any server.
+  /// A temporary file is written to the app cache dir, used for OCR, then deleted.
   Future<OcrResult> processImageBytes(Uint8List imageBytes) async {
-    // Standard Japanese document pattern recognition
-    // (Integrates with google_mlkit_text_recognition on physical device)
-    final detectedDates = <String>[];
-    final detectedAmounts = <String>[];
-    final detectedKeywords = <String>[];
+    File? tempFile;
+    try {
+      // Write bytes to a temp file (ML Kit requires a file path)
+      final cacheDir = await getTemporaryDirectory();
+      tempFile = File(p.join(cacheDir.path, 'aibo_ocr_tmp_${DateTime.now().millisecondsSinceEpoch}.jpg'));
+      await tempFile.writeAsBytes(imageBytes);
 
-    // For test/stub extraction, we provide sample text parsing
-    const sampleText = '''
-在留カード (RESIDENCE CARD)
-在留資格: 技術・人文知識・国際業務
-在留期間の満了日: 2027年04月15日
-納期限: 2026年11月30日
-ご請求金額: ¥14,800
-''';
+      final inputImage = InputImage.fromFile(tempFile);
+      final recognized = await _recognizer.processImage(inputImage);
 
-    // Regex for Japanese dates (e.g. 2026年11月30日, 令和6年10月1日)
-    final dateRegExp = RegExp(r'(?:(?:20\d{2}|令和\d+)年\d{1,2}月\d{1,2}日)');
-    for (final match in dateRegExp.allMatches(sampleText)) {
-      final dateStr = match.group(0);
-      if (dateStr != null && !detectedDates.contains(dateStr)) {
-        detectedDates.add(dateStr);
+      final rawText = recognized.text.trim();
+      if (rawText.isEmpty) {
+        return const OcrResult(
+          rawText: '',
+          isAvailable: true,
+          notice: 'No text detected in the image. Try a clearer or higher-contrast photo.',
+        );
+      }
+
+      // --- Post-processing: extract structured fields from raw text ---
+      final dates = _extractDates(rawText);
+      final amounts = _extractAmounts(rawText);
+      final keywords = _extractKeywords(rawText);
+
+      return OcrResult(
+        rawText: rawText,
+        detectedDates: dates,
+        detectedAmounts: amounts,
+        detectedKeywords: keywords,
+        isAvailable: true,
+      );
+    } catch (e) {
+      debugPrint('[OcrService] ML Kit error: $e');
+      return OcrResult(
+        rawText: '',
+        isAvailable: false,
+        notice: 'OCR processing failed: ${e.toString()}',
+      );
+    } finally {
+      // Always clean up temp file — never leave document bytes in cache
+      try { await tempFile?.delete(); } catch (_) {}
+    }
+  }
+
+  /// Dispose ML Kit resources when the service is no longer needed.
+  Future<void> dispose() async {
+    await _recognizer.close();
+  }
+
+  // ---------------------------------------------------------------------------
+  // Private helpers — structured field extraction
+  // ---------------------------------------------------------------------------
+
+  static final _datePatterns = [
+    // Japanese date: 2024年03月15日 / 令和6年3月15日
+    RegExp(r'(?:令和|平成|昭和)?\d{1,4}年\s*\d{1,2}月\s*\d{1,2}日'),
+    // Western slash date: 2024/03/15 or 2024-03-15
+    RegExp(r'\d{4}[/\-]\d{2}[/\-]\d{2}'),
+    // Expiry label: 有効期限 / 期限 / 満了日
+    RegExp(r'(?:有効期限|満了日|期限)[：:\s]*[\d年月日/\-]+'),
+  ];
+
+  static final _amountPatterns = [
+    // ¥ amounts: ¥1,234 or ￥1,234 or 1,234円
+    RegExp(r'[¥￥]\s*[\d,]+'),
+    RegExp(r'[\d,]+\s*円'),
+    // Tax: 消費税 or 税込
+    RegExp(r'(?:消費税|税込|合計)[：:\s]*[¥￥]?[\d,]+'),
+  ];
+
+  static final _keywordPatterns = [
+    // Important document types
+    RegExp(r'在留カード|在留資格|特別永住者'),
+    RegExp(r'健康保険|国民健康保険|保険証'),
+    RegExp(r'マイナンバー|個人番号'),
+    RegExp(r'住民票|住民基本台帳'),
+    RegExp(r'パスポート|旅券'),
+    RegExp(r'運転免許|免許証'),
+    RegExp(r'納税|確定申告|源泉徴収'),
+    RegExp(r'賃貸|家賃|敷金|礼金'),
+    // Bill-related
+    RegExp(r'請求書|領収書|明細書'),
+    RegExp(r'電気|ガス|水道|通信費'),
+  ];
+
+  List<String> _extractDates(String text) {
+    final results = <String>{};
+    for (final pattern in _datePatterns) {
+      for (final match in pattern.allMatches(text)) {
+        results.add(match.group(0)!.trim());
       }
     }
+    return results.toList();
+  }
 
-    // Regex for JPY amounts (e.g. ¥14,800 or 14,800円)
-    final amountRegExp = RegExp(r'(?:[¥￥]\s?[\d,]+|[\d,]+\s?円)');
-    for (final match in amountRegExp.allMatches(sampleText)) {
-      final amt = match.group(0);
-      if (amt != null && !detectedAmounts.contains(amt)) {
-        detectedAmounts.add(amt);
+  List<String> _extractAmounts(String text) {
+    final results = <String>{};
+    for (final pattern in _amountPatterns) {
+      for (final match in pattern.allMatches(text)) {
+        results.add(match.group(0)!.trim());
       }
     }
+    return results.toList();
+  }
 
-    // Japanese administrative keywords
-    final keywords = [
-      '在留カード',
-      '納期限',
-      '住民税',
-      '国民健康保険',
-      '年金',
-      '請求金額',
-    ];
-    for (final kw in keywords) {
-      if (sampleText.contains(kw)) {
-        detectedKeywords.add(kw);
+  List<String> _extractKeywords(String text) {
+    final results = <String>{};
+    for (final pattern in _keywordPatterns) {
+      for (final match in pattern.allMatches(text)) {
+        results.add(match.group(0)!.trim());
       }
     }
-
-    return OcrResult(
-      rawText: sampleText.trim(),
-      detectedDates: detectedDates,
-      detectedAmounts: detectedAmounts,
-      detectedKeywords: detectedKeywords,
-    );
+    return results.toList();
   }
 }

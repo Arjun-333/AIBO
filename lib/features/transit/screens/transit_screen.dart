@@ -14,11 +14,25 @@ class _TransitScreenState extends State<TransitScreen> with SingleTickerProvider
   late TabController _tabController;
   final TransitService _transitService = TransitService.instance;
   String _searchQuery = '';
+  List<TrainStatusReport> _statuses = [];
+  bool _isLoadingStatus = true;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    _loadTrainStatuses();
+  }
+
+  Future<void> _loadTrainStatuses() async {
+    setState(() => _isLoadingStatus = true);
+    final reports = await _transitService.fetchTrainStatuses();
+    if (mounted) {
+      setState(() {
+        _statuses = reports;
+        _isLoadingStatus = false;
+      });
+    }
   }
 
   @override
@@ -82,6 +96,96 @@ class _TransitScreenState extends State<TransitScreen> with SingleTickerProvider
             hintStyle: const TextStyle(fontSize: 12, color: AppTheme.mutedGrey),
             filled: true,
             fillColor: Colors.white,
+          ),
+        ),
+
+        const SizedBox(height: 14),
+
+        // ── Real-Time / Cached Operation Status (ODPT Integration) ─────────────
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: AppTheme.warmBorder),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        _statuses.any((s) => s.isLive) ? Icons.cell_tower : Icons.schedule,
+                        size: 16,
+                        color: _statuses.any((s) => s.isLive) ? AppTheme.matchaTeal : AppTheme.mutedGrey,
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        _statuses.any((s) => s.isLive) ? 'LIVE TRANSIT STATUS (ODPT)' : 'SCHEDULED TRANSIT OPERATION',
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0.8,
+                          color: _statuses.any((s) => s.isLive) ? AppTheme.matchaTeal : AppTheme.charcoal,
+                        ),
+                      ),
+                    ],
+                  ),
+                  InkWell(
+                    onTap: _loadTrainStatuses,
+                    child: _isLoadingStatus
+                        ? const SizedBox(width: 14, height: 14, child: CircularProgressIndicator(strokeWidth: 2))
+                        : const Icon(Icons.refresh, size: 18, color: AppTheme.mutedGrey),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              if (_statuses.isNotEmpty)
+                ..._statuses.take(3).map((s) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 3),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 6,
+                            height: 6,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: s.statusText.contains('Normal') || s.statusText.contains('平常')
+                                  ? AppTheme.matchaTeal
+                                  : AppTheme.crimsonRed,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              '${s.lineName}: ${s.statusText}',
+                              style: const TextStyle(fontSize: 12, color: AppTheme.inkBlack),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: s.isLive ? AppTheme.matchaTeal.withOpacity(0.15) : Colors.grey.withOpacity(0.15),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Text(
+                              s.isLive ? 'Live' : 'Cached',
+                              style: TextStyle(
+                                fontSize: 9,
+                                fontWeight: FontWeight.bold,
+                                color: s.isLive ? AppTheme.matchaTeal : Colors.grey.shade700,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )),
+            ],
           ),
         ),
 

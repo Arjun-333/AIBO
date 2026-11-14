@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../core/database/database_helper.dart';
+import '../../../core/services/notification_service.dart';
 import '../../../core/services/sound_motion_service.dart';
 import '../../../core/theme/app_theme.dart';
 import '../models/medication_reminder.dart';
 import '../services/medication_service.dart';
+import 'notification_settings_screen.dart';
 
 class MedicationScreen extends StatefulWidget {
   const MedicationScreen({super.key});
@@ -76,6 +78,8 @@ class _MedicationScreenState extends State<MedicationScreen> with SingleTickerPr
   }
 
   Future<void> _deleteMedication(int id) async {
+    // Cancel the exact alarm before deleting from DB
+    await NotificationService.instance.cancelMedicationReminder(id);
     await DatabaseHelper.instance.deleteMedication(id);
     _loadReminders();
     if (mounted) {
@@ -219,6 +223,13 @@ class _MedicationScreenState extends State<MedicationScreen> with SingleTickerPr
                         category: category,
                       );
                       await DatabaseHelper.instance.insertMedication(newMed);
+                      // Fetch the saved record (with auto-assigned id) and schedule alarm
+                      final saved = await DatabaseHelper.instance.getMedications();
+                      final justSaved = saved.lastWhere(
+                        (m) => m.nameEn == newMed.nameEn && m.scheduledTime == newMed.scheduledTime,
+                        orElse: () => newMed,
+                      );
+                      await NotificationService.instance.scheduleMedicationReminder(justSaved);
                       Navigator.pop(ctx);
                       _loadReminders();
                       SoundMotionService.instance.showJapaneseNotification(
@@ -339,6 +350,16 @@ class _MedicationScreenState extends State<MedicationScreen> with SingleTickerPr
       backgroundColor: AppTheme.washiCream,
       appBar: AppBar(
         title: const Text('Tablet Reminder & Pharmacy (お薬ナビ)'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.notifications_outlined),
+            tooltip: 'Notification Settings',
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const NotificationSettingsScreen()),
+            ),
+          ),
+        ],
         bottom: TabBar(
           controller: _tabController,
           labelColor: AppTheme.inkBlack,

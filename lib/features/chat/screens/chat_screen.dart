@@ -249,6 +249,22 @@ class _ChatScreenState extends State<ChatScreen> {
                       onSubmitted: (_) => _sendMessage(),
                     ),
                   ),
+                  // EN ↔ JA locale toggle for voice input
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        final next = VoiceService.instance.currentLocale == 'ja-JP' ? 'en-US' : 'ja-JP';
+                        VoiceService.instance.setLocale(next);
+                      });
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      child: Text(
+                        VoiceService.instance.currentLocale == 'ja-JP' ? '日本語' : 'EN',
+                        style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: AppTheme.primary),
+                      ),
+                    ),
+                  ),
                   IconButton(
                     icon: Icon(
                       VoiceService.instance.isListening ? Icons.mic : Icons.mic_none_outlined,
@@ -266,6 +282,13 @@ class _ChatScreenState extends State<ChatScreen> {
                             });
                           },
                           onStatusChanged: () => setState(() {}),
+                          onUnavailable: (message) {
+                            if (mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(message)),
+                              );
+                            }
+                          },
                         );
                       }
                     },

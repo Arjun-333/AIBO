@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'core/database/database_helper.dart';
+import 'core/services/notification_service.dart';
 import 'core/theme/app_theme.dart';
 import 'features/auth/screens/lock_screen.dart';
 
@@ -19,6 +20,16 @@ Future<void> main() async {
     await DatabaseHelper.instance.database;
   } catch (e) {
     debugPrint('Database initialization notice: $e');
+  }
+
+  // Initialize local notifications + timezone (required for exact alarms)
+  try {
+    await NotificationService.instance.initialize();
+    // Reschedule all active medication reminders (handles app restarts)
+    final meds = await DatabaseHelper.instance.getMedications();
+    await NotificationService.instance.rescheduleAll(meds);
+  } catch (e) {
+    debugPrint('Notification init notice: $e');
   }
 
   runApp(const AiboApp());

@@ -1,8 +1,119 @@
+import 'dart:convert';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart' as http;
 import '../models/transit_line.dart';
+
+class TrainStatusReport {
+  final String lineId;
+  final String lineName;
+  final String statusText;
+  final String details;
+  final bool isLive;
+  final DateTime updatedAt;
+
+  const TrainStatusReport({
+    required this.lineId,
+    required this.lineName,
+    required this.statusText,
+    required this.details,
+    required this.isLive,
+    required this.updatedAt,
+  });
+}
 
 class TransitService {
   static final TransitService instance = TransitService._init();
   TransitService._init();
+
+  /// Fetches real-time train status via ODPT (Open Data Challenge for Public Transportation) API.
+  /// 
+  /// ODPT is 100% FREE for developers (₹0 cost).
+  /// If ODPT_API_KEY is not configured or device is offline, returns truthful cached
+  /// schedule metadata with `isLive: false` to comply with the No-Fabrication rule.
+  Future<List<TrainStatusReport>> fetchTrainStatuses() async {
+    final odptKey = dotenv.env['ODPT_API_KEY']?.trim() ?? '';
+
+    if (odptKey.isNotEmpty) {
+      try {
+        final url = Uri.parse(
+          'https://api.odpt.org/api/v4/odpt:TrainInformation?acl:consumerKey=$odptKey',
+        );
+        final response = await http.get(url).timeout(const Duration(seconds: 10));
+
+        if (response.statusCode == 200) {
+          final List<dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
+          final reports = <TrainStatusReport>[];
+
+          for (final item in data) {
+            final railway = (item['odpt:railway'] as String? ?? '').split(':').last;
+            final text = item['odpt:trainInformationText']?['en'] as String? ??
+                item['odpt:trainInformationText']?['ja'] as String? ??
+                'Normal Operation (平常運転)';
+            final status = item['odpt:trainInformationStatus']?['en'] as String? ?? 'Normal';
+
+            reports.add(TrainStatusReport(
+              lineId: railway,
+              lineName: railway.replaceAll('.', ' '),
+              statusText: status,
+              details: text,
+              isLive: true,
+              updatedAt: DateTime.now(),
+            ));
+          }
+
+          if (reports.isNotEmpty) return reports;
+        }
+      } catch (e) {
+        debugPrint('[TransitService] ODPT live query notice: $e');
+      }
+    }
+
+    // Truthful offline/cached baseline: JR Yamanote, Tokyo Metro, Toei Subway
+    final now = DateTime.now();
+    return [
+      TrainStatusReport(
+        lineId: 'JR-East.Yamanote',
+        lineName: 'JR Yamanote Line (山手線)',
+        statusText: 'Scheduled Operation (定時運行)',
+        details: 'Runs every 2–4 min. Live delay updates require free ODPT API key & network.',
+        isLive: false,
+        updatedAt: now,
+      ),
+      TrainStatusReport(
+        lineId: 'JR-East.ChuoRapid',
+        lineName: 'JR Chuo Rapid Line (中央線快速)',
+        statusText: 'Scheduled Operation (定時運行)',
+        details: 'Runs every 3–5 min between Tokyo and Shinjuku/Takao.',
+        isLive: false,
+        updatedAt: now,
+      ),
+      TrainStatusReport(
+        lineId: 'TokyoMetro.Marunouchi',
+        lineName: 'Tokyo Metro Marunouchi Line (丸ノ内線)',
+        statusText: 'Scheduled Operation (定時運行)',
+        details: 'Runs every 3–4 min connecting Ikebukuro, Tokyo, Ginza, Shinjuku.',
+        isLive: false,
+        updatedAt: now,
+      ),
+      TrainStatusReport(
+        lineId: 'TokyoMetro.Ginza',
+        lineName: 'Tokyo Metro Ginza Line (銀座線)',
+        statusText: 'Scheduled Operation (定時運行)',
+        details: 'Runs every 3 min connecting Shibuya, Ginza, and Asakusa.',
+        isLive: false,
+        updatedAt: now,
+      ),
+      TrainStatusReport(
+        lineId: 'Toei.Oedo',
+        lineName: 'Toei Oedo Line (都営大江戸線)',
+        statusText: 'Scheduled Operation (定時運行)',
+        details: 'Runs every 6 min connecting Roppongi and Shinjuku.',
+        isLive: false,
+        updatedAt: now,
+      ),
+    ];
+  }
 
   List<TransitLine> getTokyoLines() {
     return const [

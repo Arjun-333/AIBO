@@ -9,6 +9,8 @@ import '../../features/vault/models/document_record.dart';
 import '../../features/chat/models/chat_message.dart';
 import '../../features/maps/models/saved_location.dart';
 import '../../features/medication/models/medication_reminder.dart';
+import '../context/personal_context_model.dart';
+import '../ocr/structured_document_model.dart';
 
 class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._init();
@@ -152,6 +154,56 @@ class DatabaseHelper {
         created_at TEXT NOT NULL
       )
     ''');
+
+    // 9. Personal Context Table (Life OS Core)
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS personal_context (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        full_name TEXT NOT NULL,
+        katakana_name TEXT,
+        home_ward TEXT NOT NULL,
+        home_address_ja TEXT,
+        nearest_station TEXT NOT NULL,
+        commute_route TEXT,
+        workplace_school TEXT,
+        jlpt_level TEXT NOT NULL,
+        residence_status TEXT NOT NULL,
+        residence_expiry_date TEXT,
+        monthly_budget_jpy REAL NOT NULL,
+        daily_budget_jpy REAL NOT NULL,
+        has_my_number_card INTEGER NOT NULL DEFAULT 1,
+        national_pension_status TEXT,
+        burnable_garbage_days TEXT,
+        recyclable_plastics_days TEXT,
+        non_burnable_days TEXT,
+        updated_at TEXT NOT NULL
+      )
+    ''');
+
+    // 10. Structured Japanese Life Documents (OCR Document Understanding)
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS structured_documents (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        vault_doc_id INTEGER,
+        doc_type TEXT NOT NULL,
+        title TEXT NOT NULL,
+        issuer_or_provider TEXT NOT NULL,
+        amount_jpy REAL,
+        due_or_expiry_date TEXT,
+        document_identifier TEXT,
+        is_payable_at_konbini INTEGER NOT NULL DEFAULT 0,
+        payment_status TEXT NOT NULL DEFAULT 'not_applicable',
+        key_instructions_ja TEXT,
+        key_instructions_en TEXT,
+        raw_extracted_text TEXT NOT NULL,
+        is_verified_by_user INTEGER NOT NULL DEFAULT 0,
+        created_at TEXT NOT NULL,
+        updated_at TEXT NOT NULL
+      )
+    ''');
+
+    // Seed default personal context if empty
+    await db.insert('personal_context', const PersonalContext().toMap());
 
     // Seed default emergency card if empty
     await db.insert('emergency_card', {
@@ -383,6 +435,123 @@ class DatabaseHelper {
         created_at TEXT NOT NULL
       )
     ''');
+  }
+
+  // --- CRUD: Personal Context (Life OS Core) ---
+  Future<void> _ensurePersonalContextTable(Database db) async {
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS personal_context (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        full_name TEXT NOT NULL,
+        katakana_name TEXT,
+        home_ward TEXT NOT NULL,
+        home_address_ja TEXT,
+        nearest_station TEXT NOT NULL,
+        commute_route TEXT,
+        workplace_school TEXT,
+        jlpt_level TEXT NOT NULL,
+        residence_status TEXT NOT NULL,
+        residence_expiry_date TEXT,
+        monthly_budget_jpy REAL NOT NULL,
+        daily_budget_jpy REAL NOT NULL,
+        has_my_number_card INTEGER NOT NULL DEFAULT 1,
+        national_pension_status TEXT,
+        burnable_garbage_days TEXT,
+        recyclable_plastics_days TEXT,
+        non_burnable_days TEXT,
+        updated_at TEXT NOT NULL
+      )
+    ''');
+  }
+
+  Future<PersonalContext> getPersonalContext() async {
+    final db = await database;
+    await _ensurePersonalContextTable(db);
+    final maps = await db.query('personal_context', limit: 1);
+    if (maps.isNotEmpty) {
+      return PersonalContext.fromMap(maps.first);
+    }
+    // Seed default if empty
+    final def = const PersonalContext();
+    final id = await db.insert('personal_context', def.toMap());
+    return def.copyWith(id: id);
+  }
+
+  Future<int> savePersonalContext(PersonalContext context) async {
+    final db = await database;
+    await _ensurePersonalContextTable(db);
+    final existing = await db.query('personal_context', limit: 1);
+    if (existing.isNotEmpty) {
+      return await db.update(
+        'personal_context',
+        context.toMap(),
+        where: 'id = ?',
+        whereArgs: [existing.first['id']],
+      );
+    } else {
+      return await db.insert('personal_context', context.toMap());
+    }
+  }
+
+  // --- CRUD: Structured Documents (OCR Understanding) ---
+  Future<void> _ensureStructuredDocsTable(Database db) async {
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS structured_documents (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        vault_doc_id INTEGER,
+        doc_type TEXT NOT NULL,
+        title TEXT NOT NULL,
+        issuer_or_provider TEXT NOT NULL,
+        amount_jpy REAL,
+        due_or_expiry_date TEXT,
+        document_identifier TEXT,
+        is_payable_at_konbini INTEGER NOT NULL DEFAULT 0,
+        payment_status TEXT NOT NULL DEFAULT 'not_applicable',
+        key_instructions_ja TEXT,
+        key_instructions_en TEXT,
+        raw_extracted_text TEXT NOT NULL,
+        is_verified_by_user INTEGER NOT NULL DEFAULT 0,
+        created_at TEXT NOT NULL,
+        updated_at TEXT NOT NULL
+      )
+    ''');
+  }
+
+  Future<int> insertStructuredDocument(StructuredDocument doc) async {
+    final db = await database;
+    await _ensureStructuredDocsTable(db);
+    return await db.insert('structured_documents', doc.toMap());
+  }
+
+  Future<List<StructuredDocument>> getStructuredDocuments() async {
+    final db = await database;
+    await _ensureStructuredDocsTable(db);
+    final result = await db.query(
+      'structured_documents',
+      orderBy: 'due_or_expiry_date ASC, created_at DESC',
+    );
+    return result.map((m) => StructuredDocument.fromMap(m)).toList();
+  }
+
+  Future<int> updateStructuredDocument(StructuredDocument doc) async {
+    final db = await database;
+    await _ensureStructuredDocsTable(db);
+    return await db.update(
+      'structured_documents',
+      doc.toMap(),
+      where: 'id = ?',
+      whereArgs: [doc.id],
+    );
+  }
+
+  Future<int> deleteStructuredDocument(int id) async {
+    final db = await database;
+    await _ensureStructuredDocsTable(db);
+    return await db.delete(
+      'structured_documents',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
   }
 
   Future<void> close() async {

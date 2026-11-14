@@ -1,4 +1,6 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../core/llm/llm_service.dart';
 import '../../../core/theme/app_theme.dart';
 import '../data/phrase_data.dart';
@@ -21,6 +23,11 @@ class _PhrasebookScreenState extends State<PhrasebookScreen> with SingleTickerPr
   String _translationResult = '';
   bool _isTranslating = false;
 
+  // Visual Sign / Menu Scanner state (Gemini Vision)
+  Uint8List? _scannedImageBytes;
+  String _visualScanResult = '';
+  bool _isScanningImage = false;
+
   final List<String> _categories = [
     'All',
     'Transit',
@@ -34,7 +41,7 @@ class _PhrasebookScreenState extends State<PhrasebookScreen> with SingleTickerPr
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
   }
 
   List<JapanesePhrase> get _filteredPhrases {
@@ -97,6 +104,7 @@ Format your response exactly as:
           tabs: const [
             Tab(icon: Icon(Icons.menu_book_outlined), text: 'Offline Phrases'),
             Tab(icon: Icon(Icons.auto_awesome), text: 'AI Translation'),
+            Tab(icon: Icon(Icons.camera_alt_outlined), text: 'Scan Sign/Menu'),
           ],
         ),
       ),
@@ -105,6 +113,7 @@ Format your response exactly as:
         children: [
           _buildOfflinePhraseTab(),
           _buildAiTranslationTab(),
+          _buildVisualScanTab(),
         ],
       ),
     );
@@ -307,6 +316,144 @@ Format your response exactly as:
             child: SelectableText(
               _translationResult,
               style: const TextStyle(fontSize: 14.5, height: 1.5, color: Colors.white),
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+
+  Future<void> _pickAndAnalyzeImage(ImageSource source) async {
+    try {
+      final picker = ImagePicker();
+      final photo = await picker.pickImage(
+        source: source,
+        imageQuality: 85,
+        maxWidth: 1600,
+      );
+      if (photo == null) return;
+
+      final bytes = await photo.readAsBytes();
+      setState(() {
+        _scannedImageBytes = bytes;
+        _isScanningImage = true;
+        _visualScanResult = '';
+      });
+
+      final result = await LlmService.instance.analyzePublicSignOrMenu(imageBytes: bytes);
+      if (mounted) {
+        setState(() {
+          _visualScanResult = result;
+          _isScanningImage = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _visualScanResult = 'Visual translation notice: ${e.toString().replaceAll("Exception: ", "")}';
+          _isScanningImage = false;
+        });
+      }
+    }
+  }
+
+  Widget _buildVisualScanTab() {
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        // Privacy Guardrail Banner
+        Container(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            color: Colors.amber.withOpacity(0.12),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.amber.withOpacity(0.4)),
+          ),
+          child: const Row(
+            children: [
+              Icon(Icons.shield_outlined, color: Colors.amber, size: 24),
+              SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  'PRIVACY GUARDRAIL: For public signs, restaurant menus, notices, and flyers only. Sensitive ID documents (Zairyu Card, passport) must be stored in Document Vault using on-device ML Kit.',
+                  style: TextStyle(fontSize: 11, color: Colors.white70, height: 1.4),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+
+        Row(
+          children: [
+            Expanded(
+              child: ElevatedButton.icon(
+                onPressed: _isScanningImage ? null : () => _pickAndAnalyzeImage(ImageSource.camera),
+                icon: const Icon(Icons.camera_alt),
+                label: const Text('Take Photo'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppTheme.primary,
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: OutlinedButton.icon(
+                onPressed: _isScanningImage ? null : () => _pickAndAnalyzeImage(ImageSource.gallery),
+                icon: const Icon(Icons.photo_library_outlined),
+                label: const Text('From Gallery'),
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                ),
+              ),
+            ),
+          ],
+        ),
+
+        const SizedBox(height: 16),
+
+        if (_isScanningImage)
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 32),
+            child: Column(
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(height: 12),
+                Text('Analyzing Japanese text with Gemini Vision...', style: TextStyle(fontSize: 13, color: Colors.white70)),
+              ],
+            ),
+          ),
+
+        if (_scannedImageBytes != null && !_isScanningImage) ...[
+          Container(
+            height: 160,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: AppTheme.surfaceLightDark),
+            ),
+            clipBehavior: Clip.antiAlias,
+            child: Image.memory(_scannedImageBytes!, fit: BoxFit.cover, width: double.infinity),
+          ),
+          const SizedBox(height: 16),
+        ],
+
+        if (_visualScanResult.isNotEmpty && !_isScanningImage) ...[
+          const Text(
+            'VISUAL TRANSLATION & ANALYSIS',
+            style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 1.2, color: Colors.white54),
+          ),
+          const SizedBox(height: 8),
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: AppTheme.surfaceDark,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: AppTheme.accentTeal.withOpacity(0.4)),
+            ),
+            child: SelectableText(
+              _visualScanResult,
+              style: const TextStyle(fontSize: 14, height: 1.5, color: Colors.white),
             ),
           ),
         ],

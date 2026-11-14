@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import '../../../core/backup/backup_service.dart';
 import '../../../core/database/database_helper.dart';
 import '../../../core/services/sound_motion_service.dart';
+import '../../../core/services/widget_data_service.dart';
+import '../../../core/context/personal_context_modal.dart';
+import '../../../core/timeline/unified_timeline_model.dart';
+import '../../../core/timeline/unified_timeline_service.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../chat/screens/chat_screen.dart';
 import '../../emergency/screens/emergency_screen.dart';
@@ -15,6 +19,7 @@ import '../../vault/screens/vault_screen.dart';
 import '../../maps/screens/map_screen.dart';
 import '../../medication/screens/medication_screen.dart';
 import '../../transit/screens/transit_screen.dart';
+import '../../timeline/screens/timeline_screen.dart';
 import '../widgets/tokyo_companion_card.dart';
 import '../widgets/japanese_motifs.dart';
 
@@ -29,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
   List<TaskModel> _tasks = [];
   List<ExpenseModel> _expenses = [];
+  List<LifeTimelineEvent> _proactiveAlerts = [];
   bool _isLoading = true;
 
   // Carousel Controller for Hero Banners
@@ -57,12 +63,20 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _loadDashboardData() async {
     final tasks = await DatabaseHelper.instance.getTasks();
     final expenses = await DatabaseHelper.instance.getExpenses();
+    List<LifeTimelineEvent> alerts = [];
+    try {
+      alerts = await UnifiedTimelineService.instance.getProactiveAlerts();
+    } catch (_) {}
+
     if (mounted) {
       setState(() {
         _tasks = tasks;
         _expenses = expenses;
+        _proactiveAlerts = alerts;
         _isLoading = false;
       });
+      // Synchronize latest snapshot to Android home screen widget
+      WidgetDataService.instance.updateWidgetSnapshot();
     }
   }
 
@@ -262,6 +276,17 @@ class _HomeScreenState extends State<HomeScreen> {
               SoundMotionService.instance.playTapSound();
               Navigator.push(
                 context,
+                MaterialPageRoute(builder: (_) => const TimelineScreen()),
+              );
+            },
+            icon: const Icon(Icons.timeline_outlined, color: AppTheme.inkBlack),
+            tooltip: 'Unified Life Timeline',
+          ),
+          IconButton(
+            onPressed: () {
+              SoundMotionService.instance.playTapSound();
+              Navigator.push(
+                context,
                 MaterialPageRoute(builder: (_) => const MedicationScreen()),
               );
             },
@@ -295,15 +320,21 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: const Icon(Icons.more_horiz, color: AppTheme.charcoal),
             onSelected: (value) {
               SoundMotionService.instance.playTapSound();
-              if (value == 'vault') {
+              if (value == 'context') {
+                PersonalContextModal.show(context);
+              } else if (value == 'timeline') {
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const TimelineScreen()));
+              } else if (value == 'vault') {
                 Navigator.push(context, MaterialPageRoute(builder: (_) => const VaultScreen()));
               } else if (value == 'backup') {
                 _exportBackup();
               }
             },
             itemBuilder: (_) => const [
-              PopupMenuItem(value: 'vault', child: Text('Document Vault')),
-              PopupMenuItem(value: 'backup', child: Text('Export Encrypted Backup')),
+              PopupMenuItem(value: 'context', child: Row(children: [Icon(Icons.tune, size: 16), SizedBox(width: 8), Text('Personal Life Context')])),
+              PopupMenuItem(value: 'timeline', child: Row(children: [Icon(Icons.timeline, size: 16), SizedBox(width: 8), Text('Unified Life Timeline')])),
+              PopupMenuItem(value: 'vault', child: Row(children: [Icon(Icons.lock_outline, size: 16), SizedBox(width: 8), Text('Document Vault')])),
+              PopupMenuItem(value: 'backup', child: Row(children: [Icon(Icons.backup_outlined, size: 16), SizedBox(width: 8), Text('Export Backup')])),
             ],
           ),
         ],
@@ -317,6 +348,12 @@ class _HomeScreenState extends State<HomeScreen> {
               child: ListView(
                 padding: const EdgeInsets.fromLTRB(16, 8, 16, 28),
                 children: [
+                  // Proactive Life OS Alerts (Grounded in Actual Data: Bills, Visas, Meds, Garbage)
+                  if (_proactiveAlerts.isNotEmpty) ...[
+                    _buildProactiveLifeAlertsSection(),
+                    const SizedBox(height: 14),
+                  ],
+
                   // Interactive Motion Carousel: Muchi Neko Cat <-> Welcome to Japan Torii Banner
                   SizedBox(
                     height: 360,
@@ -650,6 +687,104 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
+    );
+  }
+
+  Widget _buildProactiveLifeAlertsSection() {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: AppTheme.vermilionRed.withOpacity(0.4), width: 1.2),
+        boxShadow: [
+          BoxShadow(
+            color: AppTheme.vermilionRed.withOpacity(0.06),
+            blurRadius: 8,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: 8,
+                    height: 8,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppTheme.vermilionRed,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  const Text(
+                    'PROACTIVE LIFE ALERTS (生活アシスタント)',
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 0.8,
+                      color: AppTheme.vermilionRed,
+                    ),
+                  ),
+                ],
+              ),
+              InkWell(
+                onTap: () {
+                  SoundMotionService.instance.playTapSound();
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => const TimelineScreen()));
+                },
+                child: const Row(
+                  children: [
+                    Text('View Timeline', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: AppTheme.inkBlack)),
+                    Icon(Icons.chevron_right, size: 16, color: AppTheme.inkBlack),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          ..._proactiveAlerts.take(3).map((alert) {
+            return Container(
+              margin: const EdgeInsets.only(bottom: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+              decoration: BoxDecoration(
+                color: AppTheme.washiCream,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                children: [
+                  Text(alert.categoryIconEmoji, style: const TextStyle(fontSize: 16)),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          alert.title,
+                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppTheme.inkBlack),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Text(
+                          alert.subtitle,
+                          style: const TextStyle(fontSize: 10, color: AppTheme.charcoal),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
+        ],
+      ),
     );
   }
 

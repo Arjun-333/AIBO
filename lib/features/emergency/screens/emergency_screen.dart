@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../../core/context/personal_context_model.dart';
+import '../../../core/context/personal_context_service.dart';
 import '../../../core/database/database_helper.dart';
 import '../../../core/theme/app_theme.dart';
 import '../models/emergency_card.dart';
@@ -16,6 +18,7 @@ class EmergencyScreen extends StatefulWidget {
 class _EmergencyScreenState extends State<EmergencyScreen> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   EmergencyCard? _card;
+  PersonalContext? _personalContext;
   bool _isLoading = true;
 
   final List<Map<String, String>> _emergencyPhrases = [
@@ -72,10 +75,18 @@ class _EmergencyScreenState extends State<EmergencyScreen> with SingleTickerProv
 
   Future<void> _loadEmergencyCard() async {
     final card = await DatabaseHelper.instance.getEmergencyCard();
-    setState(() {
-      _card = card;
-      _isLoading = false;
-    });
+    PersonalContext? pContext;
+    try {
+      pContext = await PersonalContextService.instance.getContext();
+    } catch (_) {}
+
+    if (mounted) {
+      setState(() {
+        _card = card;
+        _personalContext = pContext;
+        _isLoading = false;
+      });
+    }
   }
 
   Future<void> _makeCall(String phoneNumber) async {
@@ -133,7 +144,64 @@ class _EmergencyScreenState extends State<EmergencyScreen> with SingleTickerProv
       padding: const EdgeInsets.all(16),
       children: [
         _buildEmergencyBanner(),
-        const SizedBox(height: 20),
+        const SizedBox(height: 16),
+
+        // Context-Aware Location Readout Card for 110/119 Operators
+        if (_personalContext != null) ...[
+          Container(
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: AppTheme.accentTeal.withOpacity(0.5), width: 1.2),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Row(
+                  children: [
+                    Icon(Icons.location_on, size: 16, color: AppTheme.accentTeal),
+                    SizedBox(width: 6),
+                    Text(
+                      'READ TO DISPATCHER (住所の伝え方)',
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 0.8,
+                        color: AppTheme.accentTeal,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  _personalContext!.homeAddressJa.isNotEmpty
+                      ? _personalContext!.homeAddressJa
+                      : '${_personalContext!.homeWard} (Near ${_personalContext!.nearestStation})',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade100,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    'Phrase: 「場所は ${_personalContext!.homeWard} です。英語を話せる人はいますか？」\n(Basho wa ${_personalContext!.homeWard} desu. Eigo o hanaseru hito wa imasu ka? / My location is ${_personalContext!.homeWard}. Does anyone speak English?)',
+                    style: const TextStyle(fontSize: 11, color: Colors.black87, height: 1.4),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+        ],
+
         _buildDialCard(
           number: '110',
           title: 'Police / 警察 (Keisatsu)',

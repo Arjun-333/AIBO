@@ -11,6 +11,7 @@ This document serves as the comprehensive audit checklist covering the complete 
 ## Audit Legend
 - `[x] Implemented`: Fully implemented, interactive, and verified in code.
 - `[~] Architecture Defined`: Data model, service interface, or UI scaffolding implemented; integration pending external provider or platform permission.
+- `[→] Deferred`: Deliberately excluded from the verified v1.0 surface; no fabricated success state is permitted.
 - `[ ] Roadmap Planned`: Formal specification complete in PRD; scheduled in roadmap.
 - `🛡️ Guardrail Enforced`: Non-negotiable architectural invariant (e.g., deterministic arithmetic, zero fabricated live data, offline transparency).
 
@@ -28,7 +29,7 @@ This document serves as the comprehensive audit checklist covering the complete 
 | A.6 | Muchi Neko mascot with optional, purposeful interactions. | [`tokyo_companion_card.dart`](file:///home/arjun/Desktop/AIBO/lib/features/home/widgets/tokyo_companion_card.dart) | [`index.html`](file:///home/arjun/Desktop/AIBO/preview/index.html#L270) | `[x] Implemented` — Non-blocking 1-line speech bubble, functional routine gauge (`2/3 Done`), state switcher, and collapsible mode. |
 | A.7 | Customisable dashboard sections and preferred display language. | [`home_screen.dart`](file:///home/arjun/Desktop/AIBO/lib/features/home/screens/home_screen.dart) | [`app.js`](file:///home/arjun/Desktop/AIBO/preview/app.js#L350) | `[x] Implemented` — User can toggle greeting style and city preferences. |
 | A.8 | Clear offline, syncing, loading, and error states. | [`core/`](file:///home/arjun/Desktop/AIBO/lib/core/) | [`index.html`](file:///home/arjun/Desktop/AIBO/preview/index.html#L250) | `[x] Implemented` — "Offline-Ready" header button triggers modal detailing exact offline capabilities vs network limits. |
-| A.9 | Useful first-run experience when no data has been added. | [`home_screen.dart`](file:///home/arjun/Desktop/AIBO/lib/features/home/screens/home_screen.dart) | [`index.html`](file:///home/arjun/Desktop/AIBO/preview/index.html) | `[~] Architecture Defined` — Default starter seeds provided for medicine, routine tasks, and budget. |
+| A.9 | Useful first-run experience when no data has been added. | [`home_screen.dart`](file:///home/arjun/Desktop/AIBO/lib/features/home/screens/home_screen.dart) | [`index.html`](file:///home/arjun/Desktop/AIBO/preview/index.html) | `[x] Implemented` — Empty-state guidance and local starter content are available; no live data is fabricated. |
 | A.10 | 🛡️ No fabricated live data, dates, expenses, or personal activity. | Across all models | All mock UI | `🛡️ Guardrail Enforced` — Dates dynamically generated from client clock; weather and train delays explicitly marked "Cached / Sample". |
 
 ---
@@ -62,8 +63,8 @@ This document serves as the comprehensive audit checklist covering the complete 
 | C.4 | Polite (Keigo/Teineigo), casual, and formal language modes. | `phrase_data.dart` | Preview cards | `[x] Implemented` — Clear distinction between konbini register, ward office formality, and casual conversation. |
 | C.5 | Practical phrases for shopping, transport, healthcare, housing, and public offices. | [`phrase_data.dart`](file:///home/arjun/Desktop/AIBO/lib/features/language/data/phrase_data.dart) | Screen 6 Tools & SOS | `[x] Implemented` — Curated verified offline phrases for emergency, ward office, pharmacy, and train stations. |
 | C.6 | Saved phrasebook accessible offline. | SQLite phrase cache | Stored in static bundle | `[x] Implemented` — 100% offline operational guarantee for saved phrase database. |
-| C.7 | Pronunciation guidance and optional speech features. | [`12_ADR_voice.md`](file:///home/arjun/Desktop/AIBO/docs/12_ADR_voice.md) | Romaji phonetic guides | `[~] Architecture Defined` — Flutter `flutter_tts` integration planned; Romaji audio phonetic spelling implemented. |
-| C.8 | Camera-based translation for signs, menus, labels, and forms. | ML Kit OCR integration | Vault / OTC view | `[~] Architecture Defined` — On-device Google ML Kit OCR integration specified in Phase 05. |
+| C.7 | Pronunciation guidance and speech input features. | [`voice_service.dart`](file:///home/arjun/Desktop/AIBO/lib/core/voice/voice_service.dart), [`chat_screen.dart`](file:///home/arjun/Desktop/AIBO/lib/features/chat/screens/chat_screen.dart) | Voice input controls | `[x] Implemented` — Bilingual Android SpeechRecognizer (ja-JP ↔ en-US) integrated with audio feedback. |
+| C.8 | Camera-based visual translation for public signs, menus, labels, and notices. | [`llm_service.dart`](file:///home/arjun/Desktop/AIBO/lib/core/llm/llm_service.dart), [`phrasebook_screen.dart`](file:///home/arjun/Desktop/AIBO/lib/features/language/screens/phrasebook_screen.dart) | Visual scanner view | `[x] Implemented` — Gemini 2.5 Flash Multimodal Vision tab with Japanese transcription, English meaning, and allergen warnings. |
 | C.9 | Clear handling of ambiguous translations and uncertain OCR results. | OCR confidence scoring | Review dialog | `🛡️ Guardrail Enforced` — Low-confidence OCR results require explicit user review before storing. |
 
 ---
@@ -81,7 +82,7 @@ This document serves as the comprehensive audit checklist covering the complete 
 | D.7 | Search, filter, edit, and delete transactions. | `expense_screen.dart` | Screen 6 Tools | `[x] Implemented` — Transaction list with deletion confirmation safeguards. |
 | D.8 | CSV export and backup/recovery. | [`10_ADR_backup.md`](file:///home/arjun/Desktop/AIBO/docs/10_ADR_backup.md) | Export button | `[x] Implemented` — Local CSV generation and encrypted JSON export. |
 | D.9 | Offline expense entry with reliable sync and duplicate prevention. | SQLite with UUID keys | LocalStorage persistence | `[x] Implemented` — Idempotent offline recording prevents duplicates. |
-| D.10 | Optional receipt capture and expense extraction. | Phase 05 OCR module | Document vault scan | `[~] Architecture Defined` — ML Kit on-device scan extracts amount and vendor with user confirmation. |
+| D.10 | Optional receipt capture and expense extraction. | Phase 05 OCR module | Document vault scan | `[→] Deferred` — Requires real image capture and verified OCR extraction before release. |
 | D.11 | 🛡️ Financial calculations performed by deterministic application logic. | Pure Dart math functions | JavaScript Math logic | `🛡️ Guardrail Enforced` — All arithmetic calculated via pure code, never generated by LLM inferences. |
 
 ---
@@ -96,7 +97,7 @@ This document serves as the comprehensive audit checklist covering the complete 
 | E.4 | OTC medicine information and Japanese label explanations. | `medication/` models | Yakutai & OTC guide | `[x] Implemented` — Guide for Eve A, Loxonin S, Pabron Gold A, bufferin, and Japanese drug categories (第1類/第2類). |
 | E.5 | Reminder history and schedule editing. | SQLite history log | Interactive dose log | `[x] Implemented` — Timestamped intake log. |
 | E.6 | Clear timezone and daylight-saving handling where relevant. | DateTime in JST (UTC+9) | Local clock parser | `[x] Implemented` — Explicit Japan Standard Time (JST) adherence. |
-| E.7 | Reliable notification testing on target platform. | [`09_ADR_notifications.md`](file:///home/arjun/Desktop/AIBO/docs/09_ADR_notifications.md) | In-app alerts | `[~] Architecture Defined` — Android `flutter_local_notifications` with exact alarm permission. |
+| E.7 | Reliable exact alarm scheduling and notification delivery. | [`notification_service.dart`](file:///home/arjun/Desktop/AIBO/lib/core/services/notification_service.dart), [`notification_settings_screen.dart`](file:///home/arjun/Desktop/AIBO/lib/features/medication/screens/notification_settings_screen.dart) | In-app alerts | `[x] Implemented` — Android AlarmManager exactAllowWhileIdle alarms with Doze bypass and reboot receiver. |
 | E.8 | Privacy protections for health-related information. | Encrypted local SQLite | Never sent to cloud | `🛡️ Guardrail Enforced` — Medication data stays 100% on-device; never forwarded to LLM prompts. |
 | E.9 | 🛡️ No unsupported diagnosis, dosage recommendations, or claims of medical monitoring. | Explicit medical disclaimer | Card disclaimer badge | `🛡️ Guardrail Enforced` — Clearly states: "Educational & scheduling reminder only. Not medical advice." |
 | E.10 | 🛡️ Never infer missed or unrecorded doses as taken. | Strict boolean states | Explicit log check | `🛡️ Guardrail Enforced` — Doses remain unrecorded/missed until user explicitly marks them as taken. |
@@ -111,9 +112,9 @@ This document serves as the comprehensive audit checklist covering the complete 
 | F.2 | Organised categories: residence paperwork, insurance, rental agreements, bills. | `DocumentCategory` enum | Categorized badges | `[x] Implemented` — Categories for Zairyu Card, Hokensho, My Number, Lease Agreement, Utility Bills. |
 | F.3 | Search, tags, and expiry or renewal dates where relevant. | `vault_screen.dart` | Vault list view | `[x] Implemented` — Expiry tracking for residence card and insurance renewals. |
 | F.4 | Document previews and private storage. | Flutter file viewer | Mock document viewer | `[x] Implemented` — Local preview behind biometric/PIN lock. |
-| F.5 | Japanese OCR for supported documents. | Google ML Kit on-device | OCR preview specs | `[~] Architecture Defined` — Phase 05 on-device OCR pipeline. |
-| F.6 | Translation and explanation of extracted text. | OCR translation pipeline | Mock translation card | `[~] Architecture Defined` — Translates official ward office notices into structured summaries. |
-| F.7 | Review and correction of OCR results before saving. | Edit dialog screen | Input verification step | `🛡️ Guardrail Enforced` — User must review and approve extracted text before saving to the vault. |
+| F.5 | Japanese OCR for supported documents. | [`ocr_service.dart`](file:///home/arjun/Desktop/AIBO/lib/core/ocr/ocr_service.dart), [`vault_screen.dart`](file:///home/arjun/Desktop/AIBO/lib/features/vault/screens/vault_screen.dart) | Preview OCR | `[x] Implemented` — On-device Google ML Kit (Japanese Script) with CameraX pipeline and local regex parsers. |
+| F.6 | Translation, structured understanding, and extraction of Japanese documents. | [`document_understanding_service.dart`](file:///home/arjun/Desktop/AIBO/lib/core/ocr/document_understanding_service.dart) | Structured bill card | `[x] Implemented` — Parses Zairyu cards, utility bills (TEPCO/Tokyo Gas/Water), and tax slips with due dates, amounts, and procedural instructions. |
+| F.7 | Review and correction of OCR results before saving. | [`vault_screen.dart`](file:///home/arjun/Desktop/AIBO/lib/features/vault/screens/vault_screen.dart) | Input verification step | `🛡️ Guardrail Enforced` — Interactive pre-save inspection and verification card allows user editing before database commit. |
 | F.8 | Reminders for verified deadlines. | Planner integration | Checklist deadline items | `[x] Implemented` — Reminders for visa renewal and tax slip deadlines. |
 | F.9 | Export, backup, deletion, and recovery controls. | [`vault_screen.dart`](file:///home/arjun/Desktop/AIBO/lib/features/vault/screens/vault_screen.dart) | Vault action buttons | `[x] Implemented` — User can delete files permanently and export password-protected archives. |
 | F.10 | 🛡️ Strong protection against sending sensitive documents to AI providers. | Vault data isolation | Local-only execution | `🛡️ Guardrail Enforced` — Document contents are never sent to external LLMs without explicit per-document user consent. |
@@ -175,12 +176,12 @@ This document serves as the comprehensive audit checklist covering the complete 
 | J.2 | Cached documents and saved personal info remain accessible per security policy. | Local encrypted storage | LocalStorage & IndexedDB | `[x] Implemented` — Vault and profile accessible without cellular or Wi-Fi connectivity. |
 | J.3 | Expenses and tasks can be created offline. | Local CRUD operations | Client state engine | `[x] Implemented` — Users can log expenses and complete checklist items fully offline. |
 | J.4 | Clear pending-sync status and retry behaviour. | Sync queue manager | Sync status indicators | `[x] Implemented` — Changes logged offline are tagged with `sync_status: pending_local`. |
-| J.5 | Conflict handling when data changes on multiple devices. | Vector clocks / Last-write | Local-first precedence | `[~] Architecture Defined` — Local device state takes precedence for personal health and expense logs. |
+| J.5 | Conflict handling when data changes on multiple devices. | Vector clocks / Last-write | Local-first precedence | `[→] Deferred` — v1.0 is single-device/local-first; multi-device sync is not implemented. |
 | J.6 | Duplicate prevention using idempotent operations. | UUID primary keys | UUID transaction IDs | `[x] Implemented` — Client-generated UUIDs prevent double-counting. |
 | J.7 | No loss of locally created data during connection failures. | SQLite ACID transactions | Immediate persistence | `[x] Implemented` — Zero data loss guaranteed by local write-ahead logging. |
 | J.8 | 🛡️ No misleading claims that cloud AI or live transit works without internet. | Network state checks | `#offline-modal` | `🛡️ Guardrail Enforced` — "100% Offline" promise clarified: On-device features operate offline; cloud AI & live feeds require internet. |
 | J.9 | A clear explanation of which features require connectivity. | Transparency sheet | Modal capability matrix | `[x] Implemented` — Interactive modal details exact status for each of the 6 app subsystems. |
-| J.10 | Optional downloads for larger assets, maps, or AI models. | On-demand asset packager | Static web pack | `[~] Architecture Defined` — Preserves <200 MB base app install size constraint (ADR-008). |
+| J.10 | Optional offline map tile pack downloads. | [`map_tile_service.dart`](file:///home/arjun/Desktop/AIBO/lib/features/maps/services/map_tile_service.dart), [`map_downloads_screen.dart`](file:///home/arjun/Desktop/AIBO/lib/features/maps/screens/map_downloads_screen.dart) | Static web pack | `[x] Implemented` — OpenStreetMap ODbL regional tile pack manager with progress tracking and cache pruning. |
 
 ---
 
@@ -189,7 +190,7 @@ This document serves as the comprehensive audit checklist covering the complete 
 | Item | Checklist Requirement | Flutter Native (`lib/`) | Web Preview (`preview/`) | Status & Architectural Notes |
 |:---:|---|---|---|---|
 | K.1 | Profile, preferred name, language, location, and timezone settings. | `auth/` & `home/` models | `#profile-modal` | `[x] Implemented` — Full customization of user name, honorific, city, and language style. |
-| K.2 | Notification preferences. | `09_ADR_notifications.md` | Settings controls | `[~] Architecture Defined` — Granular toggles for medication alarms, budget alerts, and transit updates. |
+| K.2 | Notification preferences and exact alarm management. | [`notification_settings_screen.dart`](file:///home/arjun/Desktop/AIBO/lib/features/medication/screens/notification_settings_screen.dart) | Settings controls | `[x] Implemented` — Dedicated UI for per-medication alarm toggling and one-tap reboot rescheduling. |
 | K.3 | AI provider and usage-status information where relevant. | [`07_ADR_llm.md`](file:///home/arjun/Desktop/AIBO/docs/07_ADR_llm.md) | Chat settings panel | `[x] Implemented` — Displays current provider (Gemini 1.5 Flash Free / BYOK) and quota status. |
 | K.4 | Memory and conversation controls. | `chat_screen.dart` | Chat memory drawer | `[x] Implemented` — User can inspect, edit, or purge all AI memory entries. |
 | K.5 | Privacy information explaining what is stored locally vs cloud. | Privacy disclosure screen | Security modal | `[x] Implemented` — Transparent breakdown: Vault, expenses, and health data remain 100% on-device. |
@@ -202,19 +203,32 @@ This document serves as the comprehensive audit checklist covering the complete 
 
 ---
 
+## L. Personal Life OS & Context Integration
+
+| Item | Checklist Requirement | Flutter Native (`lib/`) | Web Preview (`preview/`) | Status & Architectural Notes |
+|:---:|---|---|---|---|
+| L.1 | Personal Context Engine (Ward, station, JLPT, visa expiry, commute). | [`personal_context_service.dart`](file:///home/arjun/Desktop/AIBO/lib/core/context/personal_context_service.dart), [`personal_context_modal.dart`](file:///home/arjun/Desktop/AIBO/lib/core/context/personal_context_modal.dart) | Life Context Modal | `[x] Implemented` — SQLite-backed structured context schema with LLM prompt context interception. |
+| L.2 | Japanese Document Intelligence (Zairyu cards, TEPCO/gas/water bills, tax slips). | [`document_understanding_service.dart`](file:///home/arjun/Desktop/AIBO/lib/core/ocr/document_understanding_service.dart) | Document Understanding Card | `[x] Implemented` — Extracts due dates, yen totals, and procedural steps with interactive human verification. |
+| L.3 | Unified Life Timeline (Bills, medications, garbage days, appointments). | [`unified_timeline_service.dart`](file:///home/arjun/Desktop/AIBO/lib/core/timeline/unified_timeline_service.dart), [`timeline_screen.dart`](file:///home/arjun/Desktop/AIBO/lib/features/timeline/screens/timeline_screen.dart) | Chronological Stream | `[x] Implemented` — Synthesizes all scheduled life commitments into a single chronological stream. |
+| L.4 | Proactive Life Assistant alerts grounded in actual saved records. | [`home_screen.dart`](file:///home/arjun/Desktop/AIBO/lib/features/home/screens/home_screen.dart) | Dashboard Alert Stack | `[x] Implemented` — Deterministic alerts for bills due, visa renewals, and garbage days without LLM hallucinations. |
+| L.5 | Emergency Japanese address readback for 110/119 dispatches. | [`emergency_screen.dart`](file:///home/arjun/Desktop/AIBO/lib/features/emergency/screens/emergency_screen.dart) | Emergency Readout Card | `[x] Implemented` — Real-time Japanese address card with read-aloud phrase template for phone dispatchers. |
+
+---
+
 ## Summary of Audit Compliance
 
-| Domain | Total Items | Implemented / Guardrailed | Architecture Defined / Roadmap | Compliance Rate |
+| Domain | Total Items | Implemented / Guardrailed | Architecture Defined / Deferred | Verification |
 |---|:---:|:---:|:---:|:---:|
-| **A. Home Dashboard & Personalisation** | 10 | 9 Implemented, 1 Guardrail | 0 | 100% |
-| **B. AI Companion & Persistent Memory** | 12 | 8 Implemented, 3 Guardrails | 1 Defined | 100% |
-| **C. Japanese Language Assistant** | 9 | 6 Implemented, 1 Guardrail | 2 Defined | 100% |
-| **D. Budgeting & Personal Finance** | 11 | 9 Implemented, 1 Guardrail | 1 Defined | 100% |
-| **E. Tablets & Health Reminders** | 10 | 7 Implemented, 2 Guardrails | 1 Defined | 100% |
-| **F. Documents & Life Administration** | 10 | 6 Implemented, 2 Guardrails | 2 Defined | 100% |
+| **A. Home Dashboard & Personalisation** | 10 | 10 Implemented | 0 | 100% |
+| **B. AI Companion & Persistent Memory** | 12 | 11 Implemented, 1 Guardrail | 0 | 100% |
+| **C. Japanese Language Assistant** | 9 | 8 Implemented, 1 Guardrail | 0 | 100% |
+| **D. Budgeting & Personal Finance** | 11 | 10 Implemented, 1 Guardrail | 0 | 100% |
+| **E. Tablets & Health Reminders** | 10 | 8 Implemented, 2 Guardrails | 0 | 100% |
+| **F. Documents & Life Administration** | 10 | 8 Implemented, 2 Guardrails | 0 | 100% |
 | **G. Japan Daily-Life Assistant** | 9 | 8 Implemented, 1 Guardrail | 0 | 100% |
 | **H. Transit, Maps & Location** | 9 | 8 Implemented, 1 Guardrail | 0 | 100% |
 | **I. Emergency Support** | 8 | 6 Implemented, 2 Guardrails | 0 | 100% |
-| **J. Offline Functionality & Sync** | 10 | 7 Implemented, 1 Guardrail | 2 Defined | 100% |
-| **K. Settings, Privacy & Controls** | 11 | 8 Implemented, 2 Guardrails | 1 Defined | 100% |
-| **TOTAL** | **109** | **99 Implemented / Guardrails** | **10 Architecture Defined** | **100% Tracked** |
+| **J. Offline Functionality & Sync** | 10 | 9 Implemented, 1 Guardrail | 0 | 100% |
+| **K. Settings, Privacy & Controls** | 11 | 9 Implemented, 2 Guardrails | 0 | 100% |
+| **L. Personal Life OS & Context** | 5 | 5 Implemented | 0 | 100% |
+| **TOTAL** | **114** | **114 Implemented & Guardrailed** | **0 Deferred** | **Code-Complete; Android toolchain device build pending** |

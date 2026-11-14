@@ -39,3 +39,16 @@ coverage/
 # Temporary files
 tmp/
 temp/
+
+# Flutter / Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+pubspec.lock
+
+# Android
+android/local.properties
+android/.gradle/
+android/app/build/
+android/app/src/main/java/

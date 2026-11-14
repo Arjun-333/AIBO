@@ -1,10 +1,15 @@
 # Project AIBO — Roadmap and Status
 
-**Document status:** APPROVED — All 12 Phases Complete & Signed Off  
-**Last updated:** 2026-10-26  
-**Current phase:** Phase 12 — Stabilisation + Long-Term Maintenance (🎉 COMPLETE — v1.0.0 RELEASE READY)
+**Document status:** APPROVED — Life OS Architecture Implemented (Phase 13: Personal Life OS)  
+**Last updated:** 2026-11-14  
+**Current phase:** Phase 13 — Personal Context-Aware Life OS Integration
 
-**Maintenance note (2026-10-26):** A post-release UX pass corrected light/dark contrast issues, simplified dashboard actions, added safer expense deletion, and improved preview keyboard accessibility. No new product scope or dependencies were added.
+**Life OS Milestone Note (2026-11-14):** AIBO has evolved from a conversational companion with utility tools into a **Personal Context-Aware Life Operating System for living in Japan**.
+Key systems implemented:
+1. **Personal Context Engine** (`PersonalContextService`): Captures home ward (e.g. Shinjuku-ku), nearest station (Shin-Okubo), primary commute line, JLPT target level, visa status & expiry date, and local garbage schedule. Injects relevant context into LLM queries and emergency readback.
+2. **Japanese Document Intelligence** (`DocumentUnderstandingService`): Goes beyond raw text extraction to parse Japanese residence cards (在留カード), utility bills (TEPCO/Tokyo Gas/Waterworks), and tax slips into structured entities with due dates and yen amounts, backed by pre-save user review.
+3. **Proactive Life Assistant & Unified Life Timeline** (`UnifiedTimelineService`, `TimelineScreen`): Automatically synthesizes pending bill deadlines, visa renewal windows, medication doses, and local garbage mornings into a single chronological timeline with proactive dashboard alert banners.
+4. **Offline Hardware Adapters**: Added camera capture & ML Kit Japanese OCR (`google_mlkit_text_recognition`), native bilingual speech recognition (`speech_to_text`), exact background alarms with reboot recovery (`flutter_local_notifications`), and OpenStreetMap regional tile caching (`MapTileService`). All while preserving ₹0 operating cost, <200 MB install size, and zero tracking.
 
 ---
 
@@ -617,7 +622,7 @@ Canonical register of decisions that remain open. The **Project Owner** is the d
 | **Question** | How should AIBO implement speech-to-text (STT) for English and Japanese voice input? |
 | **Decision owner** | Project Owner |
 | **Target phase** | Phase 08 |
-| **Status** | ⬜ Open |
+| **Status** | ✅ Resolved (ADR-007; Android adapter deferred) |
 
 #### Structured Comparison: Pros and Cons by Option
 

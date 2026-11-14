@@ -1,7 +1,11 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../core/database/database_helper.dart';
+import '../../../core/ocr/document_understanding_service.dart';
 import '../../../core/ocr/ocr_service.dart';
+import '../../../core/ocr/structured_document_model.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/vault/vault_service.dart';
 import '../models/document_record.dart';
@@ -51,6 +55,9 @@ class _VaultScreenState extends State<VaultScreen> {
     final notesCtrl = TextEditingController();
     String docType = 'residence_card';
     bool isOcrProcessing = false;
+    Uint8List? selectedImageBytes;
+    String? selectedFileName;
+    StructuredDocument? parsedDoc;
 
     await showDialog(
       context: context,
@@ -82,6 +89,45 @@ class _VaultScreenState extends State<VaultScreen> {
                     },
                   ),
                   const SizedBox(height: 12),
+                  OutlinedButton.icon(
+                    onPressed: () async {
+                      final picked = await FilePicker.platform.pickFiles(
+                        type: FileType.image,
+                        withData: true,
+                      );
+                      final bytes = picked?.files.single.bytes;
+                      if (bytes != null && bytes.isNotEmpty) {
+                        setDialogState(() {
+                          selectedImageBytes = bytes;
+                          selectedFileName = picked!.files.single.name;
+                        });
+                      }
+                    },
+                    icon: const Icon(Icons.file_upload_outlined, size: 18),
+                    label: Text(selectedFileName == null ? 'Choose Document Image' : 'Selected: $selectedFileName'),
+                  ),
+                  const SizedBox(height: 6),
+                  // 📷 Camera capture option (uses Android CameraX via image_picker)
+                  OutlinedButton.icon(
+                    onPressed: () async {
+                      final picker = ImagePicker();
+                      final photo = await picker.pickImage(
+                        source: ImageSource.camera,
+                        imageQuality: 90,
+                        preferredCameraDevice: CameraDevice.rear,
+                      );
+                      if (photo != null) {
+                        final bytes = await photo.readAsBytes();
+                        setDialogState(() {
+                          selectedImageBytes = bytes;
+                          selectedFileName = 'camera_${DateTime.now().millisecondsSinceEpoch}.jpg';
+                        });
+                      }
+                    },
+                    icon: const Icon(Icons.camera_alt_outlined, size: 18),
+                    label: const Text('Take Photo with Camera'),
+                  ),
+                  const SizedBox(height: 8),
                   TextField(
                     controller: notesCtrl,
                     maxLines: 3,
@@ -93,20 +139,50 @@ class _VaultScreenState extends State<VaultScreen> {
                         ? null
                         : () async {
                             setDialogState(() => isOcrProcessing = true);
-                            // Simulate scanning document bytes locally
-                            final fakeBytes = Uint8List(100);
-                            final result = await OcrService.instance.processImageBytes(fakeBytes);
+                            if (selectedImageBytes == null) {
+                              setDialogState(() => isOcrProcessing = false);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Choose a document image before running OCR.')),
+                              );
+                              return;
+                            }
+                            final understood = await DocumentUnderstandingService.instance.analyzeDocumentImage(
+                              imageBytes: selectedImageBytes!,
+                              fallbackTitle: titleCtrl.text.isNotEmpty ? titleCtrl.text.trim() : null,
+                            );
+
                             setDialogState(() {
                               isOcrProcessing = false;
-                              final buffer = StringBuffer(notesCtrl.text);
-                              if (result.detectedDates.isNotEmpty) {
-                                buffer.writeln('📅 Due/Expiry: ${result.detectedDates.join(", ")}');
+                              parsedDoc = understood;
+
+                              // Pre-fill fields intelligently from Document Intelligence
+                              if (titleCtrl.text.trim().isEmpty) {
+                                titleCtrl.text = understood.title;
                               }
-                              if (result.detectedAmounts.isNotEmpty) {
-                                buffer.writeln('💰 Amount: ${result.detectedAmounts.join(", ")}');
+
+                              if (understood.docType == JapaneseDocumentType.residenceCard) {
+                                docType = 'residence_card';
+                              } else if (understood.docType == JapaneseDocumentType.healthInsurance) {
+                                docType = 'insurance';
+                              } else if (understood.docType == JapaneseDocumentType.utilityElectricity ||
+                                  understood.docType == JapaneseDocumentType.utilityGas ||
+                                  understood.docType == JapaneseDocumentType.utilityWater ||
+                                  understood.docType == JapaneseDocumentType.taxSlip ||
+                                  understood.docType == JapaneseDocumentType.nationalPension) {
+                                docType = 'bills';
                               }
-                              if (result.detectedKeywords.isNotEmpty) {
-                                buffer.writeln('🏷️ Keywords: ${result.detectedKeywords.join(", ")}');
+
+                              final buffer = StringBuffer();
+                              buffer.writeln('📋 Type: ${understood.typeLabel}');
+                              buffer.writeln('🏢 Issuer: ${understood.issuerOrProvider}');
+                              if (understood.amountJpy != null) {
+                                buffer.writeln('💰 Amount: ¥${understood.amountJpy!.toInt()}');
+                              }
+                              if (understood.dueOrExpiryDate != null) {
+                                buffer.writeln('📅 Deadline/Expiry: ${understood.dueOrExpiryDate!.year}-${understood.dueOrExpiryDate!.month.toString().padLeft(2, "0")}-${understood.dueOrExpiryDate!.day.toString().padLeft(2, "0")}');
+                              }
+                              if (understood.keyInstructionsEn.isNotEmpty) {
+                                buffer.writeln('ℹ️ Note: ${understood.keyInstructionsEn}');
                               }
                               notesCtrl.text = buffer.toString().trim();
                             });
@@ -114,8 +190,38 @@ class _VaultScreenState extends State<VaultScreen> {
                     icon: isOcrProcessing
                         ? const SizedBox(width: 14, height: 14, child: CircularProgressIndicator(strokeWidth: 2))
                         : const Icon(Icons.document_scanner, size: 18),
-                    label: Text(isOcrProcessing ? 'Reading Japanese Text...' : 'Scan / Extract Text (On-Device OCR)'),
+                    label: Text(isOcrProcessing ? 'Analyzing Japanese Document...' : 'Run Japanese Document Intelligence (OCR)'),
                   ),
+                  if (parsedDoc != null) ...[
+                    const SizedBox(height: 12),
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: AppTheme.primary.withOpacity(0.12),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: AppTheme.primary.withOpacity(0.3)),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Row(
+                            children: [
+                              Icon(Icons.verified_outlined, size: 16, color: AppTheme.primary),
+                              SizedBox(width: 6),
+                              Text('STRUCTURED INTELLIGENCE RECOGNIZED', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppTheme.primary)),
+                            ],
+                          ),
+                          const SizedBox(height: 4),
+                          Text('• ${parsedDoc!.typeLabel}', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white)),
+                          if (parsedDoc!.amountJpy != null)
+                            Text('• Amount: ¥${parsedDoc!.amountJpy!.toInt()}', style: const TextStyle(fontSize: 11, color: Colors.white70)),
+                          if (parsedDoc!.dueOrExpiryDate != null)
+                            Text('• Due: ${parsedDoc!.dueOrExpiryDate!.toString().substring(0, 10)}', style: const TextStyle(fontSize: 11, color: Colors.white70)),
+                          const Text('✓ Will automatically track on your Unified Life Timeline', style: TextStyle(fontSize: 10, color: AppTheme.accentTeal)),
+                        ],
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),
@@ -124,11 +230,15 @@ class _VaultScreenState extends State<VaultScreen> {
               ElevatedButton(
                 onPressed: () async {
                   if (titleCtrl.text.trim().isNotEmpty) {
-                    // Encrypt file bytes locally
-                    final fakeImage = Uint8List.fromList(List.generate(256, (i) => i % 256));
+                    if (selectedImageBytes == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Choose a document image before saving.')),
+                      );
+                      return;
+                    }
                     final encFileName = await VaultService.instance.saveEncryptedDocument(
-                      imageBytes: fakeImage,
-                      originalFileName: '${titleCtrl.text.trim()}.jpg',
+                      imageBytes: selectedImageBytes!,
+                      originalFileName: selectedFileName ?? '${titleCtrl.text.trim()}.jpg',
                     );
 
                     final doc = DocumentRecord(
@@ -138,7 +248,16 @@ class _VaultScreenState extends State<VaultScreen> {
                       notes: notesCtrl.text.trim(),
                     );
 
-                    await DatabaseHelper.instance.insertDocument(doc);
+                    final docId = await DatabaseHelper.instance.insertDocument(doc);
+                    if (parsedDoc != null) {
+                      await DatabaseHelper.instance.insertStructuredDocument(
+                        parsedDoc!.copyWith(
+                          vaultDocId: docId,
+                          isVerifiedByUser: true,
+                          title: titleCtrl.text.trim(),
+                        ),
+                      );
+                    }
                     Navigator.pop(ctx);
                     _loadDocuments();
                   }

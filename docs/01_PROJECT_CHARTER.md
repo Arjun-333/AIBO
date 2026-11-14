@@ -93,9 +93,9 @@ The following are **not** part of the first release. Some may appear in later ph
 
 | Feature | Reason / Status |
 |---|---|
-| Offline map display and routing | Requires map-data licensing decision (unresolved) |
-| Japanese OCR (text from images) | Implementation approach TBD (Phase 05) |
-| Voice input / speech-to-text | Implementation approach TBD (Phase 08) |
+| Offline map display and routing | Implemented as local landmark/bearing navigation; full regional tile downloads remain deferred. |
+| Japanese OCR (text from images) | ML Kit approach selected, but physical camera/ML Kit integration remains deferred pending Android verification. |
+| Voice input / speech-to-text | Native Android SpeechRecognizer selected; platform-channel integration remains deferred pending Android verification. |
 | On-device AI models | Optional future upgrade; not MVP |
 | Multi-user support | AIBO is a single-user personal tool |
 | Commercial deployment / app store publication | Not planned |
@@ -122,8 +122,8 @@ The canonical register with candidate options, evaluation criteria, and full det
 | U-2 | Cloud LLM provider (Gemini + BYOK Nemotron/OpenAI) | Cost constraint, AI feature | Phase 02 | ✅ Resolved (ADR-002) |
 | U-3 | Hosting platform & database (Local Encrypted SQLite + GitHub Releases) | Cost constraint, data security | Phase 02 | ✅ Resolved (ADR-003) |
 | U-4 | Japanese OCR approach (Google ML Kit On-Device) | Accuracy, cost, offline viability | Phase 05 | ✅ Resolved (Option B) |
-| U-5 | Voice input / STT implementation | Cost, accuracy, language support | Phase 08 | ⬜ Open |
-| U-6 | Map-data licensing and offline download strategy | Licensing, storage, routing | Phase 07 | ⬜ Open |
+| U-5 | Voice input / STT implementation | Cost, accuracy, language support | Phase 08 | ✅ Resolved (ADR-007; device integration deferred) |
+| U-6 | Map-data licensing and offline download strategy | Licensing, storage, routing | Phase 07 | ✅ Resolved (ADR-006; regional tile downloads deferred) |
 | U-7 | Notification reliability (In-App Today Summary + Local Exact Alarms) | Platform decision (U-1) | Phase 02 | ✅ Resolved (ADR-004) |
 | U-8 | Backup and recovery strategy (Manual Encrypted Export/Import) | Platform, data security | Phase 02 | ✅ Resolved (ADR-005) |
 | U-9 | Emergency info card access (Quick-Access Mode) | Privacy vs. safety trade-off | Phase 03 | ✅ Resolved (Option B) |

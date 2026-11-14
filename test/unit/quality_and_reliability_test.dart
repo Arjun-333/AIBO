@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:aibo/features/expenses/models/expense_model.dart';
 import 'package:aibo/features/medication/models/medication_reminder.dart';
-import 'package:aibo/features/planner/models/task_model.dart';
 import 'package:aibo/features/vault/models/document_record.dart';
 import 'package:aibo/features/chat/models/chat_message.dart';
 
@@ -96,12 +95,14 @@ void main() {
       final chatStorage = <int, ChatMessage>{
         1: ChatMessage(
           id: 1,
+          sessionId: 'default',
           role: 'user',
           content: 'How do I pay Tokyo Gas bill?',
           timestamp: DateTime.now(),
         ),
         2: ChatMessage(
           id: 2,
+          sessionId: 'default',
           role: 'assistant',
           content: 'Take the barcode to any 7-Eleven or Lawson...',
           timestamp: DateTime.now(),
@@ -126,8 +127,8 @@ void main() {
         10: DocumentRecord(
           id: 10,
           title: 'Residence Card',
-          category: 'immigration',
-          filePath: '/data/user/0/com.aibo/vault/zairyu_card_enc.bin',
+          docType: 'residence_card',
+          encryptedFilePath: '/data/user/0/com.aibo/vault/zairyu_card_enc.bin',
           createdAt: DateTime.now(),
         ),
       };
@@ -151,40 +152,48 @@ void main() {
     test('Scheduled dose state transitions: scheduled -> taken (済)', () {
       final dose = MedicationReminder(
         id: 1,
-        medicineName: 'Magnesium & Zinc',
+        nameEn: 'Magnesium & Zinc',
         dosage: '250mg',
         scheduledTime: '20:30',
         instructions: 'Take with food / 食後',
-        isTaken: false,
       );
 
-      expect(dose.isTaken, isFalse);
+      expect(dose.isTakenToday, isFalse);
 
-      final updatedDose = dose.copyWith(isTaken: true);
-      expect(updatedDose.isTaken, isTrue);
-      expect(updatedDose.medicineName, 'Magnesium & Zinc');
+      final updatedDose = MedicationReminder(
+        id: dose.id,
+        nameEn: dose.nameEn,
+        dosage: dose.dosage,
+        timing: dose.timing,
+        scheduledTime: dose.scheduledTime,
+        instructions: dose.instructions,
+        category: dose.category,
+        lastTakenAt: DateTime.now(),
+        createdAt: dose.createdAt,
+      );
+      expect(updatedDose.isTakenToday, isTrue);
+      expect(updatedDose.nameEn, 'Magnesium & Zinc');
     });
 
     test('Safety rule: taking a dose does not infer unrecorded doses were taken', () {
       final doseMorning = MedicationReminder(
         id: 1,
-        medicineName: 'Vitamin B Complex',
+        nameEn: 'Vitamin B Complex',
         dosage: '1 tablet',
         scheduledTime: '08:00',
-        isTaken: false,
       );
 
       final doseEvening = MedicationReminder(
         id: 2,
-        medicineName: 'Magnesium & Zinc',
+        nameEn: 'Magnesium & Zinc',
         dosage: '250mg',
         scheduledTime: '20:30',
-        isTaken: true, // Marked taken by user
+        lastTakenAt: DateTime.now(), // Marked taken by user
       );
 
       // Morning dose must strictly remain unrecorded/false
-      expect(doseEvening.isTaken, isTrue);
-      expect(doseMorning.isTaken, isFalse, reason: 'App must never automatically infer missed doses as taken');
+      expect(doseEvening.isTakenToday, isTrue);
+      expect(doseMorning.isTakenToday, isFalse, reason: 'App must never automatically infer missed doses as taken');
     });
   });
 

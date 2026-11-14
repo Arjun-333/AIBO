@@ -1,7 +1,7 @@
 # Project AIBO — Quality, Reliability, and Release Audit
 
 **Document Version:** 1.0.0  
-**Status:** VERIFIED & RELEASE READY  
+**Status:** Release claims reconciled; local verification pending Flutter/Android toolchain
 **Associated Documents:** `01_PROJECT_CHARTER.md`, `02_PRD.md`, `03_AGENT_RULES.md`, `04_TESTING_AND_QA.md`, `05_ROADMAP_AND_STATUS.md`, `15_FEATURE_AUDIT_CHECKLIST.md`, `16_DESIGN_SYSTEM.md`
 
 This document details the quality assurance audit, automated test coverage, reliability invariants, security boundaries, and the formal release checklist for Project AIBO.
@@ -100,6 +100,9 @@ All 5 bottom navigation tabs and 8 Suite Services Hub tools have been tested and
 ---
 
 ## 3. Official Release Checklist & Test Results
+
+The `PASS` entries below are historical CI/audit claims from the previous release pass. They
+must be rerun in the current repository state before a new release tag is treated as verified.
 
 | Requirement Item | Verification Method | Status | Notes |
 |---|---|:---:|---|

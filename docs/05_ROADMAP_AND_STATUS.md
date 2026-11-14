@@ -266,6 +266,7 @@ Key systems implemented:
 - Interactive Tokyo Companion Mascot ([`lib/features/home/widgets/tokyo_companion_card.dart`](file:///home/arjun/Desktop/AIBO/lib/features/home/widgets/tokyo_companion_card.dart)).
 - "Welcome to Japan" Torii & Mt. Fuji banner with daily Omikuji shrine draw ([`lib/features/home/widgets/japanese_motifs.dart`](file:///home/arjun/Desktop/AIBO/lib/features/home/widgets/japanese_motifs.dart)).
 - Tactile sound and haptic notifications ([`lib/core/services/sound_motion_service.dart`](file:///home/arjun/Desktop/AIBO/lib/core/services/sound_motion_service.dart)).
+- Animated Japanese Torii Gate splash screen with Inkan Hanko seal stamp and creator attribution ("Made by Arjun") ([`lib/features/splash/screens/splash_screen.dart`](file:///home/arjun/Desktop/AIBO/lib/features/splash/screens/splash_screen.dart)).
 - Accessibility audit & contrast verification ([`test/unit/accessibility_and_performance_test.dart`](file:///home/arjun/Desktop/AIBO/test/unit/accessibility_and_performance_test.dart)).
 
 **Exit Criteria:**

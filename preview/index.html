@@ -233,19 +233,29 @@
                     <strong class="finance-spent-num" id="home-spent-display">¥0</strong>
                     <span class="finance-total-cap">spent today of ¥8,000 daily budget</span>
                   </div>
-                  <!-- Clean Visual Budget Bar -->
+                  <!-- Visual Budget Progress Bar -->
                   <div class="finance-bar-track">
                     <div class="finance-bar-fill" id="home-budget-bar" style="width: 0%;"></div>
                   </div>
-                  <div class="finance-footer-row">
-                    <div class="finance-category-pills" id="home-categories-wrapper">
-                      <span class="f-pill empty">No spending recorded today</span>
+
+                  <!-- Category Breakdown Row (Isolated with ample room) -->
+                  <div class="finance-category-row" id="home-categories-wrapper">
+                    <span class="f-pill empty">No spending recorded today</span>
+                  </div>
+
+                  <!-- Action Controls Row (Spacious & uncluttered) -->
+                  <div class="finance-actions-row">
+                    <div class="finance-actions-left">
+                      <button class="f-action-btn primary" onclick="openExpenseModal()">
+                        <span>+ Add Expense</span>
+                      </button>
+                      <button class="f-action-btn secondary" onclick="openBudgetModal()">
+                        <span>⚙️ Budget & Bills</span>
+                      </button>
                     </div>
-                    <div class="finance-button-group">
-                      <button class="f-action-btn" onclick="openExpenseModal()">+ Add Expense</button>
-                      <button class="f-action-btn secondary" onclick="openBudgetModal()">⚙️ Budget & Bills</button>
-                      <button class="f-action-link" onclick="switchTab('screen-tools')">Full Budget ➔</button>
-                    </div>
+                    <button class="f-action-link" onclick="switchTab('screen-tools')" title="Open detailed budget breakdown">
+                      <span>Full Budget ➔</span>
+                    </button>
                   </div>
                 </div>
               </div>

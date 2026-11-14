@@ -850,50 +850,91 @@ body.stationery-theme {
   border-radius: 4px;
 }
 
-.finance-footer-row {
+.finance-category-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  margin-bottom: 10px;
+  min-height: 22px;
+}
+
+.finance-actions-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 6px;
-  gap: 6px;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--washi-border);
 }
 
-.finance-button-group {
+.finance-actions-left {
   display: flex;
   align-items: center;
-  gap: 6px;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .f-action-btn {
-  background: var(--shu-vermilion-soft);
-  color: var(--shu-vermilion);
-  border: 1px solid rgba(229, 57, 36, 0.25);
-  padding: 3px 8px;
-  border-radius: 4px;
-  font-size: 10.5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 11.5px;
   font-weight: 700;
   cursor: pointer;
   white-space: nowrap;
+  transition: all 0.15s ease;
+  line-height: 1.2;
 }
 
-.f-action-btn:hover {
+.f-action-btn.primary {
+  background: var(--shu-vermilion-soft);
+  color: var(--shu-vermilion);
+  border: 1px solid rgba(229, 57, 36, 0.3);
+}
+
+.f-action-btn.primary:hover {
   background: var(--shu-vermilion);
   color: #FFFFFF;
+  border-color: var(--shu-vermilion);
+  transform: translateY(-1px);
+}
+
+.f-action-btn.secondary {
+  background: #FAF7EE;
+  color: var(--sumi-ink);
+  border: 1px solid var(--washi-border);
+}
+
+.f-action-btn.secondary:hover {
+  background: #F3EFE6;
+  border-color: var(--craft-border-strong);
+  color: var(--sumi-ink);
+  transform: translateY(-1px);
 }
 
 .f-action-link {
   background: transparent;
   border: none;
   color: var(--sumi-muted);
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
+  padding: 4px 6px;
+  border-radius: 4px;
+  transition: all 0.15s ease;
 }
 
 .f-action-link:hover {
   color: var(--sumi-ink);
-  text-decoration: underline;
+  background: rgba(0, 0, 0, 0.04);
+  text-decoration: none;
 }
 
 /* ==========================================================================

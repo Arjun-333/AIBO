@@ -468,6 +468,213 @@ body.stationery-theme {
   overflow: hidden;
 }
 
+/* ==========================================================================
+   Animated Japanese Splash Screen (Torii Gate, Hanko & Arjun Creator Attribution)
+   ========================================================================== */
+.app-splash-screen {
+  position: absolute;
+  inset: 0;
+  z-index: 9999;
+  background: radial-gradient(circle at 50% 38%, #FFFFFF 0%, #FAF7EE 68%, #F4ECE0 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.55s;
+}
+
+.app-splash-screen.dismissed {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transform: scale(1.05);
+}
+
+.splash-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 18px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.splash-logo-container {
+  position: relative;
+  margin-bottom: 4px;
+  animation: splashLogoEntrance 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.splash-torii-frame {
+  width: 92px;
+  height: 92px;
+  border-radius: 26px;
+  background: #FFFFFF;
+  border: 1.5px solid var(--washi-border);
+  box-shadow: 0 12px 32px rgba(229, 57, 36, 0.12), 0 3px 10px rgba(0, 0, 0, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s ease;
+}
+
+.splash-torii-frame:hover {
+  transform: translateY(-2px);
+}
+
+.splash-torii-svg {
+  width: 54px;
+  height: 54px;
+  stroke: var(--shu-vermilion);
+}
+
+.torii-kasagi,
+.torii-nuki,
+.torii-pillar-l,
+.torii-pillar-r,
+.torii-strut-l,
+.torii-strut-r {
+  stroke-dasharray: 45;
+  stroke-dashoffset: 45;
+  animation: toriiStrokeDraw 0.8s 0.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.splash-hanko-seal {
+  position: absolute;
+  bottom: -6px;
+  right: -8px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--shu-vermilion);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13.5px;
+  font-weight: 900;
+  box-shadow: 0 4px 12px rgba(229, 57, 36, 0.38);
+  border: 2px solid #FFFFFF;
+  letter-spacing: -0.5px;
+  animation: splashStampThud 0.5s 0.55s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+.splash-brand-group {
+  animation: splashFadeUp 0.7s 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.splash-title {
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: 5px;
+  color: var(--sumi-ink);
+  margin: 0;
+  line-height: 1.1;
+  font-family: inherit;
+}
+
+.splash-subtitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--sumi-muted);
+  margin: 6px 0 8px 0;
+  letter-spacing: 0.8px;
+}
+
+.splash-jp-badge {
+  display: inline-block;
+  padding: 3px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--matcha-green);
+  background: rgba(47, 93, 68, 0.08);
+  border-radius: 14px;
+  border: 1px solid rgba(47, 93, 68, 0.22);
+  letter-spacing: 0.5px;
+}
+
+.splash-attribution-card {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  animation: splashFadeUp 0.7s 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.splash-attribution-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: #FFFFFF;
+  border: 1px solid var(--washi-border);
+  border-radius: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.attribution-text {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--sumi-ink);
+  letter-spacing: 0.5px;
+}
+
+.attribution-heart {
+  color: var(--shu-vermilion);
+  font-size: 11px;
+}
+
+.splash-tech-note {
+  font-size: 9.5px;
+  font-weight: 600;
+  color: var(--sumi-muted);
+  letter-spacing: 0.4px;
+}
+
+@keyframes splashLogoEntrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.65) translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes toriiStrokeDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes splashStampThud {
+  0% {
+    opacity: 0;
+    transform: scale(2.4) rotate(-18deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes splashFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Status Bar with Adequate Spacing */
 .status-bar {
   height: 40px;

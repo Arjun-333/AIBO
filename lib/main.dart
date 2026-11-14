@@ -4,6 +4,7 @@ import 'core/database/database_helper.dart';
 import 'core/services/notification_service.dart';
 import 'core/theme/app_theme.dart';
 import 'features/auth/screens/lock_screen.dart';
+import 'features/splash/screens/splash_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,7 +45,7 @@ class AiboApp extends StatelessWidget {
       title: 'AIBO',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkTheme,
-      home: const LockScreen(),
+      home: const SplashScreen(),
     );
   }
 }

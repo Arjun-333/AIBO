@@ -1946,12 +1946,58 @@ function escapeHtml(s) {
 }
 
 // ==========================================================================
+// Animated Splash Screen Engine (Torii Gate & Creator Attribution)
+// ==========================================================================
+let _splashTimeout = null;
+
+function triggerSplashScreen(manual = false) {
+  const splash = document.getElementById('app-splash-screen');
+  if (!splash) return;
+  
+  if (_splashTimeout) clearTimeout(_splashTimeout);
+  splash.classList.remove('dismissed');
+
+  // Re-trigger SVG & CSS keyframe animations
+  const content = splash.querySelector('.splash-content');
+  if (content) {
+    content.style.animation = 'none';
+    void content.offsetHeight;
+    content.style.animation = '';
+  }
+
+  if (manual && typeof audio !== 'undefined' && audio.playChime) {
+    audio.playChime();
+  }
+
+  // Auto-dismiss after 2.4 seconds with a gentle fade
+  _splashTimeout = setTimeout(() => {
+    dismissSplashScreen();
+  }, 2400);
+}
+
+function dismissSplashScreen() {
+  const splash = document.getElementById('app-splash-screen');
+  if (!splash) return;
+  splash.classList.add('dismissed');
+  if (_splashTimeout) {
+    clearTimeout(_splashTimeout);
+    _splashTimeout = null;
+  }
+}
+
+window.triggerSplashScreen = triggerSplashScreen;
+window.dismissSplashScreen = dismissSplashScreen;
+
+// ==========================================================================
 // Initialization & Startup
 // ==========================================================================
 document.addEventListener('DOMContentLoaded', () => {
   renderAll();
   AiboAiService.loadInitialConfig();
   setInterval(renderClockAndDates, 1000);
+
+  // Trigger opening animated splash screen
+  triggerSplashScreen();
 
   // Enter key for chat
   const chatInput = document.getElementById('chat-input');
@@ -2002,12 +2048,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Welcome Toast
+  // Welcome Toast (Timed after splash screen dismiss)
   setTimeout(() => {
     showJapaneseNotification(
       'Welcome to AIBO (相棒へようこそ)',
       '100% reliable on-device companion is ready',
       'icon-torii'
     );
-  }, 500);
+  }, 2600);
 });

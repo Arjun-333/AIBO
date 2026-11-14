@@ -101,6 +101,9 @@
       <div class="paper-badge online-pill">
         <span class="dot-seal"></span> Offline-First v1.0.0
       </div>
+      <button id="replay-splash-btn" class="paper-btn" onclick="triggerSplashScreen(true)" title="Replay Opening Animated Splash Screen">
+        <span>⛩️ Splash</span>
+      </button>
       <button id="toggle-sound-btn" class="paper-btn" title="Toggle Tactile Audio">
         <svg class="ui-icon" width="15" height="15"><use href="#icon-sound" /></svg>
         <span id="sound-btn-text">Sound: OFF</span>
@@ -123,6 +126,42 @@
 
       <!-- App Viewport Inside Phone -->
       <div class="app-viewport" id="app-viewport">
+        <!-- Animated Opening Splash Screen (Warm Washi, Torii Gate & Creator Signature) -->
+        <div id="app-splash-screen" class="app-splash-screen" onclick="dismissSplashScreen()" title="Click to skip">
+          <div class="splash-content">
+            <div class="splash-logo-container">
+              <div class="splash-torii-frame">
+                <svg class="splash-torii-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path class="torii-kasagi" d="M2 5h20" />
+                  <path class="torii-nuki" d="M4 8h16" />
+                  <path class="torii-pillar-l" d="M7 5v15" />
+                  <path class="torii-pillar-r" d="M17 5v15" />
+                  <path class="torii-strut-l" d="M11 5v3" />
+                  <path class="torii-strut-r" d="M13 5v3" />
+                </svg>
+              </div>
+              <div class="splash-hanko-seal">
+                <span>相棒</span>
+              </div>
+            </div>
+
+            <div class="splash-brand-group">
+              <h1 class="splash-title">AIBO</h1>
+              <p class="splash-subtitle">Personal Life OS for Japan</p>
+              <span class="splash-jp-badge">日本生活の頼れる相棒</span>
+            </div>
+
+            <div class="splash-attribution-card">
+              <div class="splash-attribution-badge">
+                <span class="attribution-heart">✦</span>
+                <span class="attribution-text">Made by Arjun</span>
+                <span class="attribution-heart">✦</span>
+              </div>
+              <span class="splash-tech-note">100% Offline • Zero Cloud Telemetry • AES-256 Vault</span>
+            </div>
+          </div>
+        </div>
+
         <!-- Floating Notification Toast -->
         <div id="toast-container" class="toast-container"></div>
 

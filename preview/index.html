@@ -1,85 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AIBO (相棒) — Japanese Stationery & Tactile Craft Edition</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&family=Outfit:wght@500;600;700;800&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&family=Outfit:wght@500;600;700;800&family=Zen+Maru+Gothic:wght@500;700;900&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body class="stationery-theme">
   <!-- Washi Paper Texture Overlay -->
   <div class="washi-texture-overlay"></div>
 
   <!-- Precision Custom SVG Icon Library (Zero Emojis) -->
   <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
-    <symbol id="icon-torii" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M2 5h20" /><path d="M4 8h16" /><path d="M7 5v15" /><path d="M17 5v15" /><path d="M11 5v3" /><path d="M13 5v3" />
+    <symbol id="icon-torii" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M2 5h20" />
+      <path d="M4 8h16" />
+      <path d="M7 5v15" />
+      <path d="M17 5v15" />
+      <path d="M11 5v3" />
+      <path d="M13 5v3" />
     </symbol>
-    <symbol id="icon-pill" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z" /><path d="m8.5 8.5 7 7" />
+    <symbol id="icon-pill" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z" />
+      <path d="m8.5 8.5 7 7" />
     </symbol>
-    <symbol id="icon-train" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="4" y="3" width="16" height="15" rx="3" /><path d="M4 11h16" /><path d="M8 7h8" />
-      <circle cx="8" cy="14.5" r="1.2" fill="currentColor" /><circle cx="16" cy="14.5" r="1.2" fill="currentColor" />
-      <path d="m5 18-2 3" /><path d="m19 18 2 3" />
+    <symbol id="icon-train" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+      stroke-linecap="round" stroke-linejoin="round">
+      <rect x="4" y="3" width="16" height="15" rx="3" />
+      <path d="M4 11h16" />
+      <path d="M8 7h8" />
+      <circle cx="8" cy="14.5" r="1.2" fill="currentColor" />
+      <circle cx="16" cy="14.5" r="1.2" fill="currentColor" />
+      <path d="m5 18-2 3" />
+      <path d="m19 18 2 3" />
     </symbol>
-    <symbol id="icon-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <symbol id="icon-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+      stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="12" r="10" />
-      <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" fill="currentColor" fill-opacity="0.25" />
+      <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" fill="currentColor"
+        fill-opacity="0.25" />
     </symbol>
-    <symbol id="icon-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /><path d="M8 9h8" /><path d="M8 13h5" />
+    <symbol id="icon-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+      <path d="M8 9h8" />
+      <path d="M8 13h5" />
     </symbol>
-    <symbol id="icon-lantern" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="7" y="5" width="10" height="14" rx="4" /><path d="M10 2h4" /><path d="M12 2v3" /><path d="M7 9h10" /><path d="M7 15h10" /><path d="M12 19v3" /><path d="M10 22h4" />
+    <symbol id="icon-lantern" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+      stroke-linecap="round" stroke-linejoin="round">
+      <rect x="7" y="5" width="10" height="14" rx="4" />
+      <path d="M10 2h4" />
+      <path d="M12 2v3" />
+      <path d="M7 9h10" />
+      <path d="M7 15h10" />
+      <path d="M12 19v3" />
+      <path d="M10 22h4" />
     </symbol>
-    <symbol id="icon-fuji" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <path d="m2 20 8.5-14.5a2 2 0 0 1 3 0L22 20H2Z" /><path d="m8.5 9 3.5 2.5 3.5-2.5" />
+    <symbol id="icon-fuji" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="m2 20 8.5-14.5a2 2 0 0 1 3 0L22 20H2Z" />
+      <path d="m8.5 9 3.5 2.5 3.5-2.5" />
     </symbol>
-    <symbol id="icon-tower" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <path d="m6 21 4.5-16h3L18 21" /><path d="M12 2v3" /><path d="M8 14h8" /><path d="M7 18h10" />
+    <symbol id="icon-tower" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="m6 21 4.5-16h3L18 21" />
+      <path d="M12 2v3" />
+      <path d="M8 14h8" />
+      <path d="M7 18h10" />
     </symbol>
-    <symbol id="icon-brush" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <path d="m18 2 4 4-10 10H8v-4L18 2Z" /><path d="m5 17-2 4 4-2" />
+    <symbol id="icon-brush" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="m18 2 4 4-10 10H8v-4L18 2Z" />
+      <path d="m5 17-2 4 4-2" />
     </symbol>
-    <symbol id="icon-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="9" y="2" width="6" height="12" rx="3" /><path d="M5 10a7 7 0 0 0 14 0" /><line x1="12" y1="19" x2="12" y2="22" />
+    <symbol id="icon-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+      stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="2" width="6" height="12" rx="3" />
+      <path d="M5 10a7 7 0 0 0 14 0" />
+      <line x1="12" y1="19" x2="12" y2="22" />
     </symbol>
-    <symbol id="icon-sound" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" /><path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+    <symbol id="icon-sound" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+      stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+      <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
     </symbol>
-    <symbol id="icon-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="5" y="2" width="14" height="20" rx="3" /><path d="M12 18h.01" />
+    <symbol id="icon-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+      stroke-linecap="round" stroke-linejoin="round">
+      <rect x="5" y="2" width="14" height="20" rx="3" />
+      <path d="M12 18h.01" />
     </symbol>
-    <symbol id="icon-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" />
+    <symbol id="icon-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+      <circle cx="12" cy="10" r="3" />
     </symbol>
-    <symbol id="icon-stamp" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M5 22h14" /><path d="M19.27 13.73A2.5 2.5 0 0 0 17.5 13h-11a2.5 2.5 0 0 0-1.77.73l-1.46 1.47A1.5 1.5 0 0 0 4.33 17H19.67a1.5 1.5 0 0 0 1.06-1.8l-1.46-1.47Z" /><path d="M12 13V2" />
+    <symbol id="icon-stamp" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 22h14" />
+      <path
+        d="M19.27 13.73A2.5 2.5 0 0 0 17.5 13h-11a2.5 2.5 0 0 0-1.77.73l-1.46 1.47A1.5 1.5 0 0 0 4.33 17H19.67a1.5 1.5 0 0 0 1.06-1.8l-1.46-1.47Z" />
+      <path d="M12 13V2" />
     </symbol>
-    <symbol id="icon-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <symbol id="icon-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+      stroke-linecap="round" stroke-linejoin="round">
       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
     </symbol>
-    <symbol id="icon-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" />
-      <rect x="14" y="14" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" />
+    <symbol id="icon-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+      stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="7" height="7" rx="1.5" />
+      <rect x="14" y="3" width="7" height="7" rx="1.5" />
+      <rect x="14" y="14" width="7" height="7" rx="1.5" />
+      <rect x="3" y="14" width="7" height="7" rx="1.5" />
     </symbol>
-    <symbol id="icon-yen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M6 3l6 9 6-9" /><path d="M12 12v9" /><path d="M8 15h8" /><path d="M8 18h8" />
+    <symbol id="icon-yen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 3l6 9 6-9" />
+      <path d="M12 12v9" />
+      <path d="M8 15h8" />
+      <path d="M8 18h8" />
     </symbol>
-    <symbol id="icon-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
+    <symbol id="icon-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+      <line x1="12" y1="9" x2="12" y2="13" />
+      <line x1="12" y1="17" x2="12.01" y2="17" />
     </symbol>
-    <symbol id="icon-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+    <symbol id="icon-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
     </symbol>
-    <symbol id="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <symbol id="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
       <polyline points="20 6 9 17 4 12" />
     </symbol>
-    <symbol id="icon-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" />
+    <symbol id="icon-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+      <polyline points="9 22 9 12 15 12 15 22" />
     </symbol>
   </svg>
 
@@ -87,7 +153,9 @@
   <header class="preview-header">
     <div class="header-branding">
       <div class="torii-branding-icon">
-        <svg class="ui-icon torii-icon" width="28" height="28" stroke="var(--shu-vermilion)"><use href="#icon-torii" /></svg>
+        <svg class="ui-icon torii-icon" width="28" height="28" stroke="var(--shu-vermilion)">
+          <use href="#icon-torii" />
+        </svg>
       </div>
       <div>
         <div class="brand-row">
@@ -104,15 +172,20 @@
       <button id="widget-preview-btn" class="paper-btn" onclick="openWidgetPreviewModal()" title="Preview Muchi Neko Android Home Screen Widget (Duolingo Style)">
         <span>📱 Widget</span>
       </button>
-      <button id="replay-splash-btn" class="paper-btn" onclick="triggerSplashScreen(true)" title="Replay Opening Animated Splash Screen">
+      <button id="replay-splash-btn" class="paper-btn" onclick="triggerSplashScreen(true)"
+        title="Replay Opening Animated Splash Screen">
         <span>⛩️ Splash</span>
       </button>
       <button id="toggle-sound-btn" class="paper-btn" title="Toggle Tactile Audio">
-        <svg class="ui-icon" width="15" height="15"><use href="#icon-sound" /></svg>
+        <svg class="ui-icon" width="15" height="15">
+          <use href="#icon-sound" />
+        </svg>
         <span id="sound-btn-text">Sound: OFF</span>
       </button>
       <button id="toggle-frame-btn" class="paper-btn" title="Toggle Phone Frame">
-        <svg class="ui-icon" width="15" height="15"><use href="#icon-phone" /></svg>
+        <svg class="ui-icon" width="15" height="15">
+          <use href="#icon-phone" />
+        </svg>
         <span id="frame-btn-text">View: Phone Mockup</span>
       </button>
     </div>
@@ -134,7 +207,8 @@
           <div class="splash-content">
             <div class="splash-logo-container">
               <div class="splash-torii-frame">
-                <svg class="splash-torii-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <svg class="splash-torii-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round">
                   <path class="torii-kasagi" d="M2 5h20" />
                   <path class="torii-nuki" d="M4 8h16" />
                   <path class="torii-pillar-l" d="M7 5v15" />
@@ -171,7 +245,8 @@
         <!-- Phone Simulator Header Bar (Clean, non-competing, with Interactive Timezone Switcher) -->
         <div class="status-bar">
           <span class="status-time" id="status-clock">01:36</span>
-          <button class="status-os-note-btn" id="tz-toggle-btn" onclick="toggleTimezone()" title="Click to switch time between Tokyo (JST) and India (IST)">
+          <button class="status-os-note-btn" id="tz-toggle-btn" onclick="toggleTimezone()"
+            title="Click to switch time between Tokyo (JST) and India (IST)">
             <span id="tz-display-label">Tokyo Local Time (JST)</span>
             <span class="tz-switch-pill" id="tz-switch-pill">⇄ IST</span>
           </button>
@@ -186,16 +261,20 @@
           <section id="screen-home" class="screen active">
             <!-- User Greeting & Environmental Status (Configurable) -->
             <div class="user-greeting-row">
-              <div class="greeting-clickable-group" onclick="openProfileModal()" title="Click to customize name, greeting style, or location">
+              <div class="greeting-clickable-group" onclick="openProfileModal()"
+                title="Click to customize name, greeting style, or location">
                 <span class="greeting-subtitle" id="greeting-city-weather">Shibuya, Tokyo • 18°C ☀️ • Oct 26</span>
                 <h2 class="greeting-heading">
                   <span id="greeting-name-display">Arjun-san</span>
                   <span class="edit-pill-badge">✎ Edit Profile</span>
                 </h2>
               </div>
-              <button class="offline-status-badge" onclick="openOfflineModal()" title="View what is available offline vs online">
+              <button class="offline-status-badge" onclick="openOfflineModal()"
+                title="View what is available offline vs online">
                 <div class="torii-badge-icon">
-                  <svg width="14" height="14" stroke="var(--shu-vermilion)"><use href="#icon-torii" /></svg>
+                  <svg width="14" height="14" stroke="var(--shu-vermilion)">
+                    <use href="#icon-torii" />
+                  </svg>
                 </div>
                 <span class="offline-pill-text"><span class="green-dot"></span> Offline-Ready ⓘ</span>
               </button>
@@ -235,7 +314,8 @@
                   <!-- Functional Routine Metric instead of fictional weight -->
                   <span class="companion-squish-tag" id="routine-status-tag">Routine: 2/3 Done (67%)</span>
                   <span class="mascot-lore-tag">Mascot</span>
-                  <button class="companion-toggle-btn" id="companion-toggle-btn" onclick="toggleMuchiCompact()" title="Toggle compact view">
+                  <button class="companion-toggle-btn" id="companion-toggle-btn" onclick="toggleMuchiCompact()"
+                    title="Toggle compact view">
                     <span id="compact-toggle-text">— Compact</span>
                   </button>
                 </div>
@@ -247,7 +327,8 @@
 
                 <!-- State Controller Pills -->
                 <div class="companion-state-chips" role="group" aria-label="Mascot dynamic states">
-                  <button class="state-chip active" id="chip-greeting" onclick="setMuchiState('greeting')">Greeting</button>
+                  <button class="state-chip active" id="chip-greeting"
+                    onclick="setMuchiState('greeting')">Greeting</button>
                   <button class="state-chip" id="chip-idle" onclick="setMuchiState('idle')">Tokyo Life</button>
                   <button class="state-chip" id="chip-celebrate" onclick="setMuchiState('celebrate')">Goal Done</button>
                   <button class="state-chip" id="chip-rest" onclick="setMuchiState('rest')">Resting</button>
@@ -262,139 +343,143 @@
             </div>
 
             <div class="priority-action-stack">
-            <div class="priority-action-stack">
-              <!-- Action Card 1: Next Medication Due (Dynamic Container) -->
-              <div id="home-med-card-wrapper"></div>
+              <div class="priority-action-stack">
+                <!-- Action Card 1: Next Medication Due (Dynamic Container) -->
+                <div id="home-med-card-wrapper"></div>
 
-              <!-- Action Card 2: Today's Daily Yen & Spending -->
-              <div class="priority-card finance-card">
-                <div class="priority-card-indicator amber"></div>
-                <div class="priority-card-main">
-                  <div class="priority-meta-row">
-                    <span class="priority-tag gold">💴 Spending Today</span>
-                    <span class="priority-time" id="home-remaining-display">Remaining: ¥8,000</span>
-                  </div>
-                  <div class="finance-amount-row">
-                    <strong class="finance-spent-num" id="home-spent-display">¥0</strong>
-                    <span class="finance-total-cap">spent today of ¥8,000 daily budget</span>
-                  </div>
-                  <!-- Visual Budget Progress Bar -->
-                  <div class="finance-bar-track">
-                    <div class="finance-bar-fill" id="home-budget-bar" style="width: 0%;"></div>
-                  </div>
+                <!-- Action Card 2: Today's Daily Yen & Spending -->
+                <div class="priority-card finance-card">
+                  <div class="priority-card-indicator amber"></div>
+                  <div class="priority-card-main">
+                    <div class="priority-meta-row">
+                      <span class="priority-tag gold">💴 Spending Today</span>
+                      <span class="priority-time" id="home-remaining-display">Remaining: ¥8,000</span>
+                    </div>
+                    <div class="finance-amount-row">
+                      <strong class="finance-spent-num" id="home-spent-display">¥0</strong>
+                      <span class="finance-total-cap">spent today of ¥8,000 daily budget</span>
+                    </div>
+                    <!-- Visual Budget Progress Bar -->
+                    <div class="finance-bar-track">
+                      <div class="finance-bar-fill" id="home-budget-bar" style="width: 0%;"></div>
+                    </div>
 
-                  <!-- Category Breakdown Row (Isolated with ample room) -->
-                  <div class="finance-category-row" id="home-categories-wrapper">
-                    <span class="f-pill empty">No spending recorded today</span>
-                  </div>
+                    <!-- Category Breakdown Row (Isolated with ample room) -->
+                    <div class="finance-category-row" id="home-categories-wrapper">
+                      <span class="f-pill empty">No spending recorded today</span>
+                    </div>
 
-                  <!-- Action Controls Row (Spacious & uncluttered) -->
-                  <div class="finance-actions-row">
-                    <div class="finance-actions-left">
-                      <button class="f-action-btn primary" onclick="openExpenseModal()">
-                        <span>+ Add Expense</span>
-                      </button>
-                      <button class="f-action-btn secondary" onclick="openBudgetModal()">
-                        <span>⚙️ Budget & Bills</span>
+                    <!-- Action Controls Row (Spacious & uncluttered) -->
+                    <div class="finance-actions-row">
+                      <div class="finance-actions-left">
+                        <button class="f-action-btn primary" onclick="openExpenseModal()">
+                          <span>+ Add Expense</span>
+                        </button>
+                        <button class="f-action-btn secondary" onclick="openBudgetModal()">
+                          <span>⚙️ Budget & Bills</span>
+                        </button>
+                      </div>
+                      <button class="f-action-link" onclick="switchTab('screen-tools')"
+                        title="Open detailed budget breakdown">
+                        <span>Full Budget ➔</span>
                       </button>
                     </div>
-                    <button class="f-action-link" onclick="switchTab('screen-tools')" title="Open detailed budget breakdown">
-                      <span>Full Budget ➔</span>
-                    </button>
+                  </div>
+                </div>
+
+                <!-- Action Card 3: Saved Commute & Transit Alert -->
+                <div class="priority-card transit-card" onclick="switchTab('screen-transit')">
+                  <div class="priority-card-indicator indigo"></div>
+                  <div class="priority-card-main">
+                    <div class="priority-meta-row">
+                      <span class="priority-tag indigo">🚇 Saved Route • JR Yamanote Line</span>
+                      <span class="priority-time cached-badge">Offline Schedule (Cached 08:00 AM)</span>
+                    </div>
+                    <div class="transit-route-row">
+                      <strong>Shibuya (渋谷)</strong>
+                      <span class="route-arrow">➔➔</span>
+                      <strong>Shinjuku (新宿)</strong>
+                    </div>
+                    <p class="priority-card-desc">Scheduled loop departure every 3-4 mins from Platform 2 (7 min
+                      journey).</p>
+                    <span class="transit-disclaimer-note">※ Standard schedule shown. Real-time delay alerts require an
+                      active network.</span>
                   </div>
                 </div>
               </div>
 
-              <!-- Action Card 3: Saved Commute & Transit Alert -->
-              <div class="priority-card transit-card" onclick="switchTab('screen-transit')">
-                <div class="priority-card-indicator indigo"></div>
-                <div class="priority-card-main">
-                  <div class="priority-meta-row">
-                    <span class="priority-tag indigo">🚇 Saved Route • JR Yamanote Line</span>
-                    <span class="priority-time cached-badge">Offline Schedule (Cached 08:00 AM)</span>
-                  </div>
-                  <div class="transit-route-row">
-                    <strong>Shibuya (渋谷)</strong>
-                    <span class="route-arrow">➔➔</span>
-                    <strong>Shinjuku (新宿)</strong>
-                  </div>
-                  <p class="priority-card-desc">Scheduled loop departure every 3-4 mins from Platform 2 (7 min journey).</p>
-                  <span class="transit-disclaimer-note">※ Standard schedule shown. Real-time delay alerts require an active network.</span>
+              <!-- DAILY FOCUS CHECKLIST -->
+              <div class="section-lead-row">
+                <h3 class="clean-section-title">Today's Focus & Reminders</h3>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="task-progress-badge" id="task-progress-badge">0 Tasks</span>
+                  <button class="f-action-btn mini" onclick="openTaskModal()"
+                    style="font-size: 11px; padding: 3px 9px;">+ Add Task</button>
                 </div>
               </div>
-            </div>
 
-            <!-- DAILY FOCUS CHECKLIST -->
-            <div class="section-lead-row">
-              <h3 class="clean-section-title">Today's Focus & Reminders</h3>
-              <div style="display: flex; align-items: center; gap: 8px;">
-                <span class="task-progress-badge" id="task-progress-badge">0 Tasks</span>
-                <button class="f-action-btn mini" onclick="openTaskModal()" style="font-size: 11px; padding: 3px 9px;">+ Add Task</button>
-              </div>
-            </div>
+              <div class="daily-checklist-card" id="tasks-container"></div>
 
-            <div class="daily-checklist-card" id="tasks-container"></div>
-
-            <!-- AIBO SERVICES HUB (Categorized by Purpose with Uniform 32px Icons) -->
-            <div class="section-lead-row">
-              <h3 class="clean-section-title">AIBO Suite Services (便利帳)</h3>
-              <span class="hub-count-tag">Grouped by Purpose</span>
-            </div>
-
-            <div class="service-hub-grid">
-              <!-- Health & Daily -->
-              <div class="service-hub-card" onclick="switchTab('screen-medication')">
-                <div class="hub-icon-pill med">💊</div>
-                <strong>Prescriptions & OTC</strong>
-                <span>Yakutai dose log & drugstores</span>
+              <!-- AIBO SERVICES HUB (Categorized by Purpose with Uniform 32px Icons) -->
+              <div class="section-lead-row">
+                <h3 class="clean-section-title">AIBO Suite Services (便利帳)</h3>
+                <span class="hub-count-tag">Grouped by Purpose</span>
               </div>
 
-              <!-- Transit & Navigation -->
-              <div class="service-hub-card" onclick="switchTab('screen-transit')">
-                <div class="hub-icon-pill transit">🚇</div>
-                <strong>Yamanote & Exits</strong>
-                <span>Loop schedule & exit placards</span>
-              </div>
+              <div class="service-hub-grid">
+                <!-- Health & Daily -->
+                <div class="service-hub-card" onclick="switchTab('screen-medication')">
+                  <div class="hub-icon-pill med">💊</div>
+                  <strong>Prescriptions & OTC</strong>
+                  <span>Yakutai dose log & drugstores</span>
+                </div>
 
-              <!-- Finances & Legal -->
-              <div class="service-hub-card" onclick="switchTab('screen-tools')">
-                <div class="hub-icon-pill budget">💴</div>
-                <strong>Yen Budget & ATM</strong>
-                <span>Daily spending & ATM guide</span>
-              </div>
+                <!-- Transit & Navigation -->
+                <div class="service-hub-card" onclick="switchTab('screen-transit')">
+                  <div class="hub-icon-pill transit">🚇</div>
+                  <strong>Yamanote & Exits</strong>
+                  <span>Loop schedule & exit placards</span>
+                </div>
 
-              <div class="service-hub-card" onclick="switchTab('screen-tools')">
-                <div class="hub-icon-pill vault">📁</div>
-                <strong>Document Vault</strong>
-                <span>Encrypted My Number & cards</span>
-              </div>
+                <!-- Finances & Legal -->
+                <div class="service-hub-card" onclick="switchTab('screen-tools')">
+                  <div class="hub-icon-pill budget">💴</div>
+                  <strong>Yen Budget & ATM</strong>
+                  <span>Daily spending & ATM guide</span>
+                </div>
 
-              <!-- Safety & Language -->
-              <div class="service-hub-card" onclick="switchTab('screen-tools')">
-                <div class="hub-icon-pill sos">🚨</div>
-                <strong>Emergency SOS</strong>
-                <span>110 / 119 & Medical ICE card</span>
-              </div>
+                <div class="service-hub-card" onclick="switchTab('screen-tools')">
+                  <div class="hub-icon-pill vault">📁</div>
+                  <strong>Document Vault</strong>
+                  <span>Encrypted My Number & cards</span>
+                </div>
 
-              <div class="service-hub-card" onclick="switchTab('screen-tools')">
-                <div class="hub-icon-pill lang">🗣️</div>
-                <strong>Daily Phrasebook</strong>
-                <span>Essential survival Japanese</span>
-              </div>
+                <!-- Safety & Language -->
+                <div class="service-hub-card" onclick="switchTab('screen-tools')">
+                  <div class="hub-icon-pill sos">🚨</div>
+                  <strong>Emergency SOS</strong>
+                  <span>110 / 119 & Medical ICE card</span>
+                </div>
 
-              <!-- Hardware Tools -->
-              <div class="service-hub-card" onclick="switchTab('screen-map')">
-                <div class="hub-icon-pill radar">🧭</div>
-                <strong>Radar Compass</strong>
-                <span>Hardware compass & landmarks</span>
-              </div>
+                <div class="service-hub-card" onclick="switchTab('screen-tools')">
+                  <div class="hub-icon-pill lang">🗣️</div>
+                  <strong>Daily Phrasebook</strong>
+                  <span>Essential survival Japanese</span>
+                </div>
 
-              <div class="service-hub-card" onclick="switchTab('screen-chat')">
-                <div class="hub-icon-pill chat">💬</div>
-                <strong>AI Consultation</strong>
-                <span>On-device Japanese assistant</span>
+                <!-- Hardware Tools -->
+                <div class="service-hub-card" onclick="switchTab('screen-map')">
+                  <div class="hub-icon-pill radar">🧭</div>
+                  <strong>Radar Compass</strong>
+                  <span>Hardware compass & landmarks</span>
+                </div>
+
+                <div class="service-hub-card" onclick="switchTab('screen-chat')">
+                  <div class="hub-icon-pill chat">💬</div>
+                  <strong>AI Consultation</strong>
+                  <span>On-device Japanese assistant</span>
+                </div>
               </div>
-            </div>
           </section>
 
           <!-- ==========================================
@@ -436,7 +521,8 @@
               <div class="yakutai-schedule-grid" id="yakutai-schedule-grid"></div>
 
               <!-- Action Row -->
-              <div class="yakutai-action-row" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px;">
+              <div class="yakutai-action-row"
+                style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px;">
                 <span class="medical-disclaimer-note">※ Tap any scheduled slot to seal with Inkan (押印)</span>
                 <button class="f-action-btn mini" onclick="openMedModal()">+ Add Schedule</button>
               </div>
@@ -449,7 +535,8 @@
             </h3>
             <div class="stationery-card otc-stationery-card">
               <div class="otc-card-intro">
-                <span>Standard Western tablets and their trusted Japanese drugstore equivalents (No prescription required):</span>
+                <span>Standard Western tablets and their trusted Japanese drugstore equivalents (No prescription
+                  required):</span>
               </div>
 
               <div class="otc-paper-list">
@@ -510,7 +597,9 @@
                   <span>Outside almost every major station • English signage • Tax-free</span>
                 </div>
                 <div class="ticket-arrow">
-                  <svg width="14" height="14"><use href="#icon-pin" /></svg>
+                  <svg width="14" height="14">
+                    <use href="#icon-pin" />
+                  </svg>
                   <span>Locate</span>
                 </div>
               </div>
@@ -522,7 +611,9 @@
                   <span>High discounts on daily supplements and vitamins</span>
                 </div>
                 <div class="ticket-arrow">
-                  <svg width="14" height="14"><use href="#icon-pin" /></svg>
+                  <svg width="14" height="14">
+                    <use href="#icon-pin" />
+                  </svg>
                   <span>Locate</span>
                 </div>
               </div>
@@ -534,7 +625,9 @@
                   <span>Many 24-hour branches with late-night medicine counters</span>
                 </div>
                 <div class="ticket-arrow">
-                  <svg width="14" height="14"><use href="#icon-pin" /></svg>
+                  <svg width="14" height="14">
+                    <use href="#icon-pin" />
+                  </svg>
                   <span>Locate</span>
                 </div>
               </div>
@@ -580,7 +673,7 @@
               <div class="koken-footer-row">
                 <span class="koken-serial">No. 4829 • Valid on Day of Issue</span>
                 <span class="koken-date">2026. 10. 26</span>
-                
+
                 <div class="conductor-stamp">
                   <span>INSPECTED<br>渋谷駅</span>
                 </div>
@@ -698,19 +791,25 @@
                   <span class="cardinal south">S</span>
                   <span class="cardinal east">E</span>
                   <span class="cardinal west">W</span>
-                  
+
                   <!-- Compass Needle -->
                   <div class="needle" id="compass-needle"></div>
 
                   <!-- Landmark Blips -->
                   <div class="blip fuji" title="Mt. Fuji (West • 98 km)">
-                    <svg width="20" height="20" stroke="var(--sumi-ink)" fill="#FFFFFF"><use href="#icon-fuji" /></svg>
+                    <svg width="20" height="20" stroke="var(--sumi-ink)" fill="#FFFFFF">
+                      <use href="#icon-fuji" />
+                    </svg>
                   </div>
                   <div class="blip tower" title="Tokyo Tower (South-East • 3.2 km)">
-                    <svg width="20" height="20" stroke="var(--shu-vermilion)"><use href="#icon-tower" /></svg>
+                    <svg width="20" height="20" stroke="var(--shu-vermilion)">
+                      <use href="#icon-tower" />
+                    </svg>
                   </div>
                   <div class="blip pharmacy" title="Matsumoto Kiyoshi Pharmacy (400m)">
-                    <svg width="18" height="18" stroke="var(--yamabuki-gold)" fill="#FEF3C7"><use href="#icon-pill" /></svg>
+                    <svg width="18" height="18" stroke="var(--yamabuki-gold)" fill="#FEF3C7">
+                      <use href="#icon-pill" />
+                    </svg>
                   </div>
                 </div>
               </div>
@@ -739,7 +838,9 @@
             <div class="landmark-stationery-list">
               <div class="lm-stationery-item">
                 <div class="lm-stamp">
-                  <svg width="16" height="16"><use href="#icon-pill" /></svg>
+                  <svg width="16" height="16">
+                    <use href="#icon-pill" />
+                  </svg>
                 </div>
                 <div class="lm-details">
                   <strong>Matsumoto Kiyoshi (Shibuya Part 1)</strong>
@@ -749,7 +850,9 @@
               </div>
               <div class="lm-stationery-item">
                 <div class="lm-stamp red">
-                  <svg width="16" height="16"><use href="#icon-torii" /></svg>
+                  <svg width="16" height="16">
+                    <use href="#icon-torii" />
+                  </svg>
                 </div>
                 <div class="lm-details">
                   <strong>Meiji Jingu Shrine (明治神宮)</strong>
@@ -759,7 +862,9 @@
               </div>
               <div class="lm-stationery-item">
                 <div class="lm-stamp gold">
-                  <svg width="16" height="16"><use href="#icon-tower" /></svg>
+                  <svg width="16" height="16">
+                    <use href="#icon-tower" />
+                  </svg>
                 </div>
                 <div class="lm-details">
                   <strong>Tokyo Tower (東京タワー)</strong>
@@ -783,17 +888,20 @@
                 <h2 class="greeting-main">AIBO Consultation</h2>
               </div>
               <div style="display: flex; align-items: center; gap: 8px;">
-                <button class="paper-badge" onclick="openAiConfigModal()" style="cursor: pointer; border: 1px solid var(--border-subtle);" title="Configure AI Engine">
+                <button class="paper-badge" onclick="openAiConfigModal()"
+                  style="cursor: pointer; border: 1px solid var(--border-subtle);" title="Configure AI Engine">
                   ⚙️ AI Settings
                 </button>
-                <button class="text-link-action" onclick="clearChatAction()" style="font-size: 11px; padding: 2px 6px;">Clear History</button>
+                <button class="text-link-action" onclick="clearChatAction()"
+                  style="font-size: 11px; padding: 2px 6px;">Clear History</button>
               </div>
             </div>
 
             <!-- Active AI Provider & Status Banner -->
             <div class="ai-provider-banner" id="chat-provider-banner">
               <div class="provider-pill" id="chat-active-provider-pill">
-                <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #34A853;"></span>
+                <span
+                  style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #34A853;"></span>
                 <span>Active AI: <strong id="chat-active-provider-name">Auto (Nemotron ➔ Gemini)</strong></span>
               </div>
               <button class="text-link-action" onclick="openAiConfigModal()">⚙️ Change Engine</button>
@@ -805,7 +913,9 @@
             <!-- Input Bar -->
             <div class="ink-input-bar">
               <button class="brush-mic-btn" id="voice-btn" title="Voice Input (STT)">
-                <svg width="16" height="16"><use href="#icon-mic" /></svg>
+                <svg width="16" height="16">
+                  <use href="#icon-mic" />
+                </svg>
               </button>
               <input type="text" id="chat-input" placeholder="Ask AIBO in English or 日本語..." />
               <button class="seal-send-btn" id="send-btn" title="Send Question">
@@ -832,7 +942,9 @@
             <div class="emergency-banner-box">
               <div class="emergency-header-row">
                 <div class="emergency-badge-title">
-                  <svg width="16" height="16" stroke="currentColor"><use href="#icon-alert" /></svg>
+                  <svg width="16" height="16" stroke="currentColor">
+                    <use href="#icon-alert" />
+                  </svg>
                   <strong>Emergency SOS Contacts (緊急通報)</strong>
                 </div>
                 <span class="ice-pill">ICE Medical</span>
@@ -864,7 +976,8 @@
                 </div>
                 <div class="ice-row">
                   <span class="ice-label">Emergency Script</span>
-                  <span class="ice-val jp-text">「助けてください。英語の話せる人はいますか？」 (Tasukete kudasai. Eigo no hanaseru hito wa imasu ka?)</span>
+                  <span class="ice-val jp-text">「助けてください。英語の話せる人はいますか？」 (Tasukete kudasai. Eigo no hanaseru hito wa
+                    imasu ka?)</span>
                 </div>
                 <div style="margin-top: 10px; text-align: right;">
                   <button class="text-link-action" onclick="openIceModal()">✎ Edit Emergency ICE Card</button>
@@ -881,7 +994,8 @@
               <div class="finance-tool-header">
                 <div>
                   <span class="f-tool-label">Today's Remaining Budget</span>
-                  <strong class="f-tool-val" id="tools-remaining-display">¥8,000 <span class="f-tool-sub">left of ¥8,000</span></strong>
+                  <strong class="f-tool-val" id="tools-remaining-display">¥8,000 <span class="f-tool-sub">left of
+                      ¥8,000</span></strong>
                 </div>
                 <div style="display: flex; gap: 8px;">
                   <button class="tool-action-pill-btn secondary" onclick="openBudgetModal()">
@@ -915,7 +1029,8 @@
                 <span class="atm-icon">🏧</span>
                 <div class="atm-info">
                   <strong>Fee-Free Foreign Card ATMs:</strong>
-                  <span>7-Eleven (Seven Bank) & Japan Post Bank accept foreign Visa/Mastercard without conversion surcharges.</span>
+                  <span>7-Eleven (Seven Bank) & Japan Post Bank accept foreign Visa/Mastercard without conversion
+                    surcharges.</span>
                 </div>
               </div>
             </div>
@@ -979,7 +1094,9 @@
                 <span>100% offline compass, GPS precision, and verified pharmacies</span>
               </div>
               <button class="open-radar-btn">
-                <svg width="14" height="14" stroke="currentColor"><use href="#icon-compass" /></svg>
+                <svg width="14" height="14" stroke="currentColor">
+                  <use href="#icon-compass" />
+                </svg>
                 <span>Open Radar</span>
               </button>
             </div>
@@ -990,23 +1107,33 @@
         <!-- Bottom Navigation Bar (5 Core Accessible Tabs) -->
         <nav class="stationery-bottom-nav">
           <button class="nav-tab active" onclick="switchTab('screen-home')" data-tab="screen-home">
-            <svg class="nav-icon" width="20" height="20"><use href="#icon-home" /></svg>
+            <svg class="nav-icon" width="20" height="20">
+              <use href="#icon-home" />
+            </svg>
             <span class="nav-tab-label">Home</span>
           </button>
           <button class="nav-tab" onclick="switchTab('screen-medication')" data-tab="screen-medication">
-            <svg class="nav-icon" width="20" height="20"><use href="#icon-pill" /></svg>
+            <svg class="nav-icon" width="20" height="20">
+              <use href="#icon-pill" />
+            </svg>
             <span class="nav-tab-label">Tablets</span>
           </button>
           <button class="nav-tab" onclick="switchTab('screen-transit')" data-tab="screen-transit">
-            <svg class="nav-icon" width="20" height="20"><use href="#icon-train" /></svg>
+            <svg class="nav-icon" width="20" height="20">
+              <use href="#icon-train" />
+            </svg>
             <span class="nav-tab-label">Transit</span>
           </button>
           <button class="nav-tab" onclick="switchTab('screen-chat')" data-tab="screen-chat">
-            <svg class="nav-icon" width="20" height="20"><use href="#icon-chat" /></svg>
+            <svg class="nav-icon" width="20" height="20">
+              <use href="#icon-chat" />
+            </svg>
             <span class="nav-tab-label">Assistant</span>
           </button>
           <button class="nav-tab" onclick="switchTab('screen-tools')" data-tab="screen-tools">
-            <svg class="nav-icon" width="20" height="20"><use href="#icon-grid" /></svg>
+            <svg class="nav-icon" width="20" height="20">
+              <use href="#icon-grid" />
+            </svg>
             <span class="nav-tab-label">Tools & SOS</span>
           </button>
         </nav>
@@ -1024,24 +1151,28 @@
               <button class="modal-close-btn" onclick="closeModal('offline-modal')">✕</button>
             </div>
             <div class="modal-body-content">
-              <p class="modal-explainer-text">AIBO is built on a strict privacy-first model. Here is the honest breakdown of our offline capabilities vs online services:</p>
+              <p class="modal-explainer-text">AIBO is built on a strict privacy-first model. Here is the honest
+                breakdown of our offline capabilities vs online services:</p>
 
               <div class="transparency-item green-box">
                 <div class="t-badge green">🟢 100% On-Device (Zero Bytes Sent)</div>
                 <strong>Document Vault, Medication Reminders & Daily Budget</strong>
-                <span>Your Residence Card, My Number Card, Dose schedule, and yen logs are stored in AES-256 local encrypted SQLite storage on your phone. Nothing is uploaded to cloud servers.</span>
+                <span>Your Residence Card, My Number Card, Dose schedule, and yen logs are stored in AES-256 local
+                  encrypted SQLite storage on your phone. Nothing is uploaded to cloud servers.</span>
               </div>
 
               <div class="transparency-item amber-box">
                 <div class="t-badge amber">🟡 Offline-Cached Static Schedules</div>
                 <strong>Yamanote Loop Timetables & Station Exits</strong>
-                <span>All station stops, exit placards, and standard loop schedules are cached locally on device (Last updated: Today 08:00 AM).</span>
+                <span>All station stops, exit placards, and standard loop schedules are cached locally on device (Last
+                  updated: Today 08:00 AM).</span>
               </div>
 
               <div class="transparency-item red-box">
                 <div class="t-badge red">🔴 Requires Active Internet Connection</div>
                 <strong>Live Delay Alerts & Real-Time Sync</strong>
-                <span>Live delay notifications, platform emergency track updates, and cloud-assisted translation fallback require cellular or Wi-Fi data.</span>
+                <span>Live delay notifications, platform emergency track updates, and cloud-assisted translation
+                  fallback require cellular or Wi-Fi data.</span>
               </div>
             </div>
             <div class="modal-footer">
@@ -1122,7 +1253,8 @@
             <div class="modal-body-content">
               <div class="config-field">
                 <label class="config-label">Amount (¥ Yen)</label>
-                <input type="number" id="exp-amount-input" class="config-input large-num" placeholder="e.g. 850" min="10" step="10" />
+                <input type="number" id="exp-amount-input" class="config-input large-num" placeholder="e.g. 850"
+                  min="10" step="10" />
               </div>
 
               <div class="config-field">
@@ -1170,11 +1302,13 @@
             <div class="modal-body-content">
               <div class="config-field">
                 <label class="config-label">Task Title</label>
-                <input type="text" id="task-title-input" class="config-input" placeholder="e.g. Pick up resident slip at Ward Office" />
+                <input type="text" id="task-title-input" class="config-input"
+                  placeholder="e.g. Pick up resident slip at Ward Office" />
               </div>
               <div class="config-field">
                 <label class="config-label">Notes / Location / Deadline (Optional)</label>
-                <input type="text" id="task-sub-input" class="config-input" placeholder="e.g. Bring My Number Card before 17:00" />
+                <input type="text" id="task-sub-input" class="config-input"
+                  placeholder="e.g. Bring My Number Card before 17:00" />
               </div>
             </div>
             <div class="modal-footer">
@@ -1199,11 +1333,13 @@
             <div class="modal-body-content">
               <div class="config-field">
                 <label class="config-label">Medicine / Supplement Name</label>
-                <input type="text" id="med-name-input" class="config-input" placeholder="e.g. Magnesium & Zinc, Loxonin S" />
+                <input type="text" id="med-name-input" class="config-input"
+                  placeholder="e.g. Magnesium & Zinc, Loxonin S" />
               </div>
               <div class="config-field">
                 <label class="config-label">Dosage Quantity</label>
-                <input type="text" id="med-dose-input" class="config-input" placeholder="e.g. 1 tablet, 250mg, 1 packet" />
+                <input type="text" id="med-dose-input" class="config-input"
+                  placeholder="e.g. 1 tablet, 250mg, 1 packet" />
               </div>
               <div class="config-field">
                 <label class="config-label">Scheduled Time (e.g. 08:30 PM)</label>
@@ -1211,7 +1347,8 @@
               </div>
               <div class="config-field">
                 <label class="config-label">Intake Instructions</label>
-                <input type="text" id="med-note-input" class="config-input" placeholder="e.g. Take with water after dinner" />
+                <input type="text" id="med-note-input" class="config-input"
+                  placeholder="e.g. Take with water after dinner" />
               </div>
             </div>
             <div class="modal-footer">
@@ -1236,7 +1373,8 @@
             <div class="modal-body-content">
               <div class="config-field">
                 <label class="config-label">Document Name</label>
-                <input type="text" id="doc-title-input" class="config-input" placeholder="e.g. Residence Card (在留カード), Hokensho" />
+                <input type="text" id="doc-title-input" class="config-input"
+                  placeholder="e.g. Residence Card (在留カード), Hokensho" />
               </div>
               <div class="config-field">
                 <label class="config-label">Category</label>
@@ -1274,7 +1412,8 @@
             <div class="modal-body-content">
               <div class="config-field">
                 <label class="config-label">Full Name & Ward</label>
-                <input type="text" id="ice-cfg-name" class="config-input" placeholder="e.g. Arjun (Shibuya-ku, Tokyo)" />
+                <input type="text" id="ice-cfg-name" class="config-input"
+                  placeholder="e.g. Arjun (Shibuya-ku, Tokyo)" />
               </div>
               <div class="config-field">
                 <label class="config-label">Blood Type</label>
@@ -1282,11 +1421,13 @@
               </div>
               <div class="config-field">
                 <label class="config-label">Known Allergies / Medical Conditions</label>
-                <input type="text" id="ice-cfg-allergies" class="config-input" placeholder="e.g. None, or Penicillin, Asthmatic" />
+                <input type="text" id="ice-cfg-allergies" class="config-input"
+                  placeholder="e.g. None, or Penicillin, Asthmatic" />
               </div>
               <div class="config-field">
                 <label class="config-label">ICE Contact Name</label>
-                <input type="text" id="ice-cfg-contact-name" class="config-input" placeholder="e.g. Spouse / Emergency contact" />
+                <input type="text" id="ice-cfg-contact-name" class="config-input"
+                  placeholder="e.g. Spouse / Emergency contact" />
               </div>
               <div class="config-field">
                 <label class="config-label">ICE Contact Phone</label>
@@ -1317,61 +1458,75 @@
               <div class="config-field">
                 <label class="config-label">Total Monthly Budget (月額総予算)</label>
                 <div style="position: relative;">
-                  <span style="position: absolute; left: 14px; top: 12px; font-weight: 700; color: var(--text-secondary); font-size: 16px;">¥</span>
-                  <input type="number" id="cfg-monthly-total" class="config-input large-num" style="padding-left: 32px;" placeholder="240000" step="1000" oninput="recalculateBudgetPreview()" />
+                  <span
+                    style="position: absolute; left: 14px; top: 12px; font-weight: 700; color: var(--text-secondary); font-size: 16px;">¥</span>
+                  <input type="number" id="cfg-monthly-total" class="config-input large-num" style="padding-left: 32px;"
+                    placeholder="240000" step="1000" oninput="recalculateBudgetPreview()" />
                 </div>
                 <span class="config-hint">Your complete income target or monthly spending ceiling in Japan.</span>
               </div>
 
               <!-- Live Balance Summary Banner -->
-              <div id="budget-calc-preview" style="background: var(--bg-primary); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 12px; margin-bottom: 16px;">
+              <div id="budget-calc-preview"
+                style="background: var(--bg-primary); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 12px; margin-bottom: 16px;">
                 <!-- Populated dynamically via recalculateBudgetPreview() -->
               </div>
 
               <!-- Japan Bill Categories Sub-allocation -->
-              <h4 style="font-size: 13px; font-weight: 700; color: var(--color-charcoal); margin: 12px 0 6px 0; text-transform: uppercase; letter-spacing: 0.05em;">
+              <h4
+                style="font-size: 13px; font-weight: 700; color: var(--color-charcoal); margin: 12px 0 6px 0; text-transform: uppercase; letter-spacing: 0.05em;">
                 Fixed Bills & Living Envelopes (固定費・変動費)
               </h4>
               <p style="font-size: 11px; color: var(--text-secondary); margin-bottom: 12px;">
-                Allocate envelope caps for common Tokyo bills (furikomi rent, utility slips, health insurance & commuter pass).
+                Allocate envelope caps for common Tokyo bills (furikomi rent, utility slips, health insurance & commuter
+                pass).
               </p>
 
               <div class="budget-grid-inputs">
                 <div class="config-field">
                   <label class="config-label">🏠 Rent & Fee (家賃・共益費)</label>
-                  <input type="number" id="cfg-env-rent" class="config-input" step="500" oninput="recalculateBudgetPreview()" />
+                  <input type="number" id="cfg-env-rent" class="config-input" step="500"
+                    oninput="recalculateBudgetPreview()" />
                 </div>
                 <div class="config-field">
                   <label class="config-label">⚡ Electricity (電気代 - TEPCO)</label>
-                  <input type="number" id="cfg-env-elec" class="config-input" step="100" oninput="recalculateBudgetPreview()" />
+                  <input type="number" id="cfg-env-elec" class="config-input" step="100"
+                    oninput="recalculateBudgetPreview()" />
                 </div>
                 <div class="config-field">
                   <label class="config-label">🔥 Gas (ガス代 - Tokyo Gas)</label>
-                  <input type="number" id="cfg-env-gas" class="config-input" step="100" oninput="recalculateBudgetPreview()" />
+                  <input type="number" id="cfg-env-gas" class="config-input" step="100"
+                    oninput="recalculateBudgetPreview()" />
                 </div>
                 <div class="config-field">
                   <label class="config-label">💧 Water (水道代 - 2-Month Bill)</label>
-                  <input type="number" id="cfg-env-water" class="config-input" step="100" oninput="recalculateBudgetPreview()" />
+                  <input type="number" id="cfg-env-water" class="config-input" step="100"
+                    oninput="recalculateBudgetPreview()" />
                 </div>
                 <div class="config-field">
                   <label class="config-label">📶 Mobile & Fiber (通信費)</label>
-                  <input type="number" id="cfg-env-net" class="config-input" step="100" oninput="recalculateBudgetPreview()" />
+                  <input type="number" id="cfg-env-net" class="config-input" step="100"
+                    oninput="recalculateBudgetPreview()" />
                 </div>
                 <div class="config-field">
                   <label class="config-label">🏥 Health & Pension (国保・年金)</label>
-                  <input type="number" id="cfg-env-ins" class="config-input" step="100" oninput="recalculateBudgetPreview()" />
+                  <input type="number" id="cfg-env-ins" class="config-input" step="100"
+                    oninput="recalculateBudgetPreview()" />
                 </div>
                 <div class="config-field">
                   <label class="config-label">🛒 Groceries (食費・スーパー)</label>
-                  <input type="number" id="cfg-env-food" class="config-input" step="500" oninput="recalculateBudgetPreview()" />
+                  <input type="number" id="cfg-env-food" class="config-input" step="500"
+                    oninput="recalculateBudgetPreview()" />
                 </div>
                 <div class="config-field">
                   <label class="config-label">🚇 Transit & Suica (交通費・定期)</label>
-                  <input type="number" id="cfg-env-train" class="config-input" step="500" oninput="recalculateBudgetPreview()" />
+                  <input type="number" id="cfg-env-train" class="config-input" step="500"
+                    oninput="recalculateBudgetPreview()" />
                 </div>
                 <div class="config-field" style="grid-column: span 2;">
                   <label class="config-label">🛍️ Daily Living & Dining Out (生活費・外食)</label>
-                  <input type="number" id="cfg-env-disc" class="config-input" step="500" oninput="recalculateBudgetPreview()" />
+                  <input type="number" id="cfg-env-disc" class="config-input" step="500"
+                    oninput="recalculateBudgetPreview()" />
                 </div>
               </div>
             </div>
@@ -1404,11 +1559,13 @@
                   <option value="nvidia">NVIDIA Nemotron 70B (BYOK / build.nvidia.com)</option>
                   <option value="offline">On-Device Knowledge Engine (Offline Rulebook • ₹0)</option>
                 </select>
-                <span class="config-hint">Select whether to query cloud LLMs or remain strictly offline on device.</span>
+                <span class="config-hint">Select whether to query cloud LLMs or remain strictly offline on
+                  device.</span>
               </div>
 
               <!-- Connection Test Banner / Status -->
-              <div id="ai-test-result-box" style="background: var(--bg-primary); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 10px; margin-bottom: 14px; font-size: 11px;">
+              <div id="ai-test-result-box"
+                style="background: var(--bg-primary); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 10px; margin-bottom: 14px; font-size: 11px;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                   <strong id="ai-test-status-text">Ready to test connection</strong>
                   <button class="f-action-btn mini" onclick="testAiConnection()">⚡ Test Connection</button>
@@ -1419,27 +1576,34 @@
               </div>
 
               <!-- NVIDIA BYOK Configuration -->
-              <div id="nvidia-config-section" style="border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 12px; margin-bottom: 14px; background: rgba(118,185,0,0.03);">
+              <div id="nvidia-config-section"
+                style="border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 12px; margin-bottom: 14px; background: rgba(118,185,0,0.03);">
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
                   <strong style="font-size: 12px; color: #558500;">NVIDIA NIM (Nemotron) Credentials</strong>
-                  <span style="font-size: 9.5px; background: rgba(118,185,0,0.15); color: #558500; padding: 2px 6px; border-radius: 3px; font-weight: 700;">build.nvidia.com</span>
+                  <span
+                    style="font-size: 9.5px; background: rgba(118,185,0,0.15); color: #558500; padding: 2px 6px; border-radius: 3px; font-weight: 700;">build.nvidia.com</span>
                 </div>
                 <div class="config-field">
                   <label class="config-label">NVIDIA API Key</label>
                   <input type="password" id="cfg-nvidia-key" class="config-input" placeholder="nvapi-..." />
-                  <span class="config-hint">Requires Public API Endpoints or trial credits allocated on build.nvidia.com.</span>
+                  <span class="config-hint">Requires Public API Endpoints or trial credits allocated on
+                    build.nvidia.com.</span>
                 </div>
                 <div class="config-field">
                   <label class="config-label">NVIDIA Model Endpoint</label>
-                  <input type="text" id="cfg-nvidia-model" class="config-input" placeholder="nvidia/llama-3.1-nemotron-70b-instruct" />
+                  <input type="text" id="cfg-nvidia-model" class="config-input"
+                    placeholder="nvidia/llama-3.1-nemotron-70b-instruct" />
                 </div>
               </div>
 
               <!-- Google Gemini Configuration -->
-              <div id="gemini-config-section" style="border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 12px; margin-bottom: 14px; background: rgba(26,115,232,0.03);">
+              <div id="gemini-config-section"
+                style="border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 12px; margin-bottom: 14px; background: rgba(26,115,232,0.03);">
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
                   <strong style="font-size: 12px; color: #1a73e8;">Google Gemini (Default Baseline)</strong>
-                  <span style="font-size: 9.5px; background: rgba(26,115,232,0.12); color: #1a73e8; padding: 2px 6px; border-radius: 3px; font-weight: 700;">AI Studio</span>
+                  <span
+                    style="font-size: 9.5px; background: rgba(26,115,232,0.12); color: #1a73e8; padding: 2px 6px; border-radius: 3px; font-weight: 700;">AI
+                    Studio</span>
                 </div>
                 <div class="config-field">
                   <label class="config-label">Gemini API Key</label>
@@ -1464,91 +1628,70 @@
           <div class="modal-card widget-modal-card">
             <div class="modal-header-row">
               <div class="modal-title-wrap">
-                <span class="modal-sub-label">Android Home Screen Companion</span>
-                <h3 class="modal-main-title">Muchi Neko Dynamic Widget (4×2)</h3>
+                <span class="modal-sub-label">Android 14 Home Screen Widget</span>
+                <h3 class="modal-main-title">Muchi Neko Live Companion</h3>
               </div>
               <button class="modal-close-btn" onclick="closeModal('widget-preview-modal')">✕</button>
             </div>
-            <div class="modal-body-content">
-              <p class="modal-explainer-text">
-                Just like Duolingo, Muchi Neko sits right on your phone's home screen, dynamically reacting to your daily life, medication doses, and Tokyo deadlines with 0% battery drain:
+
+            <div class="modal-body-content widget-modal-body">
+              <p class="widget-intro-sub">
+                Dynamically reacts to your Tokyo routine, doses, and deadlines with 0% battery drain.
               </p>
 
-              <!-- Android Home Screen Desktop Wallpaper Mockup -->
-              <div class="android-desktop-mockup">
-                <div class="android-status-preview">
-                  <span id="w-clock-preview">13:20</span>
-                  <div class="android-icons-preview">
-                    <span>5G</span>
-                    <span>📶</span>
-                    <span>100%</span>
-                  </div>
-                </div>
-
-                <!-- The Actual Widget (4x2 Format) -->
+              <!-- Widget Showcase Stage (Clean Soft Pedestal) -->
+              <div class="widget-showcase-stage">
+                <!-- The Pristine 4x2 Widget -->
                 <div class="mascot-widget-card" id="interactive-mascot-widget">
-                  <!-- Widget Header -->
+                  <!-- Widget Top Meta Row -->
                   <div class="widget-header-row">
                     <div class="widget-title-group">
                       <span class="widget-date-badge" id="w-date-display">2026年11月14日 (土)</span>
-                      <span class="widget-live-dot">LIVE</span>
+                      <span class="widget-live-dot">● LIVE SYNC</span>
                     </div>
-                    <div class="hanko-seal mini">
-                      <span>相棒</span>
-                    </div>
+                    <span class="widget-hanko-seal">相棒</span>
                   </div>
 
-                  <!-- Widget Body: Muchi Neko & Speech Bubble -->
+                  <!-- Widget Body: Muchi Neko Avatar & Speech -->
                   <div class="widget-mascot-row">
                     <div class="widget-mascot-avatar" id="w-mascot-avatar">
                       <span id="w-mascot-emoji">😼📢</span>
                     </div>
                     <div class="widget-speech-bubble" id="w-speech-bubble">
-                      <p class="widget-speech-text" id="w-speech-text">Don't forget your 13:00 antibiotic dose nya! Ganbatte~</p>
                       <span class="widget-mood-tag" id="w-mood-tag">Active Dose Reminder</span>
+                      <p class="widget-speech-text" id="w-speech-text">Don't forget your 13:00 antibiotic dose nya! Ganbatte~</p>
                     </div>
                   </div>
 
-                  <!-- Widget Metric Indicators -->
+                  <!-- Widget Bottom Metrics -->
                   <div class="widget-metrics-row">
-                    <div class="w-metric-pill green">
-                      <span class="w-metric-label">💊 Next:</span>
-                      <strong class="w-metric-val" id="w-med-val">13:00 Antibiotic</strong>
+                    <div class="w-metric-chip green">
+                      <span class="w-chip-icon">💊</span>
+                      <span class="w-chip-text" id="w-med-val">Next: 13:00 Antibiotic</span>
                     </div>
-                    <div class="w-metric-pill amber">
-                      <span class="w-metric-label">💴 Spent:</span>
-                      <strong class="w-metric-val" id="w-spent-val">¥0</strong>
-                    </div>
-                    <div class="w-metric-pill grey">
-                      <span class="w-metric-label">🗑️ Trash:</span>
-                      <strong class="w-metric-val" id="w-trash-val">Burnable</strong>
+                    <div class="w-metric-chip amber">
+                      <span class="w-chip-icon">💴</span>
+                      <span class="w-chip-text" id="w-spent-val">Spent: ¥0</span>
                     </div>
                   </div>
-                </div>
-
-                <!-- Fake Desktop App Icons to complete the authentic Android Home Screen feel -->
-                <div class="fake-desktop-dock">
-                  <div class="fake-app-icon"><div class="app-icon-circle green">📞</div><span>Phone</span></div>
-                  <div class="fake-app-icon"><div class="app-icon-circle blue">💬</div><span>Messages</span></div>
-                  <div class="fake-app-icon"><div class="app-icon-circle vermilion">⛩️</div><span>AIBO</span></div>
-                  <div class="fake-app-icon"><div class="app-icon-circle dark">📷</div><span>Camera</span></div>
                 </div>
               </div>
 
-              <!-- Interactive Mood Tester Controls (Duolingo Style Reactions) -->
+              <!-- Interactive Reaction Selector -->
               <div class="widget-mood-tester">
-                <span class="tester-label">Test Muchi Neko's Widget Reactions:</span>
-                <div class="tester-buttons-grid">
-                  <button class="tester-btn active" id="btn-mood-reminder" onclick="setWidgetMascotMood('reminder')">😼 Dose Reminder</button>
-                  <button class="tester-btn" id="btn-mood-celebrate" onclick="setWidgetMascotMood('celebrate')">🐱 All Doses Done</button>
-                  <button class="tester-btn" id="btn-mood-urgent" onclick="setWidgetMascotMood('urgent')">🙀 Urgent Deadline</button>
-                  <button class="tester-btn" id="btn-mood-happy" onclick="setWidgetMascotMood('happy')">😽 Calm / Morning</button>
-                  <button class="tester-btn" id="btn-mood-sleepy" onclick="setWidgetMascotMood('sleepy')">😸 Sleepy / Night</button>
+                <span class="tester-label">Preview Live Mascot Expressions:</span>
+                <div class="tester-pills-row">
+                  <button class="tester-pill-btn active" id="btn-mood-reminder" onclick="setWidgetMascotMood('reminder')">😼 Reminder</button>
+                  <button class="tester-pill-btn" id="btn-mood-celebrate" onclick="setWidgetMascotMood('celebrate')">🐱 All Done</button>
+                  <button class="tester-pill-btn" id="btn-mood-urgent" onclick="setWidgetMascotMood('urgent')">🙀 Urgent</button>
+                  <button class="tester-pill-btn" id="btn-mood-happy" onclick="setWidgetMascotMood('happy')">😽 Calm</button>
+                  <button class="tester-pill-btn" id="btn-mood-sleepy" onclick="setWidgetMascotMood('sleepy')">😸 Night</button>
                 </div>
               </div>
             </div>
+
             <div class="modal-footer">
-              <button class="modal-primary-btn" onclick="closeModal('widget-preview-modal')">Close Preview</button>
+              <button class="modal-primary-btn" onclick="closeModal('widget-preview-modal')">Done</button>
             </div>
           </div>
         </div>
@@ -1558,4 +1701,5 @@
 
   <script src="app.js"></script>
 </body>
+
 </html>

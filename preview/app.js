@@ -543,7 +543,7 @@ Your core rules:
     try {
       const stored = localStorage.getItem('aibo_ai_config');
       if (stored) return JSON.parse(stored);
-    } catch(e) {}
+    } catch (e) { }
 
     return {
       activeProvider: 'auto',
@@ -639,7 +639,7 @@ Your core rules:
       try {
         const errJson = JSON.parse(errText);
         errDetail = errJson.detail || errJson.message || errText;
-      } catch(e) {}
+      } catch (e) { }
       throw new Error(`NVIDIA HTTP ${res.status}: ${errDetail}`);
     }
   },
@@ -692,7 +692,7 @@ Your core rules:
       try {
         const errJson = JSON.parse(errText);
         errDetail = errJson.error?.message || errText;
-      } catch(e) {}
+      } catch (e) { }
       throw new Error(`Gemini HTTP ${res.status}: ${errDetail}`);
     }
   },
@@ -712,7 +712,7 @@ Your core rules:
     if (provider === 'nvidia') {
       try {
         return await this.callNvidia(prompt, history, cfg);
-      } catch(e) {
+      } catch (e) {
         return {
           text: `⚠️ **NVIDIA Nemotron Error**: ${e.message}\n\n*Note*: This error occurs when your NVIDIA API account has not had Public NIM inference permissions or trial credits enabled for this model. You can switch to **Google Gemini** in AI Settings for instant live answers.`,
           provider: 'NVIDIA API Error',
@@ -724,7 +724,7 @@ Your core rules:
     if (provider === 'gemini') {
       try {
         return await this.callGemini(prompt, history, cfg);
-      } catch(e) {
+      } catch (e) {
         return {
           text: `⚠️ **Gemini API Error**: ${e.message}\n\nFalling back to On-Device Knowledge:\n\n${AiboKnowledgeAssistant.respond(prompt)}`,
           provider: 'On-Device Offline Fallback',
@@ -832,7 +832,7 @@ function renderClockAndDates() {
   // 3. Date & Japanese day-of-week calculated in the selected timezone
   const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const dayNamesJp = ['日', '月', '火', '水', '木', '金', '土'];
-  
+
   let month = monthNames[now.getMonth()];
   let dateNum = now.getDate();
   let dayJp = dayNamesJp[now.getDay()];
@@ -859,7 +859,7 @@ function renderClockAndDates() {
       const weekdayMap = { 'Sun': '日', 'Mon': '月', 'Tue': '火', 'Wed': '水', 'Thu': '木', 'Fri': '金', 'Sat': '土' };
       dayJp = weekdayMap[pWeekday] || dayJp;
     }
-  } catch (_) {}
+  } catch (_) { }
 
   const dateStr = `Today • ${month} ${dateNum} (${dayJp})`;
   if (dateChip) dateChip.textContent = dateStr;
@@ -1033,7 +1033,7 @@ function renderExpenses() {
             <div class="transaction-item-row" style="display: flex; justify-content: space-between; align-items: center; background: #FAF7EE; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border-subtle);">
               <div>
                 <strong style="font-size: 13px;">${escapeHtml(e.category)}</strong>
-                <span style="display: block; font-size: 11px; color: var(--text-secondary);">${escapeHtml(e.note || new Date(e.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}))}</span>
+                <span style="display: block; font-size: 11px; color: var(--text-secondary);">${escapeHtml(e.note || new Date(e.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }))}</span>
               </div>
               <div style="display: flex; align-items: center; gap: 10px;">
                 <strong style="font-size: 14px; font-variant-numeric: tabular-nums;">-¥${e.amount.toLocaleString()}</strong>
@@ -1258,7 +1258,7 @@ function renderChatLog() {
         <div class="chat-row user">
           <div class="scroll-bubble user">
             ${escapeHtml(msg.content)}
-            <div class="scroll-time">${new Date(msg.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+            <div class="scroll-time">${new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
           </div>
         </div>
       `;
@@ -1269,7 +1269,7 @@ function renderChatLog() {
           <div class="scroll-bubble">
             ${msg.provider ? `<div class="ai-model-tag ${escapeHtml(msg.providerClass || 'gemini')}">${escapeHtml(msg.provider)}</div>` : ''}
             <div>${escapeHtml(msg.content).replace(/\n/g, '<br>')}</div>
-            <div class="scroll-time">${new Date(msg.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} • ${escapeHtml(msg.provider || 'AIBO Intelligence')}</div>
+            <div class="scroll-time">${new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} • ${escapeHtml(msg.provider || 'AIBO Intelligence')}</div>
           </div>
         </div>
       `;
@@ -1881,7 +1881,7 @@ async function testAiConnection() {
         } else {
           res = await AiboAiService.callGemini('Hello', [], testCfg);
         }
-      } catch(e) {
+      } catch (e) {
         res = await AiboAiService.callGemini('Hello', [], testCfg);
         testedProvider = 'Google Gemini (Auto Fallback)';
       }
@@ -1953,7 +1953,7 @@ let _splashTimeout = null;
 function triggerSplashScreen(manual = false) {
   const splash = document.getElementById('app-splash-screen');
   if (!splash) return;
-  
+
   if (_splashTimeout) clearTimeout(_splashTimeout);
   splash.classList.remove('dismissed');
 
@@ -2038,8 +2038,8 @@ function setWidgetMascotMood(mood) {
   if (textEl) textEl.textContent = data.text;
   if (tagEl) tagEl.textContent = data.tag;
 
-  // Update active button state
-  document.querySelectorAll('.tester-btn').forEach(btn => btn.classList.remove('active'));
+  // Update active pill state
+  document.querySelectorAll('.tester-pill-btn').forEach(btn => btn.classList.remove('active'));
   const activeBtn = document.getElementById(`btn-mood-${mood}`);
   if (activeBtn) activeBtn.classList.add('active');
 }
@@ -2052,16 +2052,8 @@ function updateWidgetDataDisplay() {
   const activeMeds = meds.filter(m => !m.taken);
 
   const dateEl = document.getElementById('w-date-display');
-  const clockEl = document.getElementById('w-clock-preview');
   const spentEl = document.getElementById('w-spent-val');
   const medEl = document.getElementById('w-med-val');
-  const trashEl = document.getElementById('w-trash-val');
-
-  if (clockEl) {
-    const hh = String(now.getHours()).padStart(2, '0');
-    const mm = String(now.getMinutes()).padStart(2, '0');
-    clockEl.textContent = `${hh}:${mm}`;
-  }
 
   const daysJp = ['日', '月', '火', '水', '木', '金', '土'];
   if (dateEl) {
@@ -2069,16 +2061,16 @@ function updateWidgetDataDisplay() {
   }
 
   if (spentEl) {
-    spentEl.textContent = `¥${spentToday.toLocaleString()}`;
+    spentEl.textContent = `Spent: ¥${spentToday.toLocaleString()}`;
   }
 
   if (medEl) {
     if (activeMeds.length > 0) {
-      medEl.textContent = `${activeMeds[0].time} ${activeMeds[0].name}`;
+      medEl.textContent = `Next: ${activeMeds[0].time} ${activeMeds[0].name}`;
     } else if (meds.length > 0) {
-      medEl.textContent = 'All taken (完了)';
+      medEl.textContent = 'Next: All doses taken';
     } else {
-      medEl.textContent = 'None scheduled';
+      medEl.textContent = 'Next: None scheduled';
     }
   }
 

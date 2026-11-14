@@ -3995,11 +3995,6 @@ body.stationery-theme {
 /* ==========================================================================
    Android Home Screen Widget Modal (Clean, Spacious & De-congested)
    ========================================================================== */
-.widget-modal-card {
-  max-width: 420px;
-  background: #FFFFFF;
-}
-
 .widget-modal-body {
   padding: 12px 18px 16px;
 }
@@ -4114,7 +4109,7 @@ body.stationery-theme {
 }
 
 .widget-speech-bubble::before {
-  content: '';
+  content: ;
   position: absolute;
   left: -5px;
   top: 50%;
@@ -4176,15 +4171,12 @@ body.stationery-theme {
   text-overflow: ellipsis;
 }
 
-.w-metric-chip.green .w-chip-text { color: var(--matcha-green); }
-.w-metric-chip.amber .w-chip-text { color: var(--yamabuki-gold); }
-
-.w-metric-pill.amber .w-metric-val {
-  color: var(--yamabuki-gold);
+.w-metric-chip.green .w-chip-text {
+  color: var(--matcha-green);
 }
 
-.w-metric-pill.grey .w-metric-val {
-  color: var(--sumi-ink);
+.w-metric-chip.amber .w-chip-text {
+  color: var(--yamabuki-gold);
 }
 
 /* Interactive Reaction Selector Pills */

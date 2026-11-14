@@ -760,6 +760,36 @@ Your core rules:
 };
 
 // ==========================================================================
+// Timezone Management (Tokyo JST ⇄ India IST Switcher)
+// ==========================================================================
+let currentTimezone = localStorage.getItem('aibo_timezone_pref') || 'JST';
+
+function toggleTimezone() {
+  currentTimezone = currentTimezone === 'JST' ? 'IST' : 'JST';
+  localStorage.setItem('aibo_timezone_pref', currentTimezone);
+  if (typeof audio !== 'undefined' && audio.playWoodClick) {
+    audio.playWoodClick();
+  }
+  renderClockAndDates();
+  if (typeof showJapaneseNotification === 'function') {
+    if (currentTimezone === 'IST') {
+      showJapaneseNotification(
+        'Timezone: India (IST)',
+        'Clock set to India Standard Time (UTC+5:30)',
+        'icon-sparkles'
+      );
+    } else {
+      showJapaneseNotification(
+        'Timezone: Tokyo (JST)',
+        'Clock set to Tokyo Local Time (UTC+9:00)',
+        'icon-torii'
+      );
+    }
+  }
+}
+window.toggleTimezone = toggleTimezone;
+
+// ==========================================================================
 // UI Renderers (Dynamic, Truthful, Free of Mock Data)
 // ==========================================================================
 
@@ -767,28 +797,81 @@ Your core rules:
 function renderClockAndDates() {
   const now = new Date();
   const clockEl = document.getElementById('status-clock');
+  const tzLabel = document.getElementById('tz-display-label');
+  const tzPill = document.getElementById('tz-switch-pill');
   const dateChip = document.getElementById('local-date-chip');
   const greetingCity = document.getElementById('greeting-city-weather');
   const yakutaiDate = document.getElementById('yakutai-date-display');
 
-  const hh = String(now.getHours()).padStart(2, '0');
-  const mm = String(now.getMinutes()).padStart(2, '0');
-  if (clockEl) clockEl.textContent = `${hh}:${mm}`;
+  const isIST = currentTimezone === 'IST';
+  const timeZoneId = isIST ? 'Asia/Kolkata' : 'Asia/Tokyo';
 
+  // 1. Precise Time according to selected timezone
+  try {
+    const timeStr = new Intl.DateTimeFormat('en-GB', {
+      timeZone: timeZoneId,
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    }).format(now);
+    if (clockEl) clockEl.textContent = timeStr;
+  } catch (_) {
+    const hh = String(now.getHours()).padStart(2, '0');
+    const mm = String(now.getMinutes()).padStart(2, '0');
+    if (clockEl) clockEl.textContent = `${hh}:${mm}`;
+  }
+
+  // 2. Status Bar Header Label & Toggle Pill
+  if (tzLabel) {
+    tzLabel.textContent = isIST ? 'India Local Time (IST)' : 'Tokyo Local Time (JST)';
+  }
+  if (tzPill) {
+    tzPill.textContent = isIST ? '⇄ JST' : '⇄ IST';
+  }
+
+  // 3. Date & Japanese day-of-week calculated in the selected timezone
   const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const dayNamesJp = ['日', '月', '火', '水', '木', '金', '土'];
-  const dayJp = dayNamesJp[now.getDay()];
-  const dateStr = `Today • ${monthNames[now.getMonth()]} ${now.getDate()} (${dayJp})`;
+  
+  let month = monthNames[now.getMonth()];
+  let dateNum = now.getDate();
+  let dayJp = dayNamesJp[now.getDay()];
+  let yearNum = now.getFullYear();
 
+  try {
+    const parts = new Intl.DateTimeFormat('en-US', {
+      timeZone: timeZoneId,
+      month: 'short',
+      day: 'numeric',
+      weekday: 'short',
+      year: 'numeric'
+    }).formatToParts(now);
+
+    const pMonth = parts.find(p => p.type === 'month')?.value;
+    const pDay = parts.find(p => p.type === 'day')?.value;
+    const pWeekday = parts.find(p => p.type === 'weekday')?.value;
+    const pYear = parts.find(p => p.type === 'year')?.value;
+
+    if (pMonth) month = pMonth;
+    if (pDay) dateNum = pDay;
+    if (pYear) yearNum = pYear;
+    if (pWeekday) {
+      const weekdayMap = { 'Sun': '日', 'Mon': '月', 'Tue': '火', 'Wed': '水', 'Thu': '木', 'Fri': '金', 'Sat': '土' };
+      dayJp = weekdayMap[pWeekday] || dayJp;
+    }
+  } catch (_) {}
+
+  const dateStr = `Today • ${month} ${dateNum} (${dayJp})`;
   if (dateChip) dateChip.textContent = dateStr;
 
   const profile = AiboStore.getProfile();
   if (greetingCity) {
-    greetingCity.textContent = `${profile.city || 'Tokyo'} • 18°C ☀️ • ${monthNames[now.getMonth()]} ${now.getDate()}`;
+    const locPrefix = isIST ? 'India (IST)' : (profile.city || 'Tokyo');
+    greetingCity.textContent = `${locPrefix} • 18°C ☀️ • ${month} ${dateNum}`;
   }
 
   if (yakutaiDate) {
-    yakutaiDate.textContent = `${monthNames[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
+    yakutaiDate.textContent = `${month} ${dateNum}, ${yearNum}`;
   }
 }
 

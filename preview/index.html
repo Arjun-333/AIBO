@@ -126,10 +126,13 @@
         <!-- Floating Notification Toast -->
         <div id="toast-container" class="toast-container"></div>
 
-        <!-- Phone Simulator Header Bar (Clean, non-competing) -->
+        <!-- Phone Simulator Header Bar (Clean, non-competing, with Interactive Timezone Switcher) -->
         <div class="status-bar">
-          <span class="status-time" id="status-clock">13:20</span>
-          <span class="status-os-note">Tokyo Local Time (JST)</span>
+          <span class="status-time" id="status-clock">01:36</span>
+          <button class="status-os-note-btn" id="tz-toggle-btn" onclick="toggleTimezone()" title="Click to switch time between Tokyo (JST) and India (IST)">
+            <span id="tz-display-label">Tokyo Local Time (JST)</span>
+            <span class="tz-switch-pill" id="tz-switch-pill">⇄ IST</span>
+          </button>
         </div>
 
         <!-- Scrollable Screens Container -->

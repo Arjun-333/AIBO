@@ -165,3 +165,19 @@ CREATE TABLE structured_documents (
 | **Install Package Footprint** | **< 200 MB** | Release APK size is ~42 MB. On-device ML Kit models initialize dynamically; no heavy offline LLM weights bundled in v1.0. |
 | **Data Privacy & Egress** | **100% On-Device** | Document Vault optical character recognition (extracting text from Residence Cards, health insurance, tax slips) executes 100% locally on the device using Google ML Kit Japanese script without any network egress. |
 | **Emergency ICE Policy** | **Split-Security** | Critical ICE medical data and Japanese address readback are accessible in seconds without authentication, while financial receipts and encrypted vault documents remain gated behind biometric authentication. |
+
+---
+
+## 9. Muchi Neko Mascot Home Screen Widget (Duolingo Style)
+
+To ensure the user stays on top of their Tokyo daily routine without opening the app, AIBO provides an active Android 4×2 home screen widget powered by **Muchi Neko (むちねこ)**:
+
+1. **Dynamic Mood Expressions**:
+   - `reminder`: Dose due / active pending tasks ("Don't forget your 13:00 dose nya!").
+   - `celebrate`: 100% of doses & tasks taken ("All medications completed today! 🎉").
+   - `urgent`: Approaching visa deadline or daily budget limit ("Attention! Visa expires soon nya!").
+   - `sleepy`: Late evening wrap-up ("Good job today! Time to rest nya~ 💤").
+   - `happy`: Morning / calm status ("Tokyo life is peaceful today. Ganbatte!").
+2. **Local Zero-Battery Architecture**:
+   - Updates via Android `AppWidgetProvider` (`AiboMascotWidgetProvider.kt`) triggered only on local SQLite state mutations (expense logged, medication stamped, task checked) or standard 30-minute system broadcasts.
+   - 100% offline, ₹0 operating cost, zero network wakeups.

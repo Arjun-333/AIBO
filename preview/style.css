@@ -3759,3 +3759,268 @@ body.stationery-theme {
   0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
   40% { transform: translateY(-4px); opacity: 1; }
 }
+
+/* ==========================================================================
+   Android Home Screen Widget Mockup & Duolingo-style Muchi Neko Reactions
+   ========================================================================== */
+.widget-modal-card {
+  max-width: 440px;
+}
+
+.android-desktop-mockup {
+  background: linear-gradient(145deg, #1A2634 0%, #2A3B4C 50%, #151F2A 100%);
+  border-radius: 20px;
+  padding: 16px 14px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1), 0 12px 28px rgba(0, 0, 0, 0.35);
+  margin: 14px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.android-status-preview {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+  padding: 0 4px;
+}
+
+.android-icons-preview {
+  display: flex;
+  gap: 6px;
+  font-size: 10px;
+}
+
+.mascot-widget-card {
+  background: var(--torinoko-washi);
+  border: 1.5px solid var(--washi-border);
+  border-radius: 18px;
+  padding: 12px 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mascot-widget-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+}
+
+.widget-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.widget-title-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.widget-date-badge {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--sumi-ink);
+  letter-spacing: 0.2px;
+}
+
+.widget-live-dot {
+  font-size: 8.5px;
+  font-weight: 800;
+  background: rgba(47, 93, 68, 0.12);
+  color: var(--matcha-green);
+  border: 1px solid rgba(47, 93, 68, 0.3);
+  padding: 1px 5px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+.widget-mascot-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.widget-mascot-avatar {
+  width: 48px;
+  height: 48px;
+  background: #FFFFFF;
+  border: 1px solid var(--washi-border);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.widget-mascot-row:hover .widget-mascot-avatar {
+  transform: scale(1.08) rotate(-4deg);
+}
+
+.widget-speech-bubble {
+  background: #FFFFFF;
+  border: 1px solid var(--washi-border);
+  border-radius: 12px;
+  padding: 8px 10px;
+  flex: 1;
+  min-width: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  position: relative;
+}
+
+.widget-speech-bubble::before {
+  content: '';
+  position: absolute;
+  left: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-right: 6px solid #FFFFFF;
+}
+
+.widget-speech-text {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--sumi-ink);
+  margin: 0 0 3px 0;
+  line-height: 1.3;
+}
+
+.widget-mood-tag {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--shu-vermilion);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.widget-metrics-row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.w-metric-pill {
+  flex: 1;
+  background: #FFFFFF;
+  border: 1px solid var(--washi-border);
+  border-radius: 6px;
+  padding: 4px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  overflow: hidden;
+}
+
+.w-metric-label {
+  font-size: 8.5px;
+  font-weight: 700;
+  color: var(--sumi-muted);
+}
+
+.w-metric-val {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--sumi-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.w-metric-pill.green .w-metric-val { color: var(--matcha-green); }
+.w-metric-pill.amber .w-metric-val { color: var(--yamabuki-gold); }
+.w-metric-pill.grey .w-metric-val { color: var(--sumi-ink); }
+
+.fake-desktop-dock {
+  display: flex;
+  justify-content: space-around;
+  padding: 6px 10px 0;
+}
+
+.fake-app-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.fake-app-icon span {
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: 600;
+}
+
+.app-icon-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+}
+
+.app-icon-circle.green { background: #10B981; }
+.app-icon-circle.blue { background: #3B82F6; }
+.app-icon-circle.vermilion { background: var(--shu-vermilion); }
+.app-icon-circle.dark { background: #475569; }
+
+.widget-mood-tester {
+  margin-top: 14px;
+  background: #FAF7EE;
+  border: 1px solid var(--washi-border);
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.tester-label {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--sumi-ink);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.tester-buttons-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tester-btn {
+  background: #FFFFFF;
+  border: 1px solid var(--washi-border);
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--sumi-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.tester-btn:hover {
+  background: #F3EFE6;
+  color: var(--sumi-ink);
+}
+
+.tester-btn.active {
+  background: var(--shu-vermilion);
+  color: #FFFFFF;
+  border-color: var(--shu-vermilion);
+  box-shadow: 0 2px 6px rgba(229, 57, 36, 0.25);
+}

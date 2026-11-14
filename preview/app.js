@@ -1989,6 +1989,113 @@ window.triggerSplashScreen = triggerSplashScreen;
 window.dismissSplashScreen = dismissSplashScreen;
 
 // ==========================================================================
+// Android Mascot Widget Engine (Duolingo Style Reactions)
+// ==========================================================================
+const widgetMoodData = {
+  reminder: {
+    avatar: '😼📢',
+    text: "Don't forget your upcoming medication dose nya! Ganbatte~",
+    tag: 'Active Dose Reminder'
+  },
+  celebrate: {
+    avatar: '🐱✨',
+    text: 'All doses and tasks completed today! O-tsukaresama nya~ 🎉',
+    tag: '100% Routine Complete'
+  },
+  urgent: {
+    avatar: '🙀⚠️',
+    text: 'Attention! Visa renewal window is open or budget limit reached nya!',
+    tag: 'Urgent Life Notice'
+  },
+  happy: {
+    avatar: '😽🍵',
+    text: 'Tokyo weather is pleasant today. Ready for your daily agenda?',
+    tag: 'Calm & Steady'
+  },
+  sleepy: {
+    avatar: '😸💤',
+    text: 'Good job today! Time to rest well and recharge for tomorrow nya~',
+    tag: 'Night Wrap-up'
+  }
+};
+
+function openWidgetPreviewModal() {
+  openModal('widget-preview-modal');
+  updateWidgetDataDisplay();
+}
+window.openWidgetPreviewModal = openWidgetPreviewModal;
+
+function setWidgetMascotMood(mood) {
+  if (typeof audio !== 'undefined' && audio.playWoodClick) {
+    audio.playWoodClick();
+  }
+  const data = widgetMoodData[mood] || widgetMoodData.happy;
+  const avatarEl = document.getElementById('w-mascot-emoji');
+  const textEl = document.getElementById('w-speech-text');
+  const tagEl = document.getElementById('w-mood-tag');
+
+  if (avatarEl) avatarEl.textContent = data.avatar;
+  if (textEl) textEl.textContent = data.text;
+  if (tagEl) tagEl.textContent = data.tag;
+
+  // Update active button state
+  document.querySelectorAll('.tester-btn').forEach(btn => btn.classList.remove('active'));
+  const activeBtn = document.getElementById(`btn-mood-${mood}`);
+  if (activeBtn) activeBtn.classList.add('active');
+}
+window.setWidgetMascotMood = setWidgetMascotMood;
+
+function updateWidgetDataDisplay() {
+  const now = new Date();
+  const spentToday = AiboStore.getTodaySpentTotal();
+  const meds = AiboStore.getMedications();
+  const activeMeds = meds.filter(m => !m.taken);
+
+  const dateEl = document.getElementById('w-date-display');
+  const clockEl = document.getElementById('w-clock-preview');
+  const spentEl = document.getElementById('w-spent-val');
+  const medEl = document.getElementById('w-med-val');
+  const trashEl = document.getElementById('w-trash-val');
+
+  if (clockEl) {
+    const hh = String(now.getHours()).padStart(2, '0');
+    const mm = String(now.getMinutes()).padStart(2, '0');
+    clockEl.textContent = `${hh}:${mm}`;
+  }
+
+  const daysJp = ['日', '月', '火', '水', '木', '金', '土'];
+  if (dateEl) {
+    dateEl.textContent = `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日 (${daysJp[now.getDay()]})`;
+  }
+
+  if (spentEl) {
+    spentEl.textContent = `¥${spentToday.toLocaleString()}`;
+  }
+
+  if (medEl) {
+    if (activeMeds.length > 0) {
+      medEl.textContent = `${activeMeds[0].time} ${activeMeds[0].name}`;
+    } else if (meds.length > 0) {
+      medEl.textContent = 'All taken (完了)';
+    } else {
+      medEl.textContent = 'None scheduled';
+    }
+  }
+
+  // Auto-set mood based on real data
+  if (activeMeds.length > 0) {
+    setWidgetMascotMood('reminder');
+  } else if (meds.length > 0 && activeMeds.length === 0) {
+    setWidgetMascotMood('celebrate');
+  } else if (now.getHours() >= 21) {
+    setWidgetMascotMood('sleepy');
+  } else {
+    setWidgetMascotMood('happy');
+  }
+}
+window.updateWidgetDataDisplay = updateWidgetDataDisplay;
+
+// ==========================================================================
 // Initialization & Startup
 // ==========================================================================
 document.addEventListener('DOMContentLoaded', () => {

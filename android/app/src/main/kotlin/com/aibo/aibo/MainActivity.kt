@@ -1,11 +1,13 @@
 package com.aibo.aibo
 
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import androidx.annotation.NonNull
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
-import org.json.JSONObject
 
 class MainActivity: FlutterActivity() {
     private val WIDGET_CHANNEL = "com.aibo.aibo/widget"
@@ -24,6 +26,21 @@ class MainActivity: FlutterActivity() {
                         editor.putString(k, v.toString())
                     }
                     editor.apply()
+
+                    // Broadcast update to all AIBO Home Screen widgets
+                    try {
+                        val intent = Intent(this, AiboMascotWidgetProvider::class.java).apply {
+                            action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+                            val appWidgetManager = AppWidgetManager.getInstance(this@MainActivity)
+                            val componentName = ComponentName(this@MainActivity, AiboMascotWidgetProvider::class.java)
+                            val appWidgetIds = appWidgetManager.getAppWidgetIds(componentName)
+                            putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
+                        }
+                        sendBroadcast(intent)
+                    } catch (e: Exception) {
+                        // Safe fallback if widget not currently placed on home screen
+                    }
+
                     result.success(true)
                 } else {
                     result.error("INVALID_ARGS", "Widget data payload was null", null)

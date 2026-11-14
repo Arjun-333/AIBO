@@ -101,6 +101,9 @@
       <div class="paper-badge online-pill">
         <span class="dot-seal"></span> Offline-First v1.0.0
       </div>
+      <button id="widget-preview-btn" class="paper-btn" onclick="openWidgetPreviewModal()" title="Preview Muchi Neko Android Home Screen Widget (Duolingo Style)">
+        <span>📱 Widget</span>
+      </button>
       <button id="replay-splash-btn" class="paper-btn" onclick="triggerSplashScreen(true)" title="Replay Opening Animated Splash Screen">
         <span>⛩️ Splash</span>
       </button>
@@ -1452,6 +1455,100 @@
             <div class="modal-footer">
               <button class="modal-secondary-btn" onclick="closeModal('ai-config-modal')">Cancel</button>
               <button class="modal-primary-btn" onclick="saveAiConfig()">Save AI Settings</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Android Home Screen Widget Preview Modal (Duolingo Style Muchi Neko Mascot) -->
+        <div id="widget-preview-modal" class="modal-overlay" onclick="closeModalOnBackdrop(event, 'widget-preview-modal')">
+          <div class="modal-card widget-modal-card">
+            <div class="modal-header-row">
+              <div class="modal-title-wrap">
+                <span class="modal-sub-label">Android Home Screen Companion</span>
+                <h3 class="modal-main-title">Muchi Neko Dynamic Widget (4×2)</h3>
+              </div>
+              <button class="modal-close-btn" onclick="closeModal('widget-preview-modal')">✕</button>
+            </div>
+            <div class="modal-body-content">
+              <p class="modal-explainer-text">
+                Just like Duolingo, Muchi Neko sits right on your phone's home screen, dynamically reacting to your daily life, medication doses, and Tokyo deadlines with 0% battery drain:
+              </p>
+
+              <!-- Android Home Screen Desktop Wallpaper Mockup -->
+              <div class="android-desktop-mockup">
+                <div class="android-status-preview">
+                  <span id="w-clock-preview">13:20</span>
+                  <div class="android-icons-preview">
+                    <span>5G</span>
+                    <span>📶</span>
+                    <span>100%</span>
+                  </div>
+                </div>
+
+                <!-- The Actual Widget (4x2 Format) -->
+                <div class="mascot-widget-card" id="interactive-mascot-widget">
+                  <!-- Widget Header -->
+                  <div class="widget-header-row">
+                    <div class="widget-title-group">
+                      <span class="widget-date-badge" id="w-date-display">2026年11月14日 (土)</span>
+                      <span class="widget-live-dot">LIVE</span>
+                    </div>
+                    <div class="hanko-seal mini">
+                      <span>相棒</span>
+                    </div>
+                  </div>
+
+                  <!-- Widget Body: Muchi Neko & Speech Bubble -->
+                  <div class="widget-mascot-row">
+                    <div class="widget-mascot-avatar" id="w-mascot-avatar">
+                      <span id="w-mascot-emoji">😼📢</span>
+                    </div>
+                    <div class="widget-speech-bubble" id="w-speech-bubble">
+                      <p class="widget-speech-text" id="w-speech-text">Don't forget your 13:00 antibiotic dose nya! Ganbatte~</p>
+                      <span class="widget-mood-tag" id="w-mood-tag">Active Dose Reminder</span>
+                    </div>
+                  </div>
+
+                  <!-- Widget Metric Indicators -->
+                  <div class="widget-metrics-row">
+                    <div class="w-metric-pill green">
+                      <span class="w-metric-label">💊 Next:</span>
+                      <strong class="w-metric-val" id="w-med-val">13:00 Antibiotic</strong>
+                    </div>
+                    <div class="w-metric-pill amber">
+                      <span class="w-metric-label">💴 Spent:</span>
+                      <strong class="w-metric-val" id="w-spent-val">¥0</strong>
+                    </div>
+                    <div class="w-metric-pill grey">
+                      <span class="w-metric-label">🗑️ Trash:</span>
+                      <strong class="w-metric-val" id="w-trash-val">Burnable</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Fake Desktop App Icons to complete the authentic Android Home Screen feel -->
+                <div class="fake-desktop-dock">
+                  <div class="fake-app-icon"><div class="app-icon-circle green">📞</div><span>Phone</span></div>
+                  <div class="fake-app-icon"><div class="app-icon-circle blue">💬</div><span>Messages</span></div>
+                  <div class="fake-app-icon"><div class="app-icon-circle vermilion">⛩️</div><span>AIBO</span></div>
+                  <div class="fake-app-icon"><div class="app-icon-circle dark">📷</div><span>Camera</span></div>
+                </div>
+              </div>
+
+              <!-- Interactive Mood Tester Controls (Duolingo Style Reactions) -->
+              <div class="widget-mood-tester">
+                <span class="tester-label">Test Muchi Neko's Widget Reactions:</span>
+                <div class="tester-buttons-grid">
+                  <button class="tester-btn active" id="btn-mood-reminder" onclick="setWidgetMascotMood('reminder')">😼 Dose Reminder</button>
+                  <button class="tester-btn" id="btn-mood-celebrate" onclick="setWidgetMascotMood('celebrate')">🐱 All Doses Done</button>
+                  <button class="tester-btn" id="btn-mood-urgent" onclick="setWidgetMascotMood('urgent')">🙀 Urgent Deadline</button>
+                  <button class="tester-btn" id="btn-mood-happy" onclick="setWidgetMascotMood('happy')">😽 Calm / Morning</button>
+                  <button class="tester-btn" id="btn-mood-sleepy" onclick="setWidgetMascotMood('sleepy')">😸 Sleepy / Night</button>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="modal-primary-btn" onclick="closeModal('widget-preview-modal')">Close Preview</button>
             </div>
           </div>
         </div>

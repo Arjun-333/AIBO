@@ -866,8 +866,11 @@ function renderClockAndDates() {
 
   const profile = AiboStore.getProfile();
   if (greetingCity) {
-    const locPrefix = isIST ? 'India (IST)' : (profile.city || 'Tokyo');
-    greetingCity.textContent = `${locPrefix} • 18°C ☀️ • ${month} ${dateNum}`;
+    if (isIST) {
+      greetingCity.textContent = `India (IST) • Remote Sync • ${month} ${dateNum}`;
+    } else {
+      greetingCity.textContent = `${profile.city || 'Shibuya-ku, Tokyo (東京都渋谷区)'} • Active Ward Context`;
+    }
   }
 
   if (yakutaiDate) {
@@ -1166,6 +1169,7 @@ function renderMedications() {
       `).join('');
     }
   }
+  updateMuchiAutonomousSpeech();
 }
 
 // 6. Document Vault
@@ -1289,6 +1293,8 @@ function renderAll() {
   renderVault();
   renderIceCard();
   renderChatLog();
+  renderTransitCard();
+  updateMuchiAutonomousSpeech();
 }
 
 // ==========================================================================
@@ -1604,33 +1610,65 @@ function switchTab(screenId) {
 }
 window.switchTab = switchTab;
 
-const muchiStateQuotes = {
-  greeting: '"Okaeri! Ready to help you with your daily life and tasks in Tokyo."',
-  idle: '"Shibuya weather is 18°C. Yamanote line running on standard loop schedule."',
-  celebrate: '"Dose logged with Hanko seal! Great job keeping your routine on track! ✨"',
-  rest: '"Curled up for a peaceful nap on the roof tiles... Zzz 🌙"'
-};
-
-let currentMuchiState = 'greeting';
-
-function setMuchiState(state) {
-  audio.playWoodClick();
-  currentMuchiState = state;
+// Autonomous Muchi Neko Speech (Zero manual debug buttons)
+function updateMuchiAutonomousSpeech() {
   const catQuote = document.getElementById('cat-quote');
-  if (catQuote && muchiStateQuotes[state]) {
-    catQuote.textContent = muchiStateQuotes[state];
-  }
-  document.querySelectorAll('.state-chip').forEach(c => c.classList.remove('active'));
-  const activeChip = document.getElementById(`chip-${state}`);
-  if (activeChip) activeChip.classList.add('active');
+  const routineTag = document.getElementById('routine-status-tag');
+  if (!catQuote) return;
 
-  const cat = document.getElementById('muchi-cat');
-  if (cat) {
-    cat.classList.add('jump');
-    setTimeout(() => cat.classList.remove('jump'), 280);
+  const now = new Date();
+  const meds = AiboStore.getMedications();
+  const activeMeds = meds.filter(m => !m.taken);
+  const tasks = AiboStore.getTasks();
+  const pendingTasks = tasks.filter(t => !t.done);
+  const profile = AiboStore.getProfile();
+  const spentToday = AiboStore.getTodaySpentTotal();
+  const dailyCap = profile.dailyBudget || 8000;
+
+  // Calculate routine completion percentage
+  const totalItems = meds.length + tasks.length;
+  const completedItems = (meds.length - activeMeds.length) + (tasks.length - pendingTasks.length);
+  const pct = totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 100;
+  if (routineTag) {
+    routineTag.textContent = totalItems > 0 ? `Routine: ${completedItems}/${totalItems} Done (${pct}%)` : `Routine: Up to date`;
+  }
+
+  // Dynamic autonomous quote logic
+  if (spentToday > dailyCap) {
+    catQuote.textContent = `"Careful nya! Today's spending (¥${spentToday.toLocaleString()}) exceeded your ¥${dailyCap.toLocaleString()} daily cap."`;
+  } else if (activeMeds.length > 0) {
+    const nextMed = activeMeds[0];
+    catQuote.textContent = `"Reminder: ${nextMed.name} (${nextMed.dosage}) scheduled for ${nextMed.time} nya!"`;
+  } else if (totalItems > 0 && activeMeds.length === 0 && pendingTasks.length === 0) {
+    catQuote.textContent = `"Subarashii! All medication doses and daily tasks stamped complete today! 🎉"`;
+  } else if (now.getHours() >= 21) {
+    catQuote.textContent = `"Curled up for a peaceful nap on the roof tiles... Rest well tonight nya~ 🌙"`;
+  } else if (now.getHours() < 10) {
+    catQuote.textContent = `"Ohayō gozaimasu! Ready to support your daily life in ${profile.city || 'Tokyo'} nya~"`;
+  } else {
+    catQuote.textContent = `"Yamanote loop line running on standard schedule. Peaceful day in ${profile.city || 'Tokyo'}. 🐾"`;
   }
 }
-window.setMuchiState = setMuchiState;
+window.updateMuchiAutonomousSpeech = updateMuchiAutonomousSpeech;
+
+// Context-Aware Saved Commute Transit Card
+function renderTransitCard() {
+  const profile = AiboStore.getProfile();
+  const originEl = document.getElementById('home-commute-origin');
+  const destEl = document.getElementById('home-commute-dest');
+  const lineEl = document.getElementById('home-commute-line');
+  const descEl = document.getElementById('home-commute-desc');
+
+  const origin = profile.commuteOrigin || 'Shibuya (渋谷)';
+  const dest = profile.commuteDest || 'Shinjuku (新宿)';
+  const line = profile.commuteLine || 'JR Yamanote Line';
+
+  if (originEl) originEl.textContent = origin;
+  if (destEl) destEl.textContent = dest;
+  if (lineEl) lineEl.textContent = `🚇 Saved Route • ${line}`;
+  if (descEl) descEl.textContent = `Scheduled loop departure every 3-4 mins from Platform 2 (7 min journey).`;
+}
+window.renderTransitCard = renderTransitCard;
 
 function toggleMuchiCompact() {
   audio.playWoodClick();

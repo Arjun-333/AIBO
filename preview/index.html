@@ -169,7 +169,8 @@
       <div class="paper-badge online-pill">
         <span class="dot-seal"></span> Offline-First v1.0.0
       </div>
-      <button id="widget-preview-btn" class="paper-btn" onclick="openWidgetPreviewModal()" title="Preview Muchi Neko Android Home Screen Widget (Duolingo Style)">
+      <button id="widget-preview-btn" class="paper-btn" onclick="openWidgetPreviewModal()"
+        title="Preview Muchi Neko Android Home Screen Widget (Duolingo Style)">
         <span>📱 Widget</span>
       </button>
       <button id="replay-splash-btn" class="paper-btn" onclick="triggerSplashScreen(true)"
@@ -313,25 +314,15 @@
                   <strong class="companion-cat-name">むちねこ (Muchi Neko)</strong>
                   <!-- Functional Routine Metric instead of fictional weight -->
                   <span class="companion-squish-tag" id="routine-status-tag">Routine: 2/3 Done (67%)</span>
-                  <span class="mascot-lore-tag">Mascot</span>
                   <button class="companion-toggle-btn" id="companion-toggle-btn" onclick="toggleMuchiCompact()"
                     title="Toggle compact view">
                     <span id="compact-toggle-text">— Compact</span>
                   </button>
                 </div>
 
-                <!-- Speech Bubble (Short, 1-Line, Non-dominating) -->
+                <!-- Speech Bubble (Dynamic Contextual Speech, Zero Manual Debug Buttons) -->
                 <div class="companion-speech-bubble" id="cat-bubble">
-                  <span id="cat-quote">"Evening Magnesium dose scheduled at 8:30 PM."</span>
-                </div>
-
-                <!-- State Controller Pills -->
-                <div class="companion-state-chips" role="group" aria-label="Mascot dynamic states">
-                  <button class="state-chip active" id="chip-greeting"
-                    onclick="setMuchiState('greeting')">Greeting</button>
-                  <button class="state-chip" id="chip-idle" onclick="setMuchiState('idle')">Tokyo Life</button>
-                  <button class="state-chip" id="chip-celebrate" onclick="setMuchiState('celebrate')">Goal Done</button>
-                  <button class="state-chip" id="chip-rest" onclick="setMuchiState('rest')">Resting</button>
+                  <span id="cat-quote">"Ready for your daily agenda in Tokyo nya~"</span>
                 </div>
               </div>
             </div>
@@ -339,147 +330,123 @@
             <!-- PRIORITY ACTION CENTER (Upcoming Tasks, Overdue, Spending, Next Route) -->
             <div class="section-lead-row">
               <h3 class="clean-section-title">Priority Actions & Today's Schedule</h3>
-              <span class="live-context-chip" id="local-date-chip">Today • Oct 26</span>
+              <span class="live-context-chip" id="local-date-chip">Today</span>
             </div>
 
             <div class="priority-action-stack">
-              <div class="priority-action-stack">
-                <!-- Action Card 1: Next Medication Due (Dynamic Container) -->
-                <div id="home-med-card-wrapper"></div>
+              <!-- Action Card 1: Next Medication Due (Dynamic Container) -->
+              <div id="home-med-card-wrapper"></div>
 
-                <!-- Action Card 2: Today's Daily Yen & Spending -->
-                <div class="priority-card finance-card">
-                  <div class="priority-card-indicator amber"></div>
-                  <div class="priority-card-main">
-                    <div class="priority-meta-row">
-                      <span class="priority-tag gold">💴 Spending Today</span>
-                      <span class="priority-time" id="home-remaining-display">Remaining: ¥8,000</span>
-                    </div>
-                    <div class="finance-amount-row">
-                      <strong class="finance-spent-num" id="home-spent-display">¥0</strong>
-                      <span class="finance-total-cap">spent today of ¥8,000 daily budget</span>
-                    </div>
-                    <!-- Visual Budget Progress Bar -->
-                    <div class="finance-bar-track">
-                      <div class="finance-bar-fill" id="home-budget-bar" style="width: 0%;"></div>
-                    </div>
+              <!-- Action Card 2: Today's Daily Yen & Spending -->
+              <div class="priority-card finance-card">
+                <div class="priority-card-indicator amber"></div>
+                <div class="priority-card-main">
+                  <div class="priority-meta-row">
+                    <span class="priority-tag gold">💴 Spending Today</span>
+                    <span class="priority-time" id="home-remaining-display">Remaining: ¥8,000</span>
+                  </div>
+                  <div class="finance-amount-row">
+                    <strong class="finance-spent-num" id="home-spent-display">¥0</strong>
+                    <span class="finance-total-cap">spent today of ¥8,000 daily budget</span>
+                  </div>
+                  <!-- Visual Budget Progress Bar -->
+                  <div class="finance-bar-track">
+                    <div class="finance-bar-fill" id="home-budget-bar" style="width: 0%;"></div>
+                  </div>
 
-                    <!-- Category Breakdown Row (Isolated with ample room) -->
-                    <div class="finance-category-row" id="home-categories-wrapper">
-                      <span class="f-pill empty">No spending recorded today</span>
-                    </div>
+                  <!-- Category Breakdown Row (Isolated with ample room) -->
+                  <div class="finance-category-row" id="home-categories-wrapper">
+                    <span class="f-pill empty">No spending recorded today</span>
+                  </div>
 
-                    <!-- Action Controls Row (Spacious & uncluttered) -->
-                    <div class="finance-actions-row">
-                      <div class="finance-actions-left">
-                        <button class="f-action-btn primary" onclick="openExpenseModal()">
-                          <span>+ Add Expense</span>
-                        </button>
-                        <button class="f-action-btn secondary" onclick="openBudgetModal()">
-                          <span>⚙️ Budget & Bills</span>
-                        </button>
-                      </div>
-                      <button class="f-action-link" onclick="switchTab('screen-tools')"
-                        title="Open detailed budget breakdown">
-                        <span>Full Budget ➔</span>
+                  <!-- Action Controls Row (Spacious & uncluttered) -->
+                  <div class="finance-actions-row">
+                    <div class="finance-actions-left">
+                      <button class="f-action-btn primary" onclick="openExpenseModal()">
+                        <span>+ Add Expense</span>
+                      </button>
+                      <button class="f-action-btn secondary" onclick="openBudgetModal()">
+                        <span>⚙️ Budget & Bills</span>
                       </button>
                     </div>
-                  </div>
-                </div>
-
-                <!-- Action Card 3: Saved Commute & Transit Alert -->
-                <div class="priority-card transit-card" onclick="switchTab('screen-transit')">
-                  <div class="priority-card-indicator indigo"></div>
-                  <div class="priority-card-main">
-                    <div class="priority-meta-row">
-                      <span class="priority-tag indigo">🚇 Saved Route • JR Yamanote Line</span>
-                      <span class="priority-time cached-badge">Offline Schedule (Cached 08:00 AM)</span>
-                    </div>
-                    <div class="transit-route-row">
-                      <strong>Shibuya (渋谷)</strong>
-                      <span class="route-arrow">➔➔</span>
-                      <strong>Shinjuku (新宿)</strong>
-                    </div>
-                    <p class="priority-card-desc">Scheduled loop departure every 3-4 mins from Platform 2 (7 min
-                      journey).</p>
-                    <span class="transit-disclaimer-note">※ Standard schedule shown. Real-time delay alerts require an
-                      active network.</span>
+                    <button class="f-action-link" onclick="switchTab('screen-tools')"
+                      title="Open detailed budget breakdown">
+                      <span>Full Budget ➔</span>
+                    </button>
                   </div>
                 </div>
               </div>
 
-              <!-- DAILY FOCUS CHECKLIST -->
-              <div class="section-lead-row">
-                <h3 class="clean-section-title">Today's Focus & Reminders</h3>
-                <div style="display: flex; align-items: center; gap: 8px;">
-                  <span class="task-progress-badge" id="task-progress-badge">0 Tasks</span>
-                  <button class="f-action-btn mini" onclick="openTaskModal()"
-                    style="font-size: 11px; padding: 3px 9px;">+ Add Task</button>
+              <!-- Action Card 3: Saved Commute & Transit Alert (Context-Aware) -->
+              <div class="priority-card transit-card" onclick="switchTab('screen-transit')">
+                <div class="priority-card-indicator indigo"></div>
+                <div class="priority-card-main">
+                  <div class="priority-meta-row">
+                    <span class="priority-tag indigo" id="home-commute-line">🚇 Saved Route • JR Yamanote Line</span>
+                    <span class="priority-time cached-badge">Offline Schedule</span>
+                  </div>
+                  <div class="transit-route-row">
+                    <strong id="home-commute-origin">Shibuya (渋谷)</strong>
+                    <span class="route-arrow">➔➔</span>
+                    <strong id="home-commute-dest">Shinjuku (新宿)</strong>
+                  </div>
+                  <p class="priority-card-desc" id="home-commute-desc">Scheduled loop departure every 3-4 mins from Platform 2 (7 min journey).</p>
+                  <span class="transit-disclaimer-note">※ Offline timetable cache • Tap for exit placards & delay feed</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- DAILY FOCUS CHECKLIST -->
+            <div class="section-lead-row">
+              <h3 class="clean-section-title">Today's Focus & Reminders</h3>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="task-progress-badge" id="task-progress-badge">0 Tasks</span>
+                <button class="f-action-btn mini" onclick="openTaskModal()"
+                  style="font-size: 11px; padding: 3px 9px;">+ Add Task</button>
+              </div>
+            </div>
+
+            <div class="daily-checklist-card" id="tasks-container"></div>
+
+            <!-- QUICK JAPANESE UTILITIES (Focused, Non-Redundant Shortcuts) -->
+            <div class="section-lead-row">
+              <h3 class="clean-section-title">Quick Japanese Utilities (便利ツール)</h3>
+              <span class="hub-count-tag">Direct Tools</span>
+            </div>
+
+            <div class="quick-tools-grid">
+              <div class="quick-tool-card" onclick="triggerEmergencyCall('110')">
+                <div class="q-tool-icon red">🚨</div>
+                <div class="q-tool-info">
+                  <strong>Emergency SOS (110 / 119)</strong>
+                  <span>Police & ambulance direct dial</span>
                 </div>
               </div>
 
-              <div class="daily-checklist-card" id="tasks-container"></div>
-
-              <!-- AIBO SERVICES HUB (Categorized by Purpose with Uniform 32px Icons) -->
-              <div class="section-lead-row">
-                <h3 class="clean-section-title">AIBO Suite Services (便利帳)</h3>
-                <span class="hub-count-tag">Grouped by Purpose</span>
+              <div class="quick-tool-card" onclick="switchTab('screen-tools')">
+                <div class="q-tool-icon amber">📁</div>
+                <div class="q-tool-info">
+                  <strong>Encrypted Vault</strong>
+                  <span>Zairyu Card, My Number & bills</span>
+                </div>
               </div>
 
-              <div class="service-hub-grid">
-                <!-- Health & Daily -->
-                <div class="service-hub-card" onclick="switchTab('screen-medication')">
-                  <div class="hub-icon-pill med">💊</div>
-                  <strong>Prescriptions & OTC</strong>
-                  <span>Yakutai dose log & drugstores</span>
-                </div>
-
-                <!-- Transit & Navigation -->
-                <div class="service-hub-card" onclick="switchTab('screen-transit')">
-                  <div class="hub-icon-pill transit">🚇</div>
-                  <strong>Yamanote & Exits</strong>
-                  <span>Loop schedule & exit placards</span>
-                </div>
-
-                <!-- Finances & Legal -->
-                <div class="service-hub-card" onclick="switchTab('screen-tools')">
-                  <div class="hub-icon-pill budget">💴</div>
-                  <strong>Yen Budget & ATM</strong>
-                  <span>Daily spending & ATM guide</span>
-                </div>
-
-                <div class="service-hub-card" onclick="switchTab('screen-tools')">
-                  <div class="hub-icon-pill vault">📁</div>
-                  <strong>Document Vault</strong>
-                  <span>Encrypted My Number & cards</span>
-                </div>
-
-                <!-- Safety & Language -->
-                <div class="service-hub-card" onclick="switchTab('screen-tools')">
-                  <div class="hub-icon-pill sos">🚨</div>
-                  <strong>Emergency SOS</strong>
-                  <span>110 / 119 & Medical ICE card</span>
-                </div>
-
-                <div class="service-hub-card" onclick="switchTab('screen-tools')">
-                  <div class="hub-icon-pill lang">🗣️</div>
-                  <strong>Daily Phrasebook</strong>
-                  <span>Essential survival Japanese</span>
-                </div>
-
-                <!-- Hardware Tools -->
-                <div class="service-hub-card" onclick="switchTab('screen-map')">
-                  <div class="hub-icon-pill radar">🧭</div>
+              <div class="quick-tool-card" onclick="switchTab('screen-map')">
+                <div class="q-tool-icon indigo">🧭</div>
+                <div class="q-tool-info">
                   <strong>Radar Compass</strong>
-                  <span>Hardware compass & landmarks</span>
-                </div>
-
-                <div class="service-hub-card" onclick="switchTab('screen-chat')">
-                  <div class="hub-icon-pill chat">💬</div>
-                  <strong>AI Consultation</strong>
-                  <span>On-device Japanese assistant</span>
+                  <span>Hardware sensor & nearest ward landmarks</span>
                 </div>
               </div>
+
+              <div class="quick-tool-card" onclick="switchTab('screen-chat')">
+                <div class="q-tool-icon green">💬</div>
+                <div class="q-tool-info">
+                  <strong>AI Life Assistant</strong>
+                  <span>Bilingual Japanese consultation</span>
+                </div>
+              </div>
+            </div>
           </section>
 
           <!-- ==========================================
@@ -1151,8 +1118,7 @@
               <button class="modal-close-btn" onclick="closeModal('offline-modal')">✕</button>
             </div>
             <div class="modal-body-content">
-              <p class="modal-explainer-text">AIBO is built on a strict privacy-first model. Here is the honest
-                breakdown of our offline capabilities vs online services:</p>
+              <p class="modal-explainer-text">On-device local storage capabilities versus optional cloud AI features:</p>
 
               <div class="transparency-item green-box">
                 <div class="t-badge green">🟢 100% On-Device (Zero Bytes Sent)</div>
@@ -1624,7 +1590,8 @@
         </div>
 
         <!-- Android Home Screen Widget Preview Modal (Duolingo Style Muchi Neko Mascot) -->
-        <div id="widget-preview-modal" class="modal-overlay" onclick="closeModalOnBackdrop(event, 'widget-preview-modal')">
+        <div id="widget-preview-modal" class="modal-overlay"
+          onclick="closeModalOnBackdrop(event, 'widget-preview-modal')">
           <div class="modal-card widget-modal-card">
             <div class="modal-header-row">
               <div class="modal-title-wrap">
@@ -1659,7 +1626,8 @@
                     </div>
                     <div class="widget-speech-bubble" id="w-speech-bubble">
                       <span class="widget-mood-tag" id="w-mood-tag">Active Dose Reminder</span>
-                      <p class="widget-speech-text" id="w-speech-text">Don't forget your 13:00 antibiotic dose nya! Ganbatte~</p>
+                      <p class="widget-speech-text" id="w-speech-text">Don't forget your 13:00 antibiotic dose nya!
+                        Ganbatte~</p>
                     </div>
                   </div>
 

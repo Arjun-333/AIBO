@@ -1590,9 +1590,8 @@
         </div>
 
         <!-- Android Home Screen Widget Preview Modal (Duolingo Style Muchi Neko Mascot) -->
-        <div id="widget-preview-modal" class="modal-overlay"
-          onclick="closeModalOnBackdrop(event, 'widget-preview-modal')">
-          <div class="modal-card widget-modal-card">
+        <div class="app-modal-backdrop" id="widget-preview-modal" onclick="if(event.target===this)closeModal('widget-preview-modal')">
+          <div class="app-modal-sheet" style="max-height: 90vh;">
             <div class="modal-header-row">
               <div class="modal-title-wrap">
                 <span class="modal-sub-label">Android 14 Home Screen Widget</span>
